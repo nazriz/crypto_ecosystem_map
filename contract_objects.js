@@ -134,7 +134,11 @@ module.exports = {
     uniContract,
     //pricefeeds
     usdEthPriceContract,
-    usdLinkPriceContract
+    usdLinkPriceContract,
+    usdUniPriceContract,
+    usdBtcPriceContract
+
+
 
 
 }
