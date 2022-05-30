@@ -5,11 +5,13 @@ const PRIV_KEY = process.env.PRIV_KEY;
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
-const { daiContract, usdcContract } = require("./contract_objects")
+const { daiContract, usdcContract, usdtContract, usdEthPriceContract } = require("./contract_objects")
 
 
 const usdc = usdcContract();
 const dai = daiContract();
+const usdt = usdtContract();
+const usdEthPrice = usdEthPriceContract();
 
 
 const arbEthBridgeFile = require("./ABI/arbitrum_eth_bridge_abi.json");
@@ -21,20 +23,16 @@ const arbEthBridgeContract = new ethers.Contract(arbEthBridgeAddress, arbEthBrid
 
 
 // async function main() {
-//     const balance = await provider.getBalance("0xcEe284F754E854890e311e3280b767F80797180d");
-//     console.log("The balance is: " + balance);
-// }
-// main();
-
-// async function main() {
-//     const message = await arbEthBridgeContract.balanceOf("0xd3dd6c9af57693d2fe1bbbb1adfc8d0caf4af3fd");
-//     console.log("The name is: " + message);
+//     const usdcBalance = await usdc.balanceOf("0xcEe284F754E854890e311e3280b767F80797180d");
+//     console.log("The usdc balance is: " + ethers.utils.formatUnits(usdcBalance, 6));
+//     const usdtBalance = await usdt.balanceOf("0xcEe284F754E854890e311e3280b767F80797180d");
+//     console.log("The usdt balance is: " + ethers.utils.formatUnits(usdtBalance, 6));
 // }
 // main();
 
 async function main() {
-    const message = await usdc.balanceOf("0xcEe284F754E854890e311e3280b767F80797180d");
-    console.log("The balance is: " + message);
+    const ethPrice = await usdEthPrice.latestAnswer();
+    console.log("The eth price is: " + ethPrice);
+
 }
 main();
-

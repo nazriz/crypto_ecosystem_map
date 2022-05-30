@@ -4,6 +4,8 @@ const API_KEY = process.env.API_KEY;
 
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 
+// Contracts for tokens
+
 //DAI
 const daiContract = () => {
     const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
@@ -13,7 +15,6 @@ const daiContract = () => {
 }
 
 //USDC
-
 const usdcContract = () => {
     const usdcAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
     const usdcABI = require("./ABI/usdc_abi.json");
@@ -21,6 +22,7 @@ const usdcContract = () => {
     return usdcContract
 }
 
+//USDT
 const usdtContract = () => {
     const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
     const usdtABI = require("./ABI/usdt_abi.json")
@@ -30,9 +32,19 @@ const usdtContract = () => {
 }
 
 
+// Chainlink price feeds
+
+const usdEthPriceContract = () => {
+    const usdEthAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
+    const usdEthABI = require("./ABI/usdEthPriceFeed_abi.json");
+    const usdEthPriceContract = new ethers.Contract(usdEthAddress, usdEthABI, provider);
+    return usdEthPriceContract
+}
+
 module.exports = {
     usdcContract,
     daiContract,
-    usdtContract
+    usdtContract,
+    usdEthPriceContract
 
 }
