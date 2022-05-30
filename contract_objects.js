@@ -62,11 +62,20 @@ const strpContract = () => {
 
 // Chainlink price feeds
 
+// USD/ETH Feed
 const usdEthPriceContract = () => {
     const usdEthAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
     const usdEthABI = require("./ABI/usdEthPriceFeed_abi.json");
     const usdEthPriceContract = new ethers.Contract(usdEthAddress, usdEthABI, provider);
     return usdEthPriceContract
+}
+
+const usdLinkPriceContract = () => {
+    const usdLinkAddress = "0x2c1d072e956affc0d435cb7ac38ef18d24d9127c";
+    const usdLinkABI = require("./ABI/usdLinkPriceFeed_abi.json");
+    const usdLinkPriceContract = new ethers.Contract(usdLinkAddress, usdLinkABI, provider);
+    return usdLinkPriceContract
+
 }
 
 module.exports = {
@@ -75,7 +84,8 @@ module.exports = {
     usdtContract,
     usdEthPriceContract,
     fraxContract,
-    linkContract
+    linkContract,
+    usdLinkPriceContract
 
 
 }
