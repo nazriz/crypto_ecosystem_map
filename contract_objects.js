@@ -4,7 +4,7 @@ const API_KEY = process.env.API_KEY;
 
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 
-// Contracts for tokens
+// Contracts for general tokens
 
 //DAI
 const daiContract = () => {
@@ -31,6 +31,34 @@ const usdtContract = () => {
 
 }
 
+//FRAX
+const fraxContract = () => {
+    const fraxAddress = "0x853d955aCEf822Db058eb8505911ED77F175b99e";
+    const fraxABI = require("./ABI/frax_abi.json")
+    const fraxContract = new ethers.Contract(fraxAddress, fraxABI, provider);
+    return fraxContract
+}
+
+
+//LINK
+
+const linkContract = () => {
+    const linkAddress = "0x514910771AF9Ca656af840dff83E8264EcF986CA"
+    const linkABI = require("./ABI/link_abi.json");
+    const linkContract = new ethers.Contract(linkAddress, linkABI, provider);
+    return linkContract
+
+}
+
+
+
+// STRP - Arbitrum Bridge - L1 ERC20 Gateway - https://strips.finance/
+const strpContract = () => {
+    const strpAddress = "0x97872EAfd79940C7b24f7BCc1EADb1457347ADc9"
+    const strpABI = require("./ABI/strp_abi.json")
+    const strpContract = new ethers.Contract(strpAddress, strpABI, provider);
+    return strpContract;
+}
 
 // Chainlink price feeds
 
@@ -45,6 +73,9 @@ module.exports = {
     usdcContract,
     daiContract,
     usdtContract,
-    usdEthPriceContract
+    usdEthPriceContract,
+    fraxContract,
+    linkContract
+
 
 }

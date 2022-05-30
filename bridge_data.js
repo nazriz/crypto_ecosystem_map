@@ -5,7 +5,7 @@ const PRIV_KEY = process.env.PRIV_KEY;
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
-const { daiContract, usdcContract, usdtContract, usdEthPriceContract } = require("./contract_objects")
+const { daiContract, usdcContract, usdtContract, usdEthPriceContract, strpContract } = require("./contract_objects")
 
 
 const usdc = usdcContract();
