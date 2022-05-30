@@ -14,14 +14,6 @@ const usdt = usdtContract();
 const usdEthPrice = usdEthPriceContract();
 
 
-const arbEthBridgeFile = require("./ABI/arbitrum_eth_bridge_abi.json");
-// const arbEthBridgeFileParsed = JSON.parse(fs.readFileSync(arbEthBridgeFile));
-const arbEthBridgeABI = arbEthBridgeFile
-const arbEthBridgeAddress = '0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515';
-const arbEthBridgeContract = new ethers.Contract(arbEthBridgeAddress, arbEthBridgeABI, provider);
-
-
-
 // async function main() {
 //     const usdcBalance = await usdc.balanceOf("0xcEe284F754E854890e311e3280b767F80797180d");
 //     console.log("The usdc balance is: " + ethers.utils.formatUnits(usdcBalance, 6));
@@ -30,9 +22,13 @@ const arbEthBridgeContract = new ethers.Contract(arbEthBridgeAddress, arbEthBrid
 // }
 // main();
 
-async function main() {
-    const ethPrice = await usdEthPrice.latestAnswer();
-    console.log("The eth price is: " + ethPrice);
 
+const arbitrumBridgeBalance = async () => {
+
+
+    const arbEth = await provider.getBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515");
+    console.log("The eth is: " + arbEth);
 }
-main();
+
+
+arbitrumBridgeBalance();
