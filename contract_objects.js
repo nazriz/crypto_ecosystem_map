@@ -106,6 +106,20 @@ const usdLinkPriceContract = () => {
 
 }
 
+const usdUniPriceContract = () => {
+    const usdUniAddress = "0x553303d460EE0afB37EdFf9bE42922D8FF63220e"
+    const usdUniABI = require("./ABI/usdUniPriceFeed_abi.json")
+    const usdUniPriceContract = new ethers.Contract(usdUniAddress, usdUniABI, provider)
+    return usdUniPriceContract
+}
+
+const usdBtcPriceContract = () => {
+    const usdBtcPriceAddress = "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c"
+    const usdBtcABI = require("./ABI/usdBtcPriceFeed_abi.json")
+    const usdBtcPriceContract = new ethers.Contract(usdBtcPriceAddress, usdBtcABI, provider)
+    return usdBtcPriceContract
+}
+
 module.exports = {
     //stables
     usdcContract,
