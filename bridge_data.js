@@ -5,13 +5,17 @@ const PRIV_KEY = process.env.PRIV_KEY;
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
-const { usdcContract, usdtContract, fraxContract, linkContract, usdEthPriceContract, usdLinkPriceContract } = require("./contract_objects")
+const { usdcContract, usdtContract, fraxContract, lusdContract, linkContract, wbtcContract, usdEthPriceContract, usdLinkPriceContract, wbtcContract, rEthContract, uniContract } = require("./contract_objects")
 
 
 const usdc = usdcContract();
 const usdt = usdtContract();
 const frax = fraxContract();
+const lusd = lusdContract();
 const link = linkContract();
+const wbtc = wbtcContract();
+const uni = uniContract();
+const rEth = rEthContract();
 const usdEthPriceFeed = usdEthPriceContract();
 const usdLinkPriceFeed = usdLinkPriceContract();
 
@@ -47,6 +51,29 @@ const arbitrumBridgeBalance = async () => {
 }
 
 const optimismBridgeBalance = async () => {
+
+    const optimismDaiBridge = "0x467194771dae2967aef3ecbedd3bf9a310c76c65" //DAI
+    const optimismBridge = "x99C9fc46f92E8a1c0deC1b1747d010903E884bE1"
+    const optimismSnxBridge = "0x5Fd79D46EBA7F351fe49BFF9E87cdeA6c821eF9f" //Synthetix
+
+    let usdcBalance = await usdc.balanceOf(optimismBridge);
+    let usdtBalance = await usdt.balanceOf(optimismBridge);
+    let lusdBalance = await lusd.balanceOf(optimismBridge);
+    let wbtcBalance = await wbtc.balanceOf(optimismBridge);
+    let rEthBalance = await rEth.balanceOf(optimismBridge);
+    let uniBalance = await uni.balanceOf(optimismBridge);
+    let linkBalance = await link.balanceOf(optimismBridge);
+
+    let ethBalance = await provider.getBalance(optimismBridge);
+
+
+    usdcBalance = parseFloat(ethers.utils.formatUnits(usdcBalance, 6));
+    usdtBalance = parseFloat(ethers.utils.formatUnits(usdtBalance, 6));
+    lusdBalance = parseFloat(ethers.utils.formatUnits(lusdBalance, 18));
+    wbtcBalance = parseFloat(ethers.utils.formatUnits(usdtBalance, 8));
+
+
+    ethBalance = parseFloat(ethers.utils.formatUnits(ethBalance, 18));
 
 }
 

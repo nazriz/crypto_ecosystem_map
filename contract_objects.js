@@ -5,6 +5,7 @@ const API_KEY = process.env.API_KEY;
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 
 // Contracts for general tokens
+// Stablecoins
 
 //DAI
 const daiContract = () => {
@@ -39,7 +40,14 @@ const fraxContract = () => {
     return fraxContract
 }
 
+const lusdContract = () => {
+    const lusdAddress = "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0"
+    const lusdABI = require("./ABI/lusd_abi.json");
+    const lusdContract = new ethers.Contract(lusdAddress, lusdABI, provider);
+    return lusdContract
+}
 
+//General Tokens (i.e. ERC20's)
 //LINK
 
 const linkContract = () => {
@@ -50,7 +58,27 @@ const linkContract = () => {
 
 }
 
+const wbtcContract = () => {
+    const wbtcAddress = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
+    const wbtcABI = require("./ABI/wbtc_abi.json")
+    const wbtcContract = new ethers.Contract(wbtcAddress, wbtcABI, provider)
+    return wbtcContract
+}
 
+const rEthContract = () => {
+    const rEthAddress = "0xae78736Cd615f374D3085123A210448E74Fc6393"
+    const rEthABI = require("./ABI/rEth_abi.json")
+    const rEthContract = new ethers.Contract(rEthAddress, rEthABI, provider)
+    return rEthContract
+
+}
+
+const uniContract = () => {
+    const uniAddress = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
+    const uniABI = require("./ABI/uni_abi.json")
+    const uniContract = new ethers.Contract(uniAddress, uniABI, provider)
+    return uniContract
+}
 
 // STRP - Arbitrum Bridge - L1 ERC20 Gateway - https://strips.finance/
 const strpContract = () => {
@@ -79,12 +107,19 @@ const usdLinkPriceContract = () => {
 }
 
 module.exports = {
+    //stables
     usdcContract,
     daiContract,
     usdtContract,
-    usdEthPriceContract,
     fraxContract,
+    lusdContract,
+    //erc20's
     linkContract,
+    wbtcContract,
+    rEthContract,
+    uniContract,
+    //pricefeeds
+    usdEthPriceContract,
     usdLinkPriceContract
 
 
