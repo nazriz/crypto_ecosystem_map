@@ -10,9 +10,7 @@ const daiContract = () => {
     const daiABI = require("./ABI/dai_abi.json")
     const daiContract = new ethers.Contract(daiAddress, daiABI, provider);
     return daiContract
-
 }
-
 
 //USDC
 
@@ -23,8 +21,18 @@ const usdcContract = () => {
     return usdcContract
 }
 
+const usdtContract = () => {
+    const usdtAddress = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
+    const usdtABI = require("./ABI/usdt_abi.json")
+    const usdtContract = new ethers.Contract(usdtAddress, usdtABI, provider)
+    return usdtContract
+
+}
+
+
 module.exports = {
     usdcContract,
-    daiContract
+    daiContract,
+    usdtContract
 
 }
