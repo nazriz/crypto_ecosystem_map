@@ -57,7 +57,7 @@ const arbitrumBridgeBalance = async () => {
 const optimismBridgeBalance = async () => {
 
     const optimismDaiBridge = "0x467194771dae2967aef3ecbedd3bf9a310c76c65" //DAI
-    const optimismBridge = "x99C9fc46f92E8a1c0deC1b1747d010903E884bE1"
+    const optimismBridge = "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1"
     const optimismSnxBridge = "0x5Fd79D46EBA7F351fe49BFF9E87cdeA6c821eF9f" //Synthetix
 
     let usdcBalance = await usdc.balanceOf(optimismBridge);
@@ -81,7 +81,7 @@ const optimismBridgeBalance = async () => {
     rEthBalance = parseFloat(ethers.utils.formatUnits(rEthBalance, 18));
     uniBalance = parseFloat(ethers.utils.formatUnits(uniBalance, 18));
     linkBalance = parseFloat(ethers.utils.formatUnits(linkBalance, 18));
-    wbtcBalance = parseFloat(ethers.utils.formatUnits(usdtBalance, 8));
+    wbtcBalance = parseFloat(ethers.utils.formatUnits(wbtcBalance, 8));
     ethBalance = parseFloat(ethers.utils.formatUnits(ethBalance, 18));
 
     usdEthPrice = parseFloat(ethers.utils.formatUnits(usdEthPrice, 8));
@@ -93,9 +93,10 @@ const optimismBridgeBalance = async () => {
     uniBalanceInUSD = (uniBalance * usdUniPrice)
     wbtcBalanceInUSD = (wbtcBalance * usdWbtcPrice)
     linkBalanceInUSD = (linkBalance * usdLinkPrice)
+    ethBalanceInUSD = (ethBalance * usdEthPrice)
 
 
-    bridgeTotalUSD = (usdcBalance + usdtBalance + lusdBalance + rEthBalanceInUSD + uniBalanceInUSD + wbtcBalanceInUSD + linkBalanceInUSD)
+    bridgeTotalUSD = (usdcBalance + usdtBalance + lusdBalance + rEthBalanceInUSD + uniBalanceInUSD + wbtcBalanceInUSD + linkBalanceInUSD + ethBalanceInUSD)
 
     return bridgeTotalUSD
 }
