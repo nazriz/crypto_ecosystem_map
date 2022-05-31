@@ -5,8 +5,13 @@ const PRIV_KEY = process.env.PRIV_KEY;
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
-const { usdcContract, usdtContract, fraxContract, lusdContract, linkContract, usdEthPriceContract, usdLinkPriceContract, wbtcContract, rEthContract, uniContract, usdUniPriceContract, usdBtcPriceContract, snxContract, snxUsdPriceContract, daiContract } = require("./contract_objects")
+const { usdcContract, usdtContract, fraxContract, lusdContract, linkContract, wbtcContract, rEthContract, uniContract, snxContract, snxUsdPriceContract, daiContract } = require("./contract_objects")
+const { priceFeeds } = require("./price_feeds")
 
+const feeds = async () => {
+    let feedies = priceFeeds();
+    return feedies
+}
 
 const usdc = usdcContract();
 const usdt = usdtContract();
@@ -19,14 +24,17 @@ const rEth = rEthContract();
 const snx = snxContract();
 const dai = daiContract();
 
-const usdEthPriceFeed = usdEthPriceContract();
-const usdLinkPriceFeed = usdLinkPriceContract();
-const usdBtcPriceFeed = usdBtcPriceContract();
-const usdUniPriceFeed = usdUniPriceContract();
-const snxUsdPriceFeed = snxUsdPriceContract();
+// const usdEthPriceFeed = usdEthPriceContract();
+// const usdLinkPriceFeed = usdLinkPriceContract();
+// const usdBtcPriceFeed = usdBtcPriceContract();
+// const usdUniPriceFeed = usdUniPriceContract();
+// const snxUsdPriceFeed = snxUsdPriceContract();
 
 
 const arbitrumBridgeBalance = async () => {
+
+    let bridgeTotals = {}
+
     const arbitrumCustomGateway = "0xcEe284F754E854890e311e3280b767F80797180d" // ERC20's
     const arbitrumWethGateway = "0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515" // WETH
     const arbitrumERC20Gateway = "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC" // ERC20's
@@ -34,18 +42,19 @@ const arbitrumBridgeBalance = async () => {
     let usdcBalance = parseFloat(ethers.utils.formatUnits(await usdc.balanceOf(arbitrumCustomGateway), 6));
     let usdtBalance = parseFloat(ethers.utils.formatUnits(await usdt.balanceOf(arbitrumCustomGateway), 6));
     let fraxBalance = parseFloat(ethers.utils.formatUnits(await frax.balanceOf(arbitrumERC20Gateway), 18));
-    let linkBalance = parseFloat(ethers.utils.formatUnits(await link.balanceOf(arbitrumERC20Gateway), 18));
-    let ethBalance = parseFloat(ethers.utils.formatUnits(await provider.getBalance(arbitrumWethGateway), 18));
+    bridgeTotals["LINK"] = parseFloat(ethers.utils.formatUnits(await link.balanceOf(arbitrumERC20Gateway), 18));
+    bridgeTotals["ETH"] = parseFloat(ethers.utils.formatUnits(await provider.getBalance(arbitrumWethGateway), 18));
 
     // Pricefeeds
-    let usdEthPrice = parseFloat(ethers.utils.formatUnits(await usdEthPriceFeed.latestAnswer(), 8));
-    let usdLinkPrice = parseFloat(ethers.utils.formatUnits(await usdLinkPriceFeed.latestAnswer(), 8));
+    // let usdEthPrice = parseFloat(ethers.utils.formatUnits(await usdEthPriceFeed.latestAnswer(), 8));
+    // let usdLinkPrice = parseFloat(ethers.utils.formatUnits(await usdLinkPriceFeed.latestAnswer(), 8));
 
-    linkBalanceInUSD = (linkBalance * usdLinkPrice)
-    ethBalanceInUSD = (ethBalance * usdEthPrice)
-    bridgeTotalUSD = (usdcBalance + usdtBalance + fraxBalance + ethBalanceInUSD + linkBalanceInUSD)
+    // linkBalanceInUSD = (linkBalance * usdLinkPrice)
+    // ethBalanceInUSD = (ethBalance * usdEthPrice)
 
-    return bridgeTotalUSD
+    bridgeTotals["USD"] = (usdcBalance + usdtBalance + fraxBalance)
+
+    return bridgeTotals
 }
 
 const optimismBridgeBalance = async () => {
@@ -65,18 +74,18 @@ const optimismBridgeBalance = async () => {
     let ethBalance = parseFloat(ethers.utils.formatUnits(await provider.getBalance(optimismBridge), 18));
     let daiBalance = parseFloat(ethers.utils.formatUnits(await dai.balanceOf(optimismDaiBridge), 18));
 
-    let usdEthPrice = parseFloat(ethers.utils.formatUnits(await usdEthPriceFeed.latestAnswer(), 8));
-    let usdLinkPrice = parseFloat(ethers.utils.formatUnits(await usdLinkPriceFeed.latestAnswer(), 8));
-    let usdUniPrice = parseFloat(ethers.utils.formatUnits(await usdUniPriceFeed.latestAnswer(), 8));
-    let usdWbtcPrice = parseFloat(ethers.utils.formatUnits(await usdBtcPriceFeed.latestAnswer(), 8));
-    let snxUsdPrice = parseFloat(ethers.utils.formatUnits(await snxUsdPriceFeed.latestAnswer(), 8));
+    // let usdEthPrice = parseFloat(ethers.utils.formatUnits(await usdEthPriceFeed.latestAnswer(), 8));
+    // let usdLinkPrice = parseFloat(ethers.utils.formatUnits(await usdLinkPriceFeed.latestAnswer(), 8));
+    // let usdUniPrice = parseFloat(ethers.utils.formatUnits(await usdUniPriceFeed.latestAnswer(), 8));
+    // let usdWbtcPrice = parseFloat(ethers.utils.formatUnits(await usdBtcPriceFeed.latestAnswer(), 8));
+    // let snxUsdPrice = parseFloat(ethers.utils.formatUnits(await snxUsdPriceFeed.latestAnswer(), 8));
 
-    rEthBalanceInUSD = (rEthBalance * usdEthPrice)
-    uniBalanceInUSD = (uniBalance * usdUniPrice)
-    wbtcBalanceInUSD = (wbtcBalance * usdWbtcPrice)
-    linkBalanceInUSD = (linkBalance * usdLinkPrice)
-    ethBalanceInUSD = (ethBalance * usdEthPrice)
-    snxBalanceInUSD = (snxBalance * snxUsdPrice)
+    // rEthBalanceInUSD = (rEthBalance * usdEthPrice)
+    // uniBalanceInUSD = (uniBalance * usdUniPrice)
+    // wbtcBalanceInUSD = (wbtcBalance * usdWbtcPrice)
+    // linkBalanceInUSD = (linkBalance * usdLinkPrice)
+    // ethBalanceInUSD = (ethBalance * usdEthPrice)
+    // snxBalanceInUSD = (snxBalance * snxUsdPrice)
 
 
     bridgeTotalUSD = (usdcBalance + usdtBalance + lusdBalance + rEthBalanceInUSD +
@@ -85,14 +94,30 @@ const optimismBridgeBalance = async () => {
     return bridgeTotalUSD
 }
 
-// let arb = arbitrumBridgeBalance();
+let arb = arbitrumBridgeBalance();
 
 // (async () => {
 //     console.log(await arb);
 // })()
 
-let op = optimismBridgeBalance();
+// let op = optimismBridgeBalance();
 
-(async () => {
-    console.log(await op);
-})()
+// (async () => {
+//     console.log(await op);
+// })()
+
+const data = async () => {
+    let [arbResults, feedPrices] = await Promise.all([arbitrumBridgeBalance(), feeds()])
+
+    let runningTotal = 0.0
+    for (const item in arbResults) {
+        if (item != 'USD') {
+            runningTotal += (arbResults[item] * feedPrices[item])
+        }
+    }
+
+    let arbTotal = (arbResults["USD"] + runningTotal)
+    console.log(arbTotal)
+}
+
+data();

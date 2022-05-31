@@ -15,7 +15,7 @@ const snxUsdPriceFeed = snxUsdPriceContract();
 
 const priceFeeds = async () => {
 
-    const priceFeeds = {}
+    let priceFeeds = {}
 
     priceFeeds["ETH"] = parseFloat(ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8));
     priceFeeds["LINK"] = parseFloat(ethers.utils.formatUnits(await linkUsdPriceFeed.latestAnswer(), 8));
@@ -27,12 +27,9 @@ const priceFeeds = async () => {
 
 }
 
-let feeds = priceFeeds();
-(async () => {
+module.exports = {
+    priceFeeds
+};
 
-    test = await feeds
-    console.log(await test["ETH"])
-
-})()
 
 
