@@ -18,6 +18,7 @@ const priceFeeds = async () => {
     let priceFeeds = {}
 
     priceFeeds["ETH"] = parseFloat(ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8));
+    priceFeeds["rETH"] = parseFloat(ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)); // using same feed as Eth for now
     priceFeeds["LINK"] = parseFloat(ethers.utils.formatUnits(await linkUsdPriceFeed.latestAnswer(), 8));
     priceFeeds["UNI"] = parseFloat(ethers.utils.formatUnits(await uniUsdPriceFeed.latestAnswer(), 8));
     priceFeeds["WBTC"] = parseFloat(ethers.utils.formatUnits(await btcUsdPriceFeed.latestAnswer(), 8));
