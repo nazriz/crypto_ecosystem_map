@@ -58,13 +58,14 @@ const linkContract = () => {
 
 }
 
+//WBTC
 const wbtcContract = () => {
     const wbtcAddress = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
     const wbtcABI = require("./ABI/wbtc_abi.json")
     const wbtcContract = new ethers.Contract(wbtcAddress, wbtcABI, provider)
     return wbtcContract
 }
-
+// Rocket Pool eth
 const rEthContract = () => {
     const rEthAddress = "0xae78736Cd615f374D3085123A210448E74Fc6393"
     const rEthABI = require("./ABI/rEth_abi.json")
@@ -72,7 +73,7 @@ const rEthContract = () => {
     return rEthContract
 
 }
-
+// UNI
 const uniContract = () => {
     const uniAddress = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
     const uniABI = require("./ABI/uni_abi.json")
@@ -98,29 +99,29 @@ const strpContract = () => {
 // Chainlink price feeds
 
 // USD/ETH Feed
-const usdEthPriceContract = () => {
+const ethUsdPriceContract = () => {
     const usdEthAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
     const usdEthABI = require("./ABI/usdEthPriceFeed_abi.json");
-    const usdEthPriceContract = new ethers.Contract(usdEthAddress, usdEthABI, provider);
-    return usdEthPriceContract
+    const ethUsdPriceContract = new ethers.Contract(usdEthAddress, usdEthABI, provider);
+    return ethUsdPriceContract
 }
 
-const usdLinkPriceContract = () => {
+const linkUsdPriceContract = () => {
     const usdLinkAddress = "0x2c1d072e956affc0d435cb7ac38ef18d24d9127c";
     const usdLinkABI = require("./ABI/usdLinkPriceFeed_abi.json");
-    const usdLinkPriceContract = new ethers.Contract(usdLinkAddress, usdLinkABI, provider);
-    return usdLinkPriceContract
+    const linkUsdPriceContract = new ethers.Contract(usdLinkAddress, usdLinkABI, provider);
+    return linkUsdPriceContract
 
 }
 
-const usdUniPriceContract = () => {
+const uniUsdPriceContract = () => {
     const usdUniAddress = "0x553303d460EE0afB37EdFf9bE42922D8FF63220e"
     const usdUniABI = require("./ABI/usdUniPriceFeed_abi.json")
-    const usdUniPriceContract = new ethers.Contract(usdUniAddress, usdUniABI, provider)
-    return usdUniPriceContract
+    const uniUsdPriceContract = new ethers.Contract(usdUniAddress, usdUniABI, provider)
+    return uniUsdPriceContract
 }
 
-const usdBtcPriceContract = () => {
+const btcUsdPriceContract = () => {
     const usdBtcPriceAddress = "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c"
     const usdBtcABI = require("./ABI/usdBtcPriceFeed_abi.json")
     const usdBtcPriceContract = new ethers.Contract(usdBtcPriceAddress, usdBtcABI, provider)
@@ -148,10 +149,10 @@ module.exports = {
     uniContract,
     snxContract,
     //pricefeeds
-    usdEthPriceContract,
-    usdLinkPriceContract,
-    usdUniPriceContract,
-    usdBtcPriceContract,
+    ethUsdPriceContract,
+    linkUsdPriceContract,
+    uniUsdPriceContract,
+    btcUsdPriceContract,
     snxUsdPriceContract
 
 
