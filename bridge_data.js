@@ -31,24 +31,15 @@ const arbitrumBridgeBalance = async () => {
     const arbitrumWethGateway = "0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515" // WETH
     const arbitrumERC20Gateway = "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC" // ERC20's
 
-    let usdcBalance = await usdc.balanceOf(arbitrumCustomGateway);
-    let usdtBalance = await usdt.balanceOf(arbitrumCustomGateway);
-    let fraxBalance = await frax.balanceOf(arbitrumERC20Gateway);
-    let linkBalance = await link.balanceOf(arbitrumERC20Gateway);
-    let ethBalance = await provider.getBalance(arbitrumWethGateway);
-    let usdEthPrice = await usdEthPriceFeed.latestAnswer();
-    let usdLinkPrice = await usdLinkPriceFeed.latestAnswer();
+    let usdcBalance = parseFloat(ethers.utils.formatUnits(await usdc.balanceOf(arbitrumCustomGateway), 6));
+    let usdtBalance = parseFloat(ethers.utils.formatUnits(await usdt.balanceOf(arbitrumCustomGateway), 6));
+    let fraxBalance = parseFloat(ethers.utils.formatUnits(await frax.balanceOf(arbitrumERC20Gateway), 18));
+    let linkBalance = parseFloat(ethers.utils.formatUnits(await link.balanceOf(arbitrumERC20Gateway), 18));
+    let ethBalance = parseFloat(ethers.utils.formatUnits(await provider.getBalance(arbitrumWethGateway), 18));
 
-
-    usdcBalance = parseFloat(ethers.utils.formatUnits(usdcBalance, 6));
-    usdtBalance = parseFloat(ethers.utils.formatUnits(usdtBalance, 6));
-    ethBalance = parseFloat(ethers.utils.formatUnits(ethBalance, 18));
-    fraxBalance = parseFloat(ethers.utils.formatUnits(fraxBalance, 18));
-    linkBalance = parseFloat(ethers.utils.formatUnits(linkBalance, 18));
-
-    usdEthPrice = parseFloat(ethers.utils.formatUnits(usdEthPrice, 8));
-    usdLinkPrice = parseFloat(ethers.utils.formatUnits(usdLinkPrice, 8));
-
+    // Pricefeeds
+    let usdEthPrice = parseFloat(ethers.utils.formatUnits(await usdEthPriceFeed.latestAnswer(), 8));
+    let usdLinkPrice = parseFloat(ethers.utils.formatUnits(await usdLinkPriceFeed.latestAnswer(), 8));
 
     linkBalanceInUSD = (linkBalance * usdLinkPrice)
     ethBalanceInUSD = (ethBalance * usdEthPrice)
@@ -113,14 +104,14 @@ const optimismBridgeBalance = async () => {
     return bridgeTotalUSD
 }
 
-// let arb = arbitrumBridgeBalance();
-
-// (async () => {
-//     console.log(await arb);
-// })()
-
-let op = optimismBridgeBalance();
+let arb = arbitrumBridgeBalance();
 
 (async () => {
-    console.log(await op);
+    console.log(await arb);
 })()
+
+// let op = optimismBridgeBalance();
+
+// (async () => {
+//     console.log(await op);
+// })()
