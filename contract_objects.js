@@ -155,7 +155,4 @@ module.exports = {
     btcUsdPriceContract,
     snxUsdPriceContract
 
-
-
-
 }
