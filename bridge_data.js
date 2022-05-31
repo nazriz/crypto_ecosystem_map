@@ -9,8 +9,8 @@ const { usdcContract, usdtContract, fraxContract, lusdContract, linkContract, wb
 const { priceFeeds } = require("./price_feeds")
 
 const feeds = async () => {
-    let feedies = priceFeeds();
-    return feedies
+    let feeds = priceFeeds();
+    return feeds
 }
 
 const usdc = usdcContract();
@@ -44,13 +44,6 @@ const arbitrumBridgeBalance = async () => {
     let fraxBalance = parseFloat(ethers.utils.formatUnits(await frax.balanceOf(arbitrumERC20Gateway), 18));
     bridgeTotals["LINK"] = parseFloat(ethers.utils.formatUnits(await link.balanceOf(arbitrumERC20Gateway), 18));
     bridgeTotals["ETH"] = parseFloat(ethers.utils.formatUnits(await provider.getBalance(arbitrumWethGateway), 18));
-
-    // Pricefeeds
-    // let usdEthPrice = parseFloat(ethers.utils.formatUnits(await usdEthPriceFeed.latestAnswer(), 8));
-    // let usdLinkPrice = parseFloat(ethers.utils.formatUnits(await usdLinkPriceFeed.latestAnswer(), 8));
-
-    // linkBalanceInUSD = (linkBalance * usdLinkPrice)
-    // ethBalanceInUSD = (ethBalance * usdEthPrice)
 
     bridgeTotals["USD"] = (usdcBalance + usdtBalance + fraxBalance)
 
@@ -106,18 +99,28 @@ let arb = arbitrumBridgeBalance();
 //     console.log(await op);
 // })()
 
-const data = async () => {
-    let [arbResults, feedPrices] = await Promise.all([arbitrumBridgeBalance(), feeds()])
 
+const calculateTotal = (inputBridge, priceFeed) => {
     let runningTotal = 0.0
-    for (const item in arbResults) {
+    for (const item in inputBridge) {
         if (item != 'USD') {
-            runningTotal += (arbResults[item] * feedPrices[item])
+            runningTotal += (inputBridge[item] * priceFeed[item])
         }
     }
+    let total = (inputBridge["USD"] + runningTotal)
+    return total
+}
 
-    let arbTotal = (arbResults["USD"] + runningTotal)
-    console.log(arbTotal)
+
+const data = async () => {
+
+    let bridgeTotals = {}
+
+    let [arbResults, feedPrices] = await Promise.all([arbitrumBridgeBalance(), feeds()])
+    bridgeTotals["arbitrum"] = calculateTotal(arbResults, feedPrices);
+
+    console.log(bridgeTotals)
+    return bridgeTotals
 }
 
 data();
