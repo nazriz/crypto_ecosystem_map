@@ -5,7 +5,7 @@ const PRIV_KEY = process.env.PRIV_KEY;
 const provider = new ethers.providers.EtherscanProvider(network = "homestead", API_KEY);
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
-const { usdcContract, usdtContract, fraxContract, lusdContract, linkContract, usdEthPriceContract, usdLinkPriceContract, wbtcContract, rEthContract, uniContract, usdUniPriceContract, usdBtcPriceContract } = require("./contract_objects")
+const { usdcContract, usdtContract, fraxContract, lusdContract, linkContract, usdEthPriceContract, usdLinkPriceContract, wbtcContract, rEthContract, uniContract, usdUniPriceContract, usdBtcPriceContract, snxContract, snxUsdPriceContract, daiContract } = require("./contract_objects")
 
 
 const usdc = usdcContract();
@@ -16,11 +16,14 @@ const link = linkContract();
 const wbtc = wbtcContract();
 const uni = uniContract();
 const rEth = rEthContract();
+const snx = snxContract();
+const dai = daiContract();
 
 const usdEthPriceFeed = usdEthPriceContract();
 const usdLinkPriceFeed = usdLinkPriceContract();
 const usdBtcPriceFeed = usdBtcPriceContract();
 const usdUniPriceFeed = usdUniPriceContract();
+const snxUsdPriceFeed = snxUsdPriceContract();
 
 
 const arbitrumBridgeBalance = async () => {
@@ -67,12 +70,15 @@ const optimismBridgeBalance = async () => {
     let rEthBalance = await rEth.balanceOf(optimismBridge);
     let uniBalance = await uni.balanceOf(optimismBridge);
     let linkBalance = await link.balanceOf(optimismBridge);
+    let snxBalance = await snx.balanceOf(optimismSnxBridge)
     let ethBalance = await provider.getBalance(optimismBridge);
+    let daiBalance = await dai.balanceOf(optimismDaiBridge)
 
     let usdEthPrice = await usdEthPriceFeed.latestAnswer();
     let usdLinkPrice = await usdLinkPriceFeed.latestAnswer();
     let usdUniPrice = await usdUniPriceFeed.latestAnswer();
     let usdWbtcPrice = await usdBtcPriceFeed.latestAnswer();
+    let snxUsdPrice = await snxUsdPriceFeed.latestAnswer();
 
 
     usdcBalance = parseFloat(ethers.utils.formatUnits(usdcBalance, 6));
@@ -83,20 +89,26 @@ const optimismBridgeBalance = async () => {
     linkBalance = parseFloat(ethers.utils.formatUnits(linkBalance, 18));
     wbtcBalance = parseFloat(ethers.utils.formatUnits(wbtcBalance, 8));
     ethBalance = parseFloat(ethers.utils.formatUnits(ethBalance, 18));
+    snxBalance = parseFloat(ethers.utils.formatUnits(snxBalance, 18));
+    daiBalance = parseFloat(ethers.utils.formatUnits(daiBalance, 18));
 
     usdEthPrice = parseFloat(ethers.utils.formatUnits(usdEthPrice, 8));
     usdLinkPrice = parseFloat(ethers.utils.formatUnits(usdLinkPrice, 8));
     usdUniPrice = parseFloat(ethers.utils.formatUnits(usdUniPrice, 8));
     usdWbtcPrice = parseFloat(ethers.utils.formatUnits(usdWbtcPrice, 8));
+    snxUsdPrice = parseFloat(ethers.utils.formatUnits(snxUsdPrice, 8));
+
+
 
     rEthBalanceInUSD = (rEthBalance * usdEthPrice)
     uniBalanceInUSD = (uniBalance * usdUniPrice)
     wbtcBalanceInUSD = (wbtcBalance * usdWbtcPrice)
     linkBalanceInUSD = (linkBalance * usdLinkPrice)
     ethBalanceInUSD = (ethBalance * usdEthPrice)
+    snxBalanceInUSD = (snxBalance * snxUsdPrice)
 
 
-    bridgeTotalUSD = (usdcBalance + usdtBalance + lusdBalance + rEthBalanceInUSD + uniBalanceInUSD + wbtcBalanceInUSD + linkBalanceInUSD + ethBalanceInUSD)
+    bridgeTotalUSD = (usdcBalance + usdtBalance + lusdBalance + rEthBalanceInUSD + uniBalanceInUSD + wbtcBalanceInUSD + linkBalanceInUSD + ethBalanceInUSD + snxBalanceInUSD + daiBalance)
 
     return bridgeTotalUSD
 }

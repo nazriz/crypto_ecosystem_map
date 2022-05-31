@@ -80,6 +80,13 @@ const uniContract = () => {
     return uniContract
 }
 
+const snxContract = () => {
+    const snxAddress = "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F"
+    const snxABI = require("./ABI/snx_abi.json")
+    const snxContract = new ethers.Contract(snxAddress, snxABI, provider)
+    return snxContract
+}
+
 // STRP - Arbitrum Bridge - L1 ERC20 Gateway - https://strips.finance/
 const strpContract = () => {
     const strpAddress = "0x97872EAfd79940C7b24f7BCc1EADb1457347ADc9"
@@ -120,6 +127,13 @@ const usdBtcPriceContract = () => {
     return usdBtcPriceContract
 }
 
+const snxUsdPriceContract = () => {
+    snxUsdPriceAdddress = "0xDC3EA94CD0AC27d9A86C180091e7f78C683d3699"
+    snxUsdABI = require("./ABI/usdSnxPriceFeed_abi.json")
+    const snxUsdPriceContract = new ethers.Contract(snxUsdPriceAdddress, snxUsdABI, provider)
+    return snxUsdPriceContract
+}
+
 module.exports = {
     //stables
     usdcContract,
@@ -132,11 +146,13 @@ module.exports = {
     wbtcContract,
     rEthContract,
     uniContract,
+    snxContract,
     //pricefeeds
     usdEthPriceContract,
     usdLinkPriceContract,
     usdUniPriceContract,
-    usdBtcPriceContract
+    usdBtcPriceContract,
+    snxUsdPriceContract
 
 
 
