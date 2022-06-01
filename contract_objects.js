@@ -88,6 +88,41 @@ const snxContract = () => {
     return snxContract
 }
 
+const manaContract = () => {
+    const manaAddress = "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942"
+    const manaABI = require("./ABI/mana_abi.json")
+    const manaContract = new ethers.Contract(manaAddress, manaABI, provider)
+    return manaContract
+}
+
+const balContract = () => {
+    const balAddress = "0xba100000625a3754423978a60c9317c58a424e3D"
+    const balABI = require("./ABI/bal_abi.json")
+    const balContract = new ethers.Contract(balAddress, balABI, provider)
+    return balContract
+}
+
+const crvContract = () => {
+    const crvAddress = "0xD533a949740bb3306d119CC777fa900bA034cd52"
+    const crvABI = require("./ABI/crv_abi.json")
+    const crvContract = new ethers.Contract(crvAddress, crvABI, provider)
+    return crvContract
+}
+
+const aaveContract = () => {
+    const aaveAddress = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9"
+    const aaveABI = require("./ABI/aave_abi.json")
+    const aaveContract = new ethers.Contract(aaveAddress, aaveABI, provider)
+    return aaveContract
+}
+
+const ghstContract = () => {
+    const ghstAddress = "0x3F382DbD960E3a9bbCeaE22651E88158d2791550"
+    const ghstABI = require("./ABI/ghst_abi.json")
+    const ghstContract = new ethers.Contract(ghstAddress, ghstABI, provider)
+    return ghstContract
+}
+
 // STRP - Arbitrum Bridge - L1 ERC20 Gateway - https://strips.finance/
 const strpContract = () => {
     const strpAddress = "0x97872EAfd79940C7b24f7BCc1EADb1457347ADc9"
@@ -95,6 +130,7 @@ const strpContract = () => {
     const strpContract = new ethers.Contract(strpAddress, strpABI, provider);
     return strpContract;
 }
+
 
 // Chainlink price feeds
 
@@ -148,6 +184,11 @@ module.exports = {
     rEthContract,
     uniContract,
     snxContract,
+    manaContract,
+    balContract,
+    crvContract,
+    aaveContract,
+    ghstContract,
     //pricefeeds
     ethUsdPriceContract,
     linkUsdPriceContract,
