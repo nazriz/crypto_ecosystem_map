@@ -1,0 +1,29 @@
+{
+    "nodes": [
+        {
+            "id": 1,
+            "name": "Ethereum",
+            "size": 20
+        },
+        {
+            "id": 2,
+            "name": "Arbitrum",
+            "size": 15
+        },
+        {
+            "id": 3,
+            "name": "Optimism",
+            "size": 10
+        }
+    ],
+    "links": [
+        {
+            "source": 1,
+            "target": 2
+        },
+        {
+            "source": 1,
+            "target": 3
+        }
+    ]
+}
