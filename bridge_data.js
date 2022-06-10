@@ -71,9 +71,19 @@ const optimismBridgeBalance = async () => {
 
 
 const polygonBridgeBalance = async () => {
+
+    let bridgeTotals = {}
+
     const polygonEthBridge = "0x8484Ef722627bf18ca5Ae6BcF031c23E6e922B30"
     const polygonPlasmaBridge = "0x401F6c983eA34274ec46f84D70b31C151321188b"
     const polygonERC20Bridge = "0x40ec5B33f54e0E8A33A975908C5BA1c14e5BbbDf"
+
+    let daiBalance = parseFloat(ethers.utils.formatUnits(await dai.balanceOf(polygonERC20Bridge), 18));
+    
+
+
+
+    return bridgeTotals
 }
 
 const calculateTotal = (inputBridge, priceFeed) => {
