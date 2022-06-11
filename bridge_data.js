@@ -33,6 +33,8 @@ const {
   wethContract,
   wooContract,
   alphaContract,
+  serumContract,
+  alephContract,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -65,6 +67,8 @@ const matic = maticContract();
 const weth = wethContract();
 const woo = wooContract();
 const alpha = alphaContract();
+const aleph = alephContract();
+const srm = serumContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -238,6 +242,40 @@ const avalancheBridgeBalance = async () => {
   );
 
   bridgeTotals["USD"] = usdcBalance + usdtBalance + daiBalance;
+  return bridgeTotals;
+};
+
+const solanaBridgeBalance = async () => {
+  const solanaSolletBridge = "0xeae57ce9cc1984F202e15e038B964bb8bdF7229a";
+  const solanaWormHoleBridge = "0xf92cD566Ea4864356C5491c177A430C222d7e678";
+  const solanaWormholeTokenBridge =
+    "0x3ee18B2214AFF97000D974cf647E7C347E8fa585";
+
+  let bridgeTotals = {};
+  let usdtBalance = parseFloat(
+    ethers.utils.formatUnits(await usdt.balanceOf(solanaSolletBridge), 6)
+  );
+  let usdcBalance = parseFloat(
+    ethers.utils.formatUnits(await usdc.balanceOf(solanaSolletBridge), 6)
+  );
+
+  bridgeTotals["UNI"] = parseFloat(
+    ethers.utils.formatUnits(await uni.balanceOf(solanaSolletBridge), 18)
+  );
+  bridgeTotals["LINK"] = parseFloat(
+    ethers.utils.formatUnits(await link.balanceOf(solanaSolletBridge), 18)
+  );
+
+  bridgeTotals["SRM"] = parseFloat(
+    ethers.utils.formatUnits(await srm.balanceOf(solanaSolletBridge), 18)
+  );
+
+  bridgeTotals["ALEPH"] = parseFloat(
+    ethers.utils.formatUnits(await aleph.balanceOf(solanaSolletBridge), 18)
+  );
+
+  bridgeTotals["USD"] = usdtBalance + usdcBalance;
+
   return bridgeTotals;
 };
 const calculateTotal = (inputBridge, priceFeed) => {

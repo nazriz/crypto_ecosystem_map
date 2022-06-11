@@ -193,6 +193,19 @@ const alphaContract = () => {
   const alphaContract = new ethers.Contract(alphaAddress, erc20ABI, provider);
   return alphaContract;
 };
+
+const serumContract = () => {
+  const serumAddress = "0x476c5e26a75bd202a9683ffd34359c0cc15be0ff";
+  const serumContract = new ethers.Contract(serumAddress, erc20ABI, provider);
+  return serumContract;
+};
+
+const alephContract = () => {
+  const alephAddress = "0x27702a26126e0b3702af63ee09ac4d1a084ef628";
+  const alephContract = new ethers.Contract(alephAddress, erc20ABI, provider);
+  return alephContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -300,6 +313,8 @@ module.exports = {
   wethContract,
   wooContract,
   alphaContract,
+  alephContract,
+  serumContract
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,

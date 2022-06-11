@@ -157,6 +157,16 @@ const priceFeeds = async () => {
   );
   priceFeeds["ALPHA"] = parseFloat(alpha["data"]["alpha-finance"]["usd"]);
 
+  let aleph = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=aleph&vs_currencies=usd`
+  );
+  priceFeeds["ALEPH"] = parseFloat(aleph["data"]["alpha-finance"]["usd"]);
+
+  let serum = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=serum&vs_currencies=usd`
+  );
+  priceFeeds["SRM"] = parseFloat(serum["data"]["alpha-finance"]["usd"]);
+
   //   console.log(priceFeeds);
   return priceFeeds;
 };
