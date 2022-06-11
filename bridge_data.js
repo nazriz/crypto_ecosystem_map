@@ -35,6 +35,13 @@ const {
   alphaContract,
   serumContract,
   alephContract,
+  husdContract,
+  busdContract,
+  hbtcContract,
+  fttContract,
+  xcnContract,
+  nexmContract,
+  ldoContract,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -69,6 +76,13 @@ const woo = wooContract();
 const alpha = alphaContract();
 const aleph = alephContract();
 const srm = serumContract();
+const ftt = fttContract();
+const hbtc = hbtcContract();
+const busd = busdContract();
+const husd = husdContract();
+let nexm = nexmContract();
+let ldo = ldoContract();
+let xcn = xcnContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -252,29 +266,113 @@ const solanaBridgeBalance = async () => {
     "0x3ee18B2214AFF97000D974cf647E7C347E8fa585";
 
   let bridgeTotals = {};
-  let usdtBalance = parseFloat(
-    ethers.utils.formatUnits(await usdt.balanceOf(solanaSolletBridge), 6)
-  );
-  let usdcBalance = parseFloat(
-    ethers.utils.formatUnits(await usdc.balanceOf(solanaSolletBridge), 6)
+  let usdtBalance =
+    parseFloat(
+      ethers.utils.formatUnits(await usdt.balanceOf(solanaSolletBridge), 6)
+    ) +
+    parseFloat(
+      ethers.utils.formatUnits(
+        await usdt.balanceOf(solanaWormholeTokenBridge),
+        6
+      )
+    );
+  let usdcBalance =
+    parseFloat(
+      ethers.utils.formatUnits(await usdc.balanceOf(solanaSolletBridge), 6)
+    ) +
+    parseFloat(
+      ethers.utils.formatUnits(
+        await usdc.balanceOf(solanaWormholeTokenBridge),
+        6
+      )
+    );
+
+  let husdBalance =
+    parseFloat(
+      ethers.utils.formatUnits(await husd.balanceOf(solanaWormHoleBridge), 8)
+    ) +
+    parseFloat(
+      ethers.utils.formatUnits(
+        await husd.balanceOf(solanaWormholeTokenBridge),
+        8
+      )
+    );
+
+  let busdBalance =
+    parseFloat(
+      ethers.utils.formatUnits(await busd.balanceOf(solanaWormHoleBridge), 18)
+    ) +
+    parseFloat(
+      ethers.utils.formatUnits(
+        await busd.balanceOf(solanaWormholeTokenBridge),
+        18
+      )
+    );
+
+  let daiBalance = parseFloat(
+    ethers.utils.formatUnits(await dai.balanceOf(solanaWormholeTokenBridge), 18)
   );
 
-  bridgeTotals["UNI"] = parseFloat(
-    ethers.utils.formatUnits(await uni.balanceOf(solanaSolletBridge), 18)
-  );
+  bridgeTotals["UNI"] =
+    parseFloat(
+      ethers.utils.formatUnits(await uni.balanceOf(solanaSolletBridge), 18)
+    ) +
+    parseFloat(
+      ethers.utils.formatUnits(
+        await uni.balanceOf(solanaWormholeTokenBridge),
+        18
+      )
+    );
   bridgeTotals["LINK"] = parseFloat(
     ethers.utils.formatUnits(await link.balanceOf(solanaSolletBridge), 18)
   );
 
-  bridgeTotals["SRM"] = parseFloat(
-    ethers.utils.formatUnits(await srm.balanceOf(solanaSolletBridge), 18)
-  );
-
+  bridgeTotals["SRM"] =
+    parseFloat(
+      ethers.utils.formatUnits(await srm.balanceOf(solanaSolletBridge), 18)
+    ) +
+    parseFloat(
+      ethers.utils.formatUnits(
+        await srm.balanceOf(solanaWormholeTokenBridge),
+        18
+      )
+    );
   bridgeTotals["ALEPH"] = parseFloat(
     ethers.utils.formatUnits(await aleph.balanceOf(solanaSolletBridge), 18)
   );
+  // HBTC
+  bridgeTotals["WBTC"] = parseFloat(
+    ethers.utils.formatUnits(await hbtc.balanceOf(solanaWormHoleBridge), 18)
+  );
 
-  bridgeTotals["USD"] = usdtBalance + usdcBalance;
+  bridgeTotals["FTT"] = parseFloat(
+    ethers.utils.formatUnits(await ftt.balanceOf(solanaWormHoleBridge), 18)
+  );
+
+  bridgeTotals["NEXM"] = parseFloat(
+    ethers.utils.formatUnits(
+      await nexm.balanceOf(solanaWormholeTokenBridge),
+      18
+    )
+  );
+
+  bridgeTotals["XCN"] = parseFloat(
+    ethers.utils.formatUnits(await xcn.balanceOf(solanaWormholeTokenBridge), 18)
+  );
+
+  bridgeTotals["LINK"] = parseFloat(
+    ethers.utils.formatUnits(
+      await link.balanceOf(solanaWormholeTokenBridge),
+      18
+    )
+  );
+
+  bridgeTotals["LDO"] = parseFloat(
+    ethers.utils.formatUnits(await ldo.balanceOf(solanaWormholeTokenBridge), 18)
+  );
+
+  bridgeTotals["USD"] =
+    usdtBalance + usdcBalance + busdBalance + husdBalance + daiBalance;
 
   return bridgeTotals;
 };
@@ -297,18 +395,21 @@ const data = async () => {
     optimismResults,
     polygonResults,
     avalancheResults,
+    solanaResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
     optimismBridgeBalance(),
     polygonBridgeBalance(),
     avalancheBridgeBalance(),
+    solanaBridgeBalance(),
     feeds(),
   ]);
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
+  bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;

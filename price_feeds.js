@@ -32,6 +32,8 @@ const crvTokenAddress = "0xd533a949740bb3306d119cc777fa900ba034cd52";
 const manaTokenAddress = "0x0f5d2fb29fb7d3cfee444a200298f468908cc942";
 const balTokenAddress = "0xba100000625a3754423978a60c9317c58a424e3d";
 const maticTokenAddress = "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0";
+const fttTokenAddress = "0x50d1c9771902476076ecfc8b2a83ad6b9355a4c9";
+const sushiTokenAddress = "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2";
 
 const priceFeeds = async () => {
   let priceFeeds = {};
@@ -104,6 +106,26 @@ const priceFeeds = async () => {
     )
   );
 
+  //FTT
+  let fttPrice = await feedingRegistry.latestRoundData(fttTokenAddress, USD);
+  priceFeeds["FTT"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(fttPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
+
+  let sushiPrice = await feedingRegistry.latestRoundData(
+    sushiTokenAddress,
+    USD
+  );
+  priceFeeds["SUSHI"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(sushiPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
+
   // Centralised Feeds
   //Aavegotchi
   let ghst = await axios.get(
@@ -160,12 +182,27 @@ const priceFeeds = async () => {
   let aleph = await axios.get(
     `https://api.coingecko.com/api/v3/simple/price?ids=aleph&vs_currencies=usd`
   );
-  priceFeeds["ALEPH"] = parseFloat(aleph["data"]["alpha-finance"]["usd"]);
+  priceFeeds["ALEPH"] = parseFloat(aleph["data"]["aleph"]["usd"]);
 
   let serum = await axios.get(
     `https://api.coingecko.com/api/v3/simple/price?ids=serum&vs_currencies=usd`
   );
-  priceFeeds["SRM"] = parseFloat(serum["data"]["alpha-finance"]["usd"]);
+  priceFeeds["SRM"] = parseFloat(serum["data"]["serum"]["usd"]);
+
+  let xcn = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=chain-2&vs_currencies=usd`
+  );
+  priceFeeds["XCN"] = parseFloat(xcn["data"]["chain-2"]["usd"]);
+
+  let nexm = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=nexum&vs_currencies=usd`
+  );
+  priceFeeds["NEXM"] = parseFloat(nexm["data"]["nexum"]["usd"]);
+
+  let ldo = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=lido-dao&vs_currencies=usd`
+  );
+  priceFeeds["LDO"] = parseFloat(ldo["data"]["lido-dao"]["usd"]);
 
   //   console.log(priceFeeds);
   return priceFeeds;

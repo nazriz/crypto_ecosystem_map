@@ -206,6 +206,54 @@ const alephContract = () => {
   return alephContract;
 };
 
+const fttContract = () => {
+  const fttAddress = "0x50d1c9771902476076ecfc8b2a83ad6b9355a4c9";
+  const fttContract = new ethers.Contract(fttAddress, erc20ABI, provider);
+  return fttContract;
+};
+
+const busdContract = () => {
+  const busdAddress = "0x4fabb145d64652a948d72533023f6e7a623c7c53";
+  const busdContract = new ethers.Contract(busdAddress, erc20ABI, provider);
+  return busdContract;
+};
+
+const husdContract = () => {
+  const husdAddress = "0xdf574c24545e5ffecb9a659c229253d4111d87e1";
+  const husdContract = new ethers.Contract(husdAddress, erc20ABI, provider);
+  return husdContract;
+};
+
+const hbtcContract = () => {
+  const hbtcAddress = "0x0316eb71485b0ab14103307bf65a021042c6d380";
+  const hbtcContract = new ethers.Contract(hbtcAddress, erc20ABI, provider);
+  return hbtcContract;
+};
+
+const nexmContract = () => {
+  const nexmAddress = "0xe831f96a7a1dce1aa2eb760b1e296c6a74caa9d5";
+  const nexmContract = new ethers.Contract(nexmAddress, erc20ABI, provider);
+  return nexmContract;
+};
+
+const xcnContract = () => {
+  const xcnAddress = "0xa2cd3d43c775978a96bdbf12d733d5a1ed94fb18";
+  const xcnContract = new ethers.Contract(xcnAddress, erc20ABI, provider);
+  return xcnContract;
+};
+
+const ldoContract = () => {
+  const ldoAddress = "0x5a98fcbea516cf06857215779fd812ca3bef1b32";
+  const ldoContract = new ethers.Contract(ldoAddress, erc20ABI, provider);
+  return ldoContract;
+};
+
+const sushiContract = () => {
+  const sushiAddress = "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2";
+  const sushiContract = new ethers.Contract(sushiAddress, erc20ABI, provider);
+  return sushiContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -314,7 +362,15 @@ module.exports = {
   wooContract,
   alphaContract,
   alephContract,
-  serumContract
+  serumContract,
+  fttContract,
+  busdContract,
+  husdContract,
+  hbtcContract,
+  xcnContract,
+  nexmContract,
+  ldoContract,
+  sushiContract,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,
