@@ -112,7 +112,6 @@ const crvContract = () => {
 
 const aaveContract = () => {
   const aaveAddress = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9";
-  const aaveABI = require("./ABI/aave_abi.json");
   const aaveContract = new ethers.Contract(aaveAddress, erc20ABI, provider);
   return aaveContract;
 };
@@ -125,12 +124,49 @@ const ghstContract = () => {
   return ghstContract;
 };
 
+// Celsius Network
+
+const celContract = () => {
+  const celAddress = "0xaaaebe6fe48e54f431b0c390cfaf0b017d09d42d";
+  const celContract = new ethers.Contract(celAddress, erc20ABI, provider);
+  return celContract;
+};
+
 // STRP - Arbitrum Bridge - L1 ERC20 Gateway - https://strips.finance/
 const strpContract = () => {
   const strpAddress = "0x97872EAfd79940C7b24f7BCc1EADb1457347ADc9";
   const strpABI = require("./ABI/strp_abi.json");
   const strpContract = new ethers.Contract(strpAddress, strpABI, provider);
   return strpContract;
+};
+
+// Decentral Games - Polygon ERC20 Bridge
+
+const dgContract = () => {
+  const dgAddress = "0x4b520c812e8430659fc9f12f6d0c39026c83588d";
+  const dgContract = new ethers.Contract(dgAddress, erc20ABI, provider);
+  return dgContract;
+};
+// Decentral Games Governance - Polygon ERC20 Bridge
+const xdgContract = () => {
+  const xdgAddress = "0x4f81c790581b240a5c948afd173620ecc8c71c8d";
+  const xdgContract = new ethers.Contract(xdgAddress, erc20ABI, provider);
+  return xdgContract;
+};
+
+// Aurus Defi - Polygon ERC20 Bridge
+
+const awxContract = () => {
+  const awxAddress = "0xa51fc71422a30fa7ffa605b360c3b283501b5bf6";
+  const awxContract = new ethers.Contract(awxAddress, erc20ABI, provider);
+  return awxContract;
+};
+
+// Bella Protocol - Polygon ERC20 Bridge
+const belContract = () => {
+  const belAddress = "0xa91ac63d040deb1b7a5e4d4134ad23eb0ba07e14";
+  const belContract = new ethers.Contract(belAddress, erc20ABI, provider);
+  return belContract;
 };
 
 // Chainlink price feeds
@@ -201,6 +237,7 @@ const aaveUsdPriceContract = () => {
   return aaveUsdPriceFeedContract;
 };
 
+// Feed Registry
 const feedRegistry = () => {
   const feedRegistryAddress = "0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf";
   const feedRegistryABI = require("./ABI/feedRegistryInterfaceABI.json");
@@ -230,6 +267,11 @@ module.exports = {
   crvContract,
   aaveContract,
   ghstContract,
+  dgContract,
+  xdgContract,
+  belContract,
+  awxContract,
+  celContract,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,

@@ -18,13 +18,17 @@ const {
   rEthContract,
   uniContract,
   snxContract,
-  snxUsdPriceContract,
   daiContract,
   ghstContract,
   aaveContract,
   crvContract,
   balContract,
   manaContract,
+  belContract,
+  awxContract,
+  dgContract,
+  xdgContract,
+  celContract,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -48,6 +52,11 @@ const aave = aaveContract();
 const mana = manaContract();
 const crv = crvContract();
 const bal = balContract();
+const bel = belContract();
+const awx = awxContract();
+const dg = dgContract();
+const xdg = xdgContract();
+const cel = celContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -149,6 +158,26 @@ const polygonBridgeBalance = async () => {
 
   bridgeTotals["CRV"] = parseFloat(
     ethers.utils.formatUnits(await crv.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["AWX"] = parseFloat(
+    ethers.utils.formatUnits(await awx.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["BEL"] = parseFloat(
+    ethers.utils.formatUnits(await bel.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["CEL"] = parseFloat(
+    ethers.utils.formatUnits(await cel.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["DG"] = parseFloat(
+    ethers.utils.formatUnits(await dg.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["XDG"] = parseFloat(
+    ethers.utils.formatUnits(await xdg.balanceOf(polygonERC20Bridge), 18)
   );
 
   bridgeTotals["USD"] = daiBalance;

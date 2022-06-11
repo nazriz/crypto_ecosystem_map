@@ -17,6 +17,8 @@ const {
   feedRegistry,
 } = require("./contract_objects");
 
+const addresses = require("./contract_objects");
+
 const ethUsdPriceFeed = ethUsdPriceContract();
 const linkUsdPriceFeed = linkUsdPriceContract();
 const btcUsdPriceFeed = btcUsdPriceContract();
@@ -95,6 +97,42 @@ const priceFeeds = async () => {
   );
   priceFeeds["GHST"] = parseFloat(ghst["data"]["aavegotchi"]["usd"]);
 
+  // Decentral Games
+  let dg = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=decentral-games&vs_currencies=usd`
+  );
+  priceFeeds["DG"] = parseFloat(dg["data"]["decentral-games"]["usd"]);
+
+  // Decentral Games Governance
+
+  let xdg = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=decentral-games-governance&vs_currencies=usd`
+  );
+  priceFeeds["XDG"] = parseFloat(
+    xdg["data"]["decentral-games-governance"]["usd"]
+  );
+
+  // Aurus Defi
+  let awx = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=auruscoin&vs_currencies=usd`
+  );
+  priceFeeds["AWX"] = parseFloat(awx["data"]["auruscoin"]["usd"]);
+
+  // Bella Protocol
+
+  let bel = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=bella-protocol&vs_currencies=usd`
+  );
+  priceFeeds["BEL"] = parseFloat(bel["data"]["bella-protocol"]["usd"]);
+
+  // Celsius Network
+
+  let cel = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=celsius-degree-token&vs_currencies=usd`
+  );
+  priceFeeds["CEL"] = parseFloat(cel["data"]["celsius-degree-token"]["usd"]);
+
+  //   console.log(priceFeeds);
   return priceFeeds;
 };
 
