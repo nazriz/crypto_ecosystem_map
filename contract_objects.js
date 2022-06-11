@@ -175,6 +175,24 @@ const maticContract = () => {
   return maticContract;
 };
 
+const wethContract = () => {
+  const wethAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+  const wethContract = new ethers.Contract(wethAddress, erc20ABI, provider);
+  return wethContract;
+};
+
+// Woo network - Avalanche
+const wooContract = () => {
+  const wooAddress = "0x4691937a7508860f876c9c0a2a617e7d9e945d4b";
+  const wooContract = new ethers.Contract(wooAddress, erc20ABI, provider);
+  return wooContract;
+};
+
+const alphaContract = () => {
+  const alphaAddress = "0xa1faa113cbe53436df28ff0aee54275c13b40975";
+  const alphaContract = new ethers.Contract(alphaAddress, erc20ABI, provider);
+  return alphaContract;
+};
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -279,6 +297,9 @@ module.exports = {
   awxContract,
   celContract,
   maticContract,
+  wethContract,
+  wooContract,
+  alphaContract,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,

@@ -146,6 +146,17 @@ const priceFeeds = async () => {
   );
   priceFeeds["CEL"] = parseFloat(cel["data"]["celsius-degree-token"]["usd"]);
 
+  // Woo Network
+  let woo = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=woo-network&vs_currencies=usd`
+  );
+  priceFeeds["WOO"] = parseFloat(woo["data"]["woo-network"]["usd"]);
+
+  let alpha = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=alpha-finance&vs_currencies=usd`
+  );
+  priceFeeds["ALPHA"] = parseFloat(alpha["data"]["alpha-finance"]["usd"]);
+
   //   console.log(priceFeeds);
   return priceFeeds;
 };

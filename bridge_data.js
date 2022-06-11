@@ -30,6 +30,9 @@ const {
   xdgContract,
   celContract,
   maticContract,
+  wethContract,
+  wooContract,
+  alphaContract,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -59,6 +62,9 @@ const dg = dgContract();
 const xdg = xdgContract();
 const cel = celContract();
 const matic = maticContract();
+const weth = wethContract();
+const woo = wooContract();
+const alpha = alphaContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -195,6 +201,45 @@ const polygonBridgeBalance = async () => {
   return bridgeTotals;
 };
 
+const avalancheBridgeBalance = async () => {
+  const avalancheBridgeAddress = "0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0";
+  let bridgeTotals = {};
+
+  bridgeTotals["ETH"] = parseFloat(
+    ethers.utils.formatUnits(await weth.balanceOf(avalancheBridgeAddress), 18)
+  ); //WETH
+
+  let usdcBalance = parseFloat(
+    ethers.utils.formatUnits(await usdc.balanceOf(avalancheBridgeAddress), 6)
+  );
+  let usdtBalance = parseFloat(
+    ethers.utils.formatUnits(await usdt.balanceOf(avalancheBridgeAddress), 6)
+  );
+  let daiBalance = parseFloat(
+    ethers.utils.formatUnits(await dai.balanceOf(avalancheBridgeAddress), 18)
+  );
+
+  bridgeTotals["WBTC"] = parseFloat(
+    ethers.utils.formatUnits(await wbtc.balanceOf(avalancheBridgeAddress), 8)
+  );
+
+  bridgeTotals["LINK"] = parseFloat(
+    ethers.utils.formatUnits(await link.balanceOf(avalancheBridgeAddress), 18)
+  );
+
+  bridgeTotals["AAVE"] = parseFloat(
+    ethers.utils.formatUnits(await aave.balanceOf(avalancheBridgeAddress), 18)
+  );
+  bridgeTotals["WOO"] = parseFloat(
+    ethers.utils.formatUnits(await woo.balanceOf(avalancheBridgeAddress), 18)
+  );
+  bridgeTotals["ALPHA"] = parseFloat(
+    ethers.utils.formatUnits(await alpha.balanceOf(avalancheBridgeAddress), 18)
+  );
+
+  bridgeTotals["USD"] = usdcBalance + usdtBalance + daiBalance;
+  return bridgeTotals;
+};
 const calculateTotal = (inputBridge, priceFeed) => {
   let runningTotal = 0.0;
   for (const item in inputBridge) {
@@ -209,16 +254,23 @@ const calculateTotal = (inputBridge, priceFeed) => {
 const data = async () => {
   let bridgeTotals = {};
 
-  let [arbitrumResults, optimismResults, polygonResults, feedPrices] =
-    await Promise.all([
-      arbitrumBridgeBalance(),
-      optimismBridgeBalance(),
-      polygonBridgeBalance(),
-      feeds(),
-    ]);
+  let [
+    arbitrumResults,
+    optimismResults,
+    polygonResults,
+    avalancheResults,
+    feedPrices,
+  ] = await Promise.all([
+    arbitrumBridgeBalance(),
+    optimismBridgeBalance(),
+    polygonBridgeBalance(),
+    avalancheBridgeBalance(),
+    feeds(),
+  ]);
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
+  bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;
