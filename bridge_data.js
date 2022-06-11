@@ -44,6 +44,10 @@ const rEth = rEthContract();
 const snx = snxContract();
 const dai = daiContract();
 const ghst = ghstContract();
+const aave = aaveContract();
+const mana = manaContract();
+const crv = crvContract();
+const bal = balContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -131,6 +135,22 @@ const polygonBridgeBalance = async () => {
     ethers.utils.formatUnits(await ghst.balanceOf(polygonERC20Bridge), 18)
   );
 
+  bridgeTotals["AAVE"] = parseFloat(
+    ethers.utils.formatUnits(await aave.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["BAL"] = parseFloat(
+    ethers.utils.formatUnits(await bal.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["MANA"] = parseFloat(
+    ethers.utils.formatUnits(await mana.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["CRV"] = parseFloat(
+    ethers.utils.formatUnits(await crv.balanceOf(polygonERC20Bridge), 18)
+  );
+
   bridgeTotals["USD"] = daiBalance;
 
   return bridgeTotals;
@@ -150,13 +170,16 @@ const calculateTotal = (inputBridge, priceFeed) => {
 const data = async () => {
   let bridgeTotals = {};
 
-  let [arbitrumResults, optimismResults, feedPrices] = await Promise.all([
-    arbitrumBridgeBalance(),
-    optimismBridgeBalance(),
-    feeds(),
-  ]);
+  let [arbitrumResults, optimismResults, polygonResults, feedPrices] =
+    await Promise.all([
+      arbitrumBridgeBalance(),
+      optimismBridgeBalance(),
+      polygonBridgeBalance(),
+      feeds(),
+    ]);
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
+  bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;

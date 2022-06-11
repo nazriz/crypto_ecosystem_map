@@ -2,6 +2,7 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 const API_KEY = process.env.API_KEY;
 const priceFeedABI = require("./ABI/aggregatorV3InterfaceABI.json");
+const erc20ABI = require("./ABI/erc20_abi.json");
 const provider = new ethers.providers.EtherscanProvider(
   (network = "homestead"),
   API_KEY
@@ -112,7 +113,7 @@ const crvContract = () => {
 const aaveContract = () => {
   const aaveAddress = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9";
   const aaveABI = require("./ABI/aave_abi.json");
-  const aaveContract = new ethers.Contract(aaveAddress, aaveABI, provider);
+  const aaveContract = new ethers.Contract(aaveAddress, erc20ABI, provider);
   return aaveContract;
 };
 

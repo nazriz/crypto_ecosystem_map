@@ -95,7 +95,6 @@ const priceFeeds = async () => {
   );
   priceFeeds["GHST"] = parseFloat(ghst["data"]["aavegotchi"]["usd"]);
 
-  console.log(priceFeeds);
   return priceFeeds;
 };
 
