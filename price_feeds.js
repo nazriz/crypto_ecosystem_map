@@ -31,6 +31,7 @@ const aaveTokenAddress = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9";
 const crvTokenAddress = "0xd533a949740bb3306d119cc777fa900ba034cd52";
 const manaTokenAddress = "0x0f5d2fb29fb7d3cfee444a200298f468908cc942";
 const balTokenAddress = "0xba100000625a3754423978a60c9317c58a424e3d";
+const maticTokenAddress = "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0";
 
 const priceFeeds = async () => {
   let priceFeeds = {};
@@ -86,6 +87,19 @@ const priceFeeds = async () => {
   priceFeeds["BAL"] = parseFloat(
     ethers.utils.formatUnits(
       ethers.BigNumber.from(balPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
+
+  //MATIC
+
+  let maticPrice = await feedingRegistry.latestRoundData(
+    maticTokenAddress,
+    USD
+  );
+  priceFeeds["MATIC"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(maticPrice["answer"]["_hex"]).toNumber(),
       8
     )
   );

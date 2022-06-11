@@ -29,6 +29,7 @@ const {
   dgContract,
   xdgContract,
   celContract,
+  maticContract,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -57,6 +58,7 @@ const awx = awxContract();
 const dg = dgContract();
 const xdg = xdgContract();
 const cel = celContract();
+const matic = maticContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -178,6 +180,14 @@ const polygonBridgeBalance = async () => {
 
   bridgeTotals["XDG"] = parseFloat(
     ethers.utils.formatUnits(await xdg.balanceOf(polygonERC20Bridge), 18)
+  );
+
+  bridgeTotals["MATIC"] = parseFloat(
+    ethers.utils.formatUnits(await matic.balanceOf(polygonPlasmaBridge), 18)
+  );
+
+  bridgeTotals["ETH"] = parseFloat(
+    ethers.utils.formatUnits(await provider.getBalance(polygonEthBridge), 18)
   );
 
   bridgeTotals["USD"] = daiBalance;

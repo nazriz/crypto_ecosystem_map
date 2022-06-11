@@ -169,6 +169,12 @@ const belContract = () => {
   return belContract;
 };
 
+const maticContract = () => {
+  const maticAddress = "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0";
+  const maticContract = new ethers.Contract(maticAddress, erc20ABI, provider);
+  return maticContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -272,6 +278,7 @@ module.exports = {
   belContract,
   awxContract,
   celContract,
+  maticContract,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,
