@@ -37,6 +37,7 @@ const fttTokenAddress = "0x50d1c9771902476076ecfc8b2a83ad6b9355a4c9";
 const sushiTokenAddress = "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2";
 const yfiTokenAddress = "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e";
 const fxsTokenAddress = "0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0";
+const axsTokenAddress = "0xBB0E17EF65F82Ab018d8EDd776e8DD940327B28b";
 
 const priceFeeds = async () => {
   let priceFeeds = {};
@@ -232,6 +233,11 @@ const priceFeeds = async () => {
     `https://api.coingecko.com/api/v3/simple/price?ids=woofy&vs_currencies=usd`
   );
   priceFeeds["WOOFY"] = parseFloat(woofy["data"]["woofy"]["usd"]);
+
+  let axs = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=axie-infinity&vs_currencies=usd`
+  );
+  priceFeeds["AXS"] = parseFloat(axs["data"]["axie-infinity"]["usd"]);
 
   //   console.log(priceFeeds);
   return priceFeeds;

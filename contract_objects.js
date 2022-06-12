@@ -291,6 +291,12 @@ const iceContract = () => {
   return iceContract;
 };
 
+const axsContract = () => {
+  const axsAddress = "0xBB0E17EF65F82Ab018d8EDd776e8DD940327B28b";
+  const axsContract = new ethers.Contract(axsAddress, erc20ABI, provider);
+  return axsContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -412,6 +418,7 @@ const yfi = yfiContract();
 const woofy = woofyContract();
 const fxs = fxsContract();
 const ice = iceContract();
+const axs = axsContract();
 
 module.exports = {
   usdc,
@@ -454,6 +461,7 @@ module.exports = {
   woofy,
   fxs,
   ice,
+  axs,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,

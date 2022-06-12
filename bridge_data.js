@@ -51,6 +51,7 @@ const {
   woofy,
   fxs,
   ice,
+  axs,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -406,7 +407,7 @@ const nearBridgeBalance = async () => {
   return bridgeTotals;
 };
 
-const fantomAnyswapBridge = async () => {
+const fantomAnyswapBridgeBalance = async () => {
   fantomAnyswapBridgeAddress = "0xC564EE9f21Ed8A2d8E7e76c085740d5e4c5FaFbE";
 
   let bridgeTotals = {};
@@ -531,7 +532,7 @@ const fantomAnyswapBridge = async () => {
   return bridgeTotals;
 };
 
-const moonRiverBridge = async () => {
+const moonRiverBridgeBalance = async () => {
   const moonRiverBridgeAddress = "0x10c6b61DbF44a083Aec3780aCF769C77BE747E23";
 
   let bridgeTotals = {};
@@ -569,6 +570,26 @@ const moonRiverBridge = async () => {
   return bridgeTotals;
 };
 
+// I believe the bridge is still halted/might change altogether
+// But including it as is, so that I don't forget about it in the future
+const roninBridgeBalance = async () => {
+  const roninBridgeAddress = "0x1A2a1c938CE3eC39b6D47113c7955bAa9DD454F2";
+  let bridgeTotals = {};
+
+  let usdcBalance = parseFloat(
+    ethers.utils.formatUnits(await usdc.balanceOf(roninBridgeAddress), 6)
+  );
+
+  bridgeTotals["AXS"] = parseFloat(
+    ethers.utils.formatUnits(await axs.balanceOf(roninBridgeAddress), 18)
+  );
+
+  bridgeTotals["USD"] = usdcBalance;
+
+  console.log(bridgeTotals);
+  return bridgeTotals;
+};
+
 const calculateTotal = (inputBridge, priceFeed) => {
   let runningTotal = 0.0;
   for (const item in inputBridge) {
@@ -592,6 +613,7 @@ const data = async () => {
     nearResults,
     fantomResults,
     moonriverResults,
+    roninResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -600,10 +622,12 @@ const data = async () => {
     avalancheBridgeBalance(),
     solanaBridgeBalance(),
     nearBridgeBalance(),
-    fantomAnyswapBridge(),
-    moonRiverBridge(),
+    fantomAnyswapBridgeBalance(),
+    moonRiverBridgeBalance(),
+    roninBridgeBalance(),
     feeds(),
   ]);
+
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
@@ -612,6 +636,7 @@ const data = async () => {
   bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
   bridgeTotals["fantom"] = calculateTotal(fantomResults, feedPrices);
   bridgeTotals["moonriver"] = calculateTotal(moonriverResults, feedPrices);
+  bridgeTotals["ronin"] = calculateTotal(roninResults, feedPrices);
   console.log(bridgeTotals);
   return bridgeTotals;
 };
