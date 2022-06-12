@@ -254,6 +254,17 @@ const sushiContract = () => {
   return sushiContract;
 };
 
+const dolaContract = () => {
+  const dolaAddress = "0x865377367054516e17014ccded1e7d814edc9ce4";
+  const dolaContract = new ethers.Contract(dolaAddress, erc20ABI, provider);
+  return dolaContract;
+};
+
+const tusdContract = () => {
+  const tusdAddress = "0x0000000000085d4780b73119b644ae5ecd22b376";
+  const tusdContract = new ethers.Contract(tusdAddress, erc20ABI, provider);
+  return tusdContract;
+};
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -371,6 +382,8 @@ module.exports = {
   nexmContract,
   ldoContract,
   sushiContract,
+  dolaContract,
+  tusdContract,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,

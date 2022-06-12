@@ -42,6 +42,8 @@ const {
   xcnContract,
   nexmContract,
   ldoContract,
+  tusdContract,
+  dolaContract,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -83,6 +85,8 @@ const husd = husdContract();
 let nexm = nexmContract();
 let ldo = ldoContract();
 let xcn = xcnContract();
+let tusd = tusdContract();
+let dola = dolaContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -432,6 +436,103 @@ const calculateTotal = (inputBridge, priceFeed) => {
   }
   let total = inputBridge["USD"] + runningTotal;
   return total;
+};
+
+const fantomAnyswapBridge = async () => {
+  fantomAnyswapBridgeAddress = "0xC564EE9f21Ed8A2d8E7e76c085740d5e4c5FaFbE";
+
+  let bridgeTotals = {};
+
+  let usdcBalance = parseFloat(
+    ethers.utils.formatUnits(
+      await usdc.balanceOf(fantomAnyswapBridgeAddress),
+      6
+    )
+  );
+
+  let usdtBalance = parseFloat(
+    ethers.utils.formatUnits(
+      await usdt.balanceOf(fantomAnyswapBridgeAddress),
+      6
+    )
+  );
+  let daiBalance = parseFloat(
+    ethers.utils.formatUnits(
+      await dai.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  let fraxBalance = parseFloat(
+    ethers.utils.formatUnits(
+      await frax.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+  let tusdBalance = parseFloat(
+    ethers.utils.formatUnits(
+      await tusd.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+  let dolaBalance = parseFloat(
+    ethers.utils.formatUnits(
+      await dola.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["WBTC"] = parseFloat(
+    ethers.utils.formatUnits(
+      await wbtc.balanceOf(fantomAnyswapBridgeAddress),
+      8
+    )
+  );
+
+  bridgeTotals["ETH"] = parseFloat(
+    ethers.utils.formatUnits(
+      await weth.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  ); //WETH
+
+  bridgeTotals["LINK"] = parseFloat(
+    ethers.utils.formatUnits(
+      await link.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["WOO"] = parseFloat(
+    ethers.utils.formatUnits(
+      await woo.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["CRV"] = parseFloat(
+    ethers.utils.formatUnits(
+      await crv.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["SUSHI"] = parseFloat(
+    ethers.utils.formatUnits(
+      await sushi.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["USD"] =
+    usdcBalance +
+    daiBalance +
+    fraxBalance +
+    usdtBalance +
+    tusdBalance +
+    dolaBalance;
+
+  return bridgeTotals;
 };
 
 const data = async () => {
