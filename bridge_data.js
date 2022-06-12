@@ -2,10 +2,6 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
-// const provider = new ethers.providers.EtherscanProvider(
-//   (network = "homestead"),
-//   API_KEY
-// );
 
 const provider = new ethers.providers.AlchemyProvider(
   (network = "homestead"),
@@ -15,46 +11,46 @@ const provider = new ethers.providers.AlchemyProvider(
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
 const {
-  usdcContract,
-  usdtContract,
-  fraxContract,
-  lusdContract,
-  linkContract,
-  wbtcContract,
-  rEthContract,
-  uniContract,
-  snxContract,
-  daiContract,
-  ghstContract,
-  aaveContract,
-  crvContract,
-  balContract,
-  manaContract,
-  belContract,
-  awxContract,
-  dgContract,
-  xdgContract,
-  celContract,
-  maticContract,
-  wethContract,
-  wooContract,
-  alphaContract,
-  serumContract,
-  alephContract,
-  husdContract,
-  busdContract,
-  hbtcContract,
-  fttContract,
-  xcnContract,
-  nexmContract,
-  ldoContract,
-  tusdContract,
-  dolaContract,
-  sushiContract,
-  yfiContract,
-  woofyContract,
-  fxsContract,
-  iceContract,
+  usdc,
+  usdt,
+  frax,
+  lusd,
+  link,
+  wbtc,
+  uni,
+  rEth,
+  snx,
+  dai,
+  ghst,
+  aave,
+  mana,
+  crv,
+  bal,
+  bel,
+  awx,
+  dg,
+  xdg,
+  cel,
+  matic,
+  weth,
+  woo,
+  alpha,
+  aleph,
+  srm,
+  ftt,
+  hbtc,
+  busd,
+  husd,
+  nexm,
+  ldo,
+  xcn,
+  tusd,
+  dola,
+  sushi,
+  yfi,
+  woofy,
+  fxs,
+  ice,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -62,47 +58,6 @@ const feeds = async () => {
   let feeds = priceFeeds();
   return feeds;
 };
-
-const usdc = usdcContract();
-const usdt = usdtContract();
-const frax = fraxContract();
-const lusd = lusdContract();
-const link = linkContract();
-const wbtc = wbtcContract();
-const uni = uniContract();
-const rEth = rEthContract();
-const snx = snxContract();
-const dai = daiContract();
-const ghst = ghstContract();
-const aave = aaveContract();
-const mana = manaContract();
-const crv = crvContract();
-const bal = balContract();
-const bel = belContract();
-const awx = awxContract();
-const dg = dgContract();
-const xdg = xdgContract();
-const cel = celContract();
-const matic = maticContract();
-const weth = wethContract();
-const woo = wooContract();
-const alpha = alphaContract();
-const aleph = alephContract();
-const srm = serumContract();
-const ftt = fttContract();
-const hbtc = hbtcContract();
-const busd = busdContract();
-const husd = husdContract();
-const nexm = nexmContract();
-const ldo = ldoContract();
-const xcn = xcnContract();
-const tusd = tusdContract();
-const dola = dolaContract();
-const sushi = sushiContract();
-const yfi = yfiContract();
-const woofy = woofyContract();
-const fxs = fxsContract();
-const ice = iceContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};

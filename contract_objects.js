@@ -3,10 +3,6 @@ require("dotenv").config();
 const API_KEY = process.env.API_KEY;
 const priceFeedABI = require("./ABI/aggregatorV3InterfaceABI.json");
 const erc20ABI = require("./ABI/erc20_abi.json");
-// const provider = new ethers.providers.EtherscanProvider(
-//   (network = "homestead"),
-//   API_KEY
-// );
 
 const provider = new ethers.providers.AlchemyProvider(
   (network = "homestead"),
@@ -375,49 +371,89 @@ const feedRegistry = () => {
 
   return feedRegistryContract;
 };
+
+const usdc = usdcContract();
+const usdt = usdtContract();
+const frax = fraxContract();
+const lusd = lusdContract();
+const link = linkContract();
+const wbtc = wbtcContract();
+const uni = uniContract();
+const rEth = rEthContract();
+const snx = snxContract();
+const dai = daiContract();
+const ghst = ghstContract();
+const aave = aaveContract();
+const mana = manaContract();
+const crv = crvContract();
+const bal = balContract();
+const bel = belContract();
+const awx = awxContract();
+const dg = dgContract();
+const xdg = xdgContract();
+const cel = celContract();
+const matic = maticContract();
+const weth = wethContract();
+const woo = wooContract();
+const alpha = alphaContract();
+const aleph = alephContract();
+const srm = serumContract();
+const ftt = fttContract();
+const hbtc = hbtcContract();
+const busd = busdContract();
+const husd = husdContract();
+const nexm = nexmContract();
+const ldo = ldoContract();
+const xcn = xcnContract();
+const tusd = tusdContract();
+const dola = dolaContract();
+const sushi = sushiContract();
+const yfi = yfiContract();
+const woofy = woofyContract();
+const fxs = fxsContract();
+const ice = iceContract();
+
 module.exports = {
-  //stables
-  usdcContract,
-  daiContract,
-  usdtContract,
-  fraxContract,
-  lusdContract,
-  //erc20's
-  linkContract,
-  wbtcContract,
-  rEthContract,
-  uniContract,
-  snxContract,
-  manaContract,
-  balContract,
-  crvContract,
-  aaveContract,
-  ghstContract,
-  dgContract,
-  xdgContract,
-  belContract,
-  awxContract,
-  celContract,
-  maticContract,
-  wethContract,
-  wooContract,
-  alphaContract,
-  alephContract,
-  serumContract,
-  fttContract,
-  busdContract,
-  husdContract,
-  hbtcContract,
-  xcnContract,
-  nexmContract,
-  ldoContract,
-  sushiContract,
-  dolaContract,
-  tusdContract,
-  yfiContract,
-  woofyContract,
-  fxsContract,
-  iceContract,
+  usdc,
+  usdt,
+  frax,
+  lusd,
+  link,
+  wbtc,
+  uni,
+  rEth,
+  snx,
+  dai,
+  ghst,
+  aave,
+  mana,
+  crv,
+  bal,
+  bel,
+  awx,
+  dg,
+  xdg,
+  cel,
+  matic,
+  weth,
+  woo,
+  alpha,
+  aleph,
+  srm,
+  ftt,
+  hbtc,
+  busd,
+  husd,
+  nexm,
+  ldo,
+  xcn,
+  tusd,
+  dola,
+  sushi,
+  yfi,
+  woofy,
+  fxs,
+  ice,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,
