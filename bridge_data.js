@@ -405,16 +405,6 @@ const nearBridgeBalance = async () => {
   bridgeTotals["USD"] = usdcBalance + usdtBalance + daiBalance + fraxBalance;
   return bridgeTotals;
 };
-const calculateTotal = (inputBridge, priceFeed) => {
-  let runningTotal = 0.0;
-  for (const item in inputBridge) {
-    if (item != "USD") {
-      runningTotal += inputBridge[item] * priceFeed[item];
-    }
-  }
-  let total = inputBridge["USD"] + runningTotal;
-  return total;
-};
 
 const fantomAnyswapBridge = async () => {
   fantomAnyswapBridgeAddress = "0xC564EE9f21Ed8A2d8E7e76c085740d5e4c5FaFbE";
@@ -541,6 +531,55 @@ const fantomAnyswapBridge = async () => {
   return bridgeTotals;
 };
 
+const moonRiverBridge = async () => {
+  const moonRiverBridgeAddress = "0x10c6b61DbF44a083Aec3780aCF769C77BE747E23";
+
+  let bridgeTotals = {};
+
+  let usdcBalance = parseFloat(
+    ethers.utils.formatUnits(await usdc.balanceOf(moonRiverBridgeAddress), 6)
+  );
+
+  let usdtBalance = parseFloat(
+    ethers.utils.formatUnits(await usdt.balanceOf(moonRiverBridgeAddress), 6)
+  );
+  let daiBalance = parseFloat(
+    ethers.utils.formatUnits(await dai.balanceOf(moonRiverBridgeAddress), 18)
+  );
+  let fraxBalance = parseFloat(
+    ethers.utils.formatUnits(await frax.balanceOf(moonRiverBridgeAddress), 18)
+  );
+
+  bridgeTotals["WBTC"] = parseFloat(
+    ethers.utils.formatUnits(await wbtc.balanceOf(moonRiverBridgeAddress), 8)
+  );
+  bridgeTotals["ETH"] = parseFloat(
+    ethers.utils.formatUnits(
+      await provider.getBalance(moonRiverBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["FXS"] = parseFloat(
+    ethers.utils.formatUnits(await fxs.balanceOf(moonRiverBridgeAddress), 18)
+  );
+
+  bridgeTotals["USD"] = usdtBalance + usdcBalance + daiBalance + fraxBalance;
+
+  return bridgeTotals;
+};
+
+const calculateTotal = (inputBridge, priceFeed) => {
+  let runningTotal = 0.0;
+  for (const item in inputBridge) {
+    if (item != "USD") {
+      runningTotal += inputBridge[item] * priceFeed[item];
+    }
+  }
+  let total = inputBridge["USD"] + runningTotal;
+  return total;
+};
+
 const data = async () => {
   let bridgeTotals = {};
 
@@ -552,6 +591,7 @@ const data = async () => {
     solanaResults,
     nearResults,
     fantomResults,
+    moonriverResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -561,6 +601,7 @@ const data = async () => {
     solanaBridgeBalance(),
     nearBridgeBalance(),
     fantomAnyswapBridge(),
+    moonRiverBridge(),
     feeds(),
   ]);
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
@@ -570,6 +611,7 @@ const data = async () => {
   bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
   bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
   bridgeTotals["fantom"] = calculateTotal(fantomResults, feedPrices);
+  bridgeTotals["moonriver"] = calculateTotal(moonriverResults, feedPrices);
   console.log(bridgeTotals);
   return bridgeTotals;
 };
