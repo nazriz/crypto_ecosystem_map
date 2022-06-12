@@ -376,6 +376,53 @@ const solanaBridgeBalance = async () => {
 
   return bridgeTotals;
 };
+
+const nearBridgeBalance = async () => {
+  // Contract address holds the entire uncirculating supply for some projects,
+  // These tokens have been omitted from the calculation:
+  // Omitted tokens:
+  // Aurora (AURORA)
+  // Aurigami (PLY)
+  // Octopus Network (OCT)
+  // YouMinter (UMINT)
+  const nearRainbowBridgeAddress = "0x23Ddd3e3692d1861Ed57EDE224608875809e127f";
+  let bridgeTotals = {};
+
+  let usdcBalance = parseFloat(
+    ethers.utils.formatUnits(await usdc.balanceOf(nearRainbowBridgeAddress), 6)
+  );
+  let usdtBalance = parseFloat(
+    ethers.utils.formatUnits(await usdt.balanceOf(nearRainbowBridgeAddress), 6)
+  );
+  let daiBalance = parseFloat(
+    ethers.utils.formatUnits(await dai.balanceOf(nearRainbowBridgeAddress), 18)
+  );
+
+  let fraxBalance = parseFloat(
+    ethers.utils.formatUnits(await frax.balanceOf(nearRainbowBridgeAddress), 18)
+  );
+
+  bridgeTotals["WBTC"] =
+    parseFloat(
+      ethers.utils.formatUnits(
+        await wbtc.balanceOf(nearRainbowBridgeAddress),
+        8
+      )
+    ) +
+    parseFloat(
+      ethers.utils.formatUnits(
+        await hbtc.balanceOf(nearRainbowBridgeAddress),
+        18
+      )
+    );
+
+  bridgeTotals["WOO"] = parseFloat(
+    ethers.utils.formatUnits(await woo.balanceOf(nearRainbowBridgeAddress), 18)
+  );
+
+  bridgeTotals["USD"] = usdcBalance + usdtBalance + daiBalance + fraxBalance;
+  return bridgeTotals;
+};
 const calculateTotal = (inputBridge, priceFeed) => {
   let runningTotal = 0.0;
   for (const item in inputBridge) {
@@ -396,6 +443,7 @@ const data = async () => {
     polygonResults,
     avalancheResults,
     solanaResults,
+    nearResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -403,6 +451,7 @@ const data = async () => {
     polygonBridgeBalance(),
     avalancheBridgeBalance(),
     solanaBridgeBalance(),
+    nearBridgeBalance(),
     feeds(),
   ]);
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
@@ -410,7 +459,7 @@ const data = async () => {
   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
   bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
-
+  bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
   console.log(bridgeTotals);
   return bridgeTotals;
 };
