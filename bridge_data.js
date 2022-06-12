@@ -2,10 +2,16 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
-const provider = new ethers.providers.EtherscanProvider(
+// const provider = new ethers.providers.EtherscanProvider(
+//   (network = "homestead"),
+//   API_KEY
+// );
+
+const provider = new ethers.providers.AlchemyProvider(
   (network = "homestead"),
-  API_KEY
+  process.env.ALCHEMY_API_KEY
 );
+
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
 const {
@@ -44,6 +50,11 @@ const {
   ldoContract,
   tusdContract,
   dolaContract,
+  sushiContract,
+  yfiContract,
+  woofyContract,
+  fxsContract,
+  iceContract,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -82,11 +93,16 @@ const ftt = fttContract();
 const hbtc = hbtcContract();
 const busd = busdContract();
 const husd = husdContract();
-let nexm = nexmContract();
-let ldo = ldoContract();
-let xcn = xcnContract();
-let tusd = tusdContract();
-let dola = dolaContract();
+const nexm = nexmContract();
+const ldo = ldoContract();
+const xcn = xcnContract();
+const tusd = tusdContract();
+const dola = dolaContract();
+const sushi = sushiContract();
+const yfi = yfiContract();
+const woofy = woofyContract();
+const fxs = fxsContract();
+const ice = iceContract();
 
 const arbitrumBridgeBalance = async () => {
   let bridgeTotals = {};
@@ -375,6 +391,13 @@ const solanaBridgeBalance = async () => {
     ethers.utils.formatUnits(await ldo.balanceOf(solanaWormholeTokenBridge), 18)
   );
 
+  bridgeTotals["SUSHI"] = parseFloat(
+    ethers.utils.formatUnits(
+      await sushi.balanceOf(solanaWormholeTokenBridge),
+      18
+    )
+  );
+
   bridgeTotals["USD"] =
     usdtBalance + usdcBalance + busdBalance + husdBalance + daiBalance;
 
@@ -524,6 +547,34 @@ const fantomAnyswapBridge = async () => {
     )
   );
 
+  bridgeTotals["YFI"] = parseFloat(
+    ethers.utils.formatUnits(
+      await yfi.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["WOOFY"] = parseFloat(
+    ethers.utils.formatUnits(
+      await woofy.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["FXS"] = parseFloat(
+    ethers.utils.formatUnits(
+      await fxs.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
+  bridgeTotals["ICE"] = parseFloat(
+    ethers.utils.formatUnits(
+      await ice.balanceOf(fantomAnyswapBridgeAddress),
+      18
+    )
+  );
+
   bridgeTotals["USD"] =
     usdcBalance +
     daiBalance +
@@ -545,6 +596,7 @@ const data = async () => {
     avalancheResults,
     solanaResults,
     nearResults,
+    fantomResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -553,6 +605,7 @@ const data = async () => {
     avalancheBridgeBalance(),
     solanaBridgeBalance(),
     nearBridgeBalance(),
+    fantomAnyswapBridge(),
     feeds(),
   ]);
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
@@ -561,6 +614,7 @@ const data = async () => {
   bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
   bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
   bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
+  bridgeTotals["fantom"] = calculateTotal(fantomResults, feedPrices);
   console.log(bridgeTotals);
   return bridgeTotals;
 };

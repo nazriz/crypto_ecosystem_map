@@ -2,9 +2,10 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 const axios = require("axios");
 const API_KEY = process.env.API_KEY;
-const provider = new ethers.providers.EtherscanProvider(
+
+const provider = new ethers.providers.AlchemyProvider(
   (network = "homestead"),
-  API_KEY
+  process.env.ALCHEMY_API_KEY
 );
 
 const {
@@ -34,6 +35,8 @@ const balTokenAddress = "0xba100000625a3754423978a60c9317c58a424e3d";
 const maticTokenAddress = "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0";
 const fttTokenAddress = "0x50d1c9771902476076ecfc8b2a83ad6b9355a4c9";
 const sushiTokenAddress = "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2";
+const yfiTokenAddress = "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e";
+const fxsTokenAddress = "0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0";
 
 const priceFeeds = async () => {
   let priceFeeds = {};
@@ -126,6 +129,22 @@ const priceFeeds = async () => {
     )
   );
 
+  let yfiPrice = await feedingRegistry.latestRoundData(yfiTokenAddress, USD);
+  priceFeeds["YFI"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(yfiPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
+
+  let fxsPrice = await feedingRegistry.latestRoundData(fxsTokenAddress, USD);
+  priceFeeds["FXS"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(fxsPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
+
   // Centralised Feeds
   //Aavegotchi
   let ghst = await axios.get(
@@ -203,6 +222,16 @@ const priceFeeds = async () => {
     `https://api.coingecko.com/api/v3/simple/price?ids=lido-dao&vs_currencies=usd`
   );
   priceFeeds["LDO"] = parseFloat(ldo["data"]["lido-dao"]["usd"]);
+
+  let ice = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=ice-token&vs_currencies=usd`
+  );
+  priceFeeds["ICE"] = parseFloat(ice["data"]["ice-token"]["usd"]);
+
+  let woofy = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/price?ids=woofy&vs_currencies=usd`
+  );
+  priceFeeds["WOOFY"] = parseFloat(woofy["data"]["woofy"]["usd"]);
 
   //   console.log(priceFeeds);
   return priceFeeds;

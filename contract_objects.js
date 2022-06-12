@@ -3,9 +3,14 @@ require("dotenv").config();
 const API_KEY = process.env.API_KEY;
 const priceFeedABI = require("./ABI/aggregatorV3InterfaceABI.json");
 const erc20ABI = require("./ABI/erc20_abi.json");
-const provider = new ethers.providers.EtherscanProvider(
+// const provider = new ethers.providers.EtherscanProvider(
+//   (network = "homestead"),
+//   API_KEY
+// );
+
+const provider = new ethers.providers.AlchemyProvider(
   (network = "homestead"),
-  API_KEY
+  process.env.ALCHEMY_API_KEY
 );
 
 // Contracts for general tokens
@@ -265,6 +270,31 @@ const tusdContract = () => {
   const tusdContract = new ethers.Contract(tusdAddress, erc20ABI, provider);
   return tusdContract;
 };
+
+const yfiContract = () => {
+  const yfiAddress = "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e";
+  const yfiContract = new ethers.Contract(yfiAddress, erc20ABI, provider);
+  return yfiContract;
+};
+
+const woofyContract = () => {
+  const woofyAddress = "0xd0660cd418a64a1d44e9214ad8e459324d8157f1";
+  const woofyContract = new ethers.Contract(woofyAddress, erc20ABI, provider);
+  return woofyContract;
+};
+
+const fxsContract = () => {
+  const fxsAddress = "0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0";
+  const fxsContract = new ethers.Contract(fxsAddress, erc20ABI, provider);
+  return fxsContract;
+};
+
+const iceContract = () => {
+  const iceAddress = "0xf16e81dce15b08f326220742020379b855b87df9";
+  const iceContract = new ethers.Contract(iceAddress, erc20ABI, provider);
+  return iceContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -384,6 +414,10 @@ module.exports = {
   sushiContract,
   dolaContract,
   tusdContract,
+  yfiContract,
+  woofyContract,
+  fxsContract,
+  iceContract,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,
