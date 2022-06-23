@@ -586,10 +586,11 @@ const roninBridgeBalance = async () => {
 
   bridgeTotals["USD"] = usdcBalance;
 
-  console.log(bridgeTotals);
   return bridgeTotals;
 };
 
+// Function for Calculating the USD total of a respective bridge
+// Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
   let runningTotal = 0.0;
   for (const item in inputBridge) {
@@ -601,6 +602,7 @@ const calculateTotal = (inputBridge, priceFeed) => {
   return total;
 };
 
+// Compiles all bridge data into an object, and returns that object
 const data = async () => {
   let bridgeTotals = {};
 
@@ -642,3 +644,13 @@ const data = async () => {
 };
 
 data();
+
+/*
+
+MISC BRIDGES:
+
+ZigZag: ZkSync > Polygon 0xbb256f544b8087596e8e6cdd7fe9726cc98cb400
+HOP Protocol
+
+
+*/
