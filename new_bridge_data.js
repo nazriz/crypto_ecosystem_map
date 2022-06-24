@@ -72,6 +72,38 @@ const newBridgeBalance = async (bridgeAddress) => {
     tusdBalance,
     dolaBalance,
     ethBalance,
+    wethBalance,
+    wbtcBalance,
+    rethBalance,
+    uniBalance,
+    linkBalance,
+    snxBalance,
+    ghstBalance,
+    aaveBalance,
+    balBalance,
+    manaBalance,
+    crvBalance,
+    awxBalance,
+    belBalance,
+    celBalance,
+    dgBalance,
+    xdgBalance,
+    maticBalance,
+    wooBalance,
+    alphaBalance,
+    alephBalance,
+    hbtcBalance,
+    fttBalance,
+    srmBalance,
+    nexmBalance,
+    xcnBalance,
+    ldoBalance,
+    sushiBalance,
+    yfiBalance,
+    woofyBalance,
+    fxsBalance,
+    iceBalance,
+    axsBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -100,9 +132,141 @@ const newBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await provider.getBalance(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await weth.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await wbtc.balanceOf(bridgeAddress), 8)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await rEth.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await uni.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await link.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await snx.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await ghst.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await aave.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await bal.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await mana.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await crv.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await awx.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await bel.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await cel.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(ethers.utils.formatUnits(await dg.balanceOf(bridgeAddress), 18)),
+    parseFloat(
+      ethers.utils.formatUnits(await xdg.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await matic.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await woo.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await alpha.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await aleph.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await hbtc.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await ftt.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await srm.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await nexm.balanceOf(bridgeAddress), 18)
+    ),
+
+    parseFloat(
+      ethers.utils.formatUnits(await xcn.balanceOf(bridgeAddress), 18)
+    ),
+
+    parseFloat(
+      ethers.utils.formatUnits(await ldo.balanceOf(bridgeAddress), 18)
+    ),
+
+    parseFloat(
+      ethers.utils.formatUnits(await sushi.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await yfi.balanceOf(bridgeAddress), 18)
+    ),
+
+    parseFloat(
+      ethers.utils.formatUnits(await woofy.balanceOf(bridgeAddress), 18)
+    ),
+
+    parseFloat(
+      ethers.utils.formatUnits(await fxs.balanceOf(bridgeAddress), 18)
+    ),
+
+    parseFloat(
+      ethers.utils.formatUnits(await ice.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await axs.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
+  bridgeTotals["WETH"] = wethBalance;
+  bridgeTotals["WBTC"] = wbtcBalance;
+  bridgeTotals["rETH"] = rethBalance;
+  bridgeTotals["UNI"] = uniBalance;
+  bridgeTotals["LINK"] = linkBalance;
+  bridgeTotals["SNX"] = snxBalance;
+  bridgeTotals["GHST"] = ghstBalance;
+  bridgeTotals["AAVE"] = aaveBalance;
+  bridgeTotals["BAL"] = balBalance;
+  bridgeTotals["MANA"] = manaBalance;
+  bridgeTotals["CRV"] = crvBalance;
+  bridgeTotals["AWX"] = awxBalance;
+  bridgeTotals["BEL"] = belBalance;
+  bridgeTotals["CEL"] = celBalance;
+  bridgeTotals["DG"] = dgBalance;
+  bridgeTotals["XDG"] = xdgBalance;
+  bridgeTotals["MATIC"] = maticBalance;
+  bridgeTotals["WOO"] = wooBalance;
+  bridgeTotals["ALPHA"] = alphaBalance;
+  bridgeTotals["ALEPH"] = alephBalance;
+  bridgeTotals["HBTC"] = hbtcBalance;
+  bridgeTotals["FTT"] = fttBalance;
+  bridgeTotals["SRM"] = srmBalance;
+  bridgeTotals["NEXM"] = nexmBalance;
+  bridgeTotals["XCN"] = xcnBalance;
+  bridgeTotals["LDO"] = ldoBalance;
+  bridgeTotals["SUSHI"] = sushiBalance;
+  bridgeTotals["YFI"] = yfiBalance;
+  bridgeTotals["WOOFY"] = woofyBalance;
+  bridgeTotals["FXS"] = fxsBalance;
+  bridgeTotals["ICE"] = iceBalance;
+  bridgeTotals["AXS"] = axsBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -121,156 +285,6 @@ const newBridgeBalance = async (bridgeAddress) => {
 const getBridgeBalance = async (bridgeAddress) => {
   let bridgeTotals = {};
 
-  let usdcBalance = parseFloat(
-    ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
-  );
-  let usdtBalance = parseFloat(
-    ethers.utils.formatUnits(await usdt.balanceOf(bridgeAddress), 6)
-  );
-  let daiBalance = parseFloat(
-    ethers.utils.formatUnits(await dai.balanceOf(bridgeAddress), 18)
-  );
-  let fraxBalance = parseFloat(
-    ethers.utils.formatUnits(await frax.balanceOf(bridgeAddress), 18)
-  );
-
-  let husdBalance = parseFloat(
-    ethers.utils.formatUnits(await husd.balanceOf(bridgeAddress), 8)
-  );
-
-  let busdBalance = parseFloat(
-    ethers.utils.formatUnits(await busd.balanceOf(bridgeAddress), 18)
-  );
-
-  let tusdBalance = parseFloat(
-    ethers.utils.formatUnits(await tusd.balanceOf(bridgeAddress), 18)
-  );
-  let dolaBalance = parseFloat(
-    ethers.utils.formatUnits(await dola.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["ETH"] = parseFloat(
-    ethers.utils.formatUnits(await provider.getBalance(bridgeAddress), 18)
-  );
-
-  bridgeTotals["WETH"] = parseFloat(
-    ethers.utils.formatUnits(await weth.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["WBTC"] = parseFloat(
-    ethers.utils.formatUnits(await wbtc.balanceOf(bridgeAddress), 8)
-  );
-  bridgeTotals["rETH"] = parseFloat(
-    ethers.utils.formatUnits(await rEth.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["UNI"] = parseFloat(
-    ethers.utils.formatUnits(await uni.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["LINK"] = parseFloat(
-    ethers.utils.formatUnits(await link.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["SNX"] = parseFloat(
-    ethers.utils.formatUnits(await snx.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["GHST"] = parseFloat(
-    ethers.utils.formatUnits(await ghst.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["AAVE"] = parseFloat(
-    ethers.utils.formatUnits(await aave.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["BAL"] = parseFloat(
-    ethers.utils.formatUnits(await bal.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["MANA"] = parseFloat(
-    ethers.utils.formatUnits(await mana.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["CRV"] = parseFloat(
-    ethers.utils.formatUnits(await crv.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["AWX"] = parseFloat(
-    ethers.utils.formatUnits(await awx.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["BEL"] = parseFloat(
-    ethers.utils.formatUnits(await bel.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["CEL"] = parseFloat(
-    ethers.utils.formatUnits(await cel.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["DG"] = parseFloat(
-    ethers.utils.formatUnits(await dg.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["XDG"] = parseFloat(
-    ethers.utils.formatUnits(await xdg.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["MATIC"] = parseFloat(
-    ethers.utils.formatUnits(await matic.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["WOO"] = parseFloat(
-    ethers.utils.formatUnits(await woo.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["ALPHA"] = parseFloat(
-    ethers.utils.formatUnits(await alpha.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["ALEPH"] = parseFloat(
-    ethers.utils.formatUnits(await aleph.balanceOf(bridgeAddress), 18)
-  );
-  // HBTC
-  bridgeTotals["WBTC"] = parseFloat(
-    ethers.utils.formatUnits(await hbtc.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["FTT"] = parseFloat(
-    ethers.utils.formatUnits(await ftt.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["SRM"] = parseFloat(
-    ethers.utils.formatUnits(await srm.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["NEXM"] = parseFloat(
-    ethers.utils.formatUnits(await nexm.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["XCN"] = parseFloat(
-    ethers.utils.formatUnits(await xcn.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["LDO"] = parseFloat(
-    ethers.utils.formatUnits(await ldo.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["SUSHI"] = parseFloat(
-    ethers.utils.formatUnits(await sushi.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["YFI"] = parseFloat(
-    ethers.utils.formatUnits(await yfi.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["WOOFY"] = parseFloat(
-    ethers.utils.formatUnits(await woofy.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["FXS"] = parseFloat(
-    ethers.utils.formatUnits(await fxs.balanceOf(bridgeAddress), 18)
-  );
-
-  bridgeTotals["ICE"] = parseFloat(
-    ethers.utils.formatUnits(await ice.balanceOf(bridgeAddress), 18)
-  );
-  bridgeTotals["AXS"] = parseFloat(
-    ethers.utils.formatUnits(await axs.balanceOf(bridgeAddress), 18)
-  );
-
   bridgeTotals["USD"] =
     daiBalance +
     usdtBalance +
@@ -282,16 +296,6 @@ const getBridgeBalance = async (bridgeAddress) => {
     dolaBalance;
   return bridgeTotals;
 };
-
-// const newTotals = {};
-// for (const [key1, value1] of Object.entries(testObject)) {
-//   for (const [key2, value2] of Object.entries(testObject2)) {
-//     if (key1 === key2) {
-//       newTotals[key1] = value1 + value2;
-//       // console.log(`It's a match! ${key1} equals ${key2}`);
-//     }
-//   }
-// }
 
 const arbitrumBridgeBalance = async () => {
   const [arbitrumCustomGateway, arbitrumWethGateway, arbitrumERC20Gateway] =
@@ -314,13 +318,8 @@ const arbitrumBridgeBalance = async () => {
   console.log(bridgeTotal);
   return bridgeTotal;
 };
-// newBridgeBalance("0xcEe284F754E854890e311e3280b767F80797180d");
-// newBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515");
-// newBridgeBalance("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC");
 
 arbitrumBridgeBalance();
-
-// console.log(getBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"));
 
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
