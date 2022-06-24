@@ -38,30 +38,53 @@ const sushiTokenAddress = "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2";
 const yfiTokenAddress = "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e";
 const fxsTokenAddress = "0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0";
 const axsTokenAddress = "0xBB0E17EF65F82Ab018d8EDd776e8DD940327B28b";
+const snxTokenAddress = "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F";
+const wbtcTokenAddress = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599";
+const uniTokenAddress = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984";
+const linkTokenAddress = "0x514910771af9ca656af840dff83e8264ecf986ca";
 
 const priceFeeds = async () => {
+  let newPriceFeeds = {};
   let priceFeeds = {};
 
-  priceFeeds["ETH"] = parseFloat(
-    ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
-  );
-  priceFeeds["WETH"] = parseFloat(
-    ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
-  );
-  priceFeeds["rETH"] = parseFloat(
-    ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
-  ); // using same feed as Eth for now
+  let linkPrice = await feedingRegistry.latestRoundData(linkTokenAddress, USD);
+
+  const [ethPrice, btcPrice] = await Promise.all([
+    parseFloat(
+      ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await btcUsdPriceFeed.latestAnswer(), 8)
+    ),
+  ]);
+
+  // using same feed as Eth for now
+
+  //LINK
+
   priceFeeds["LINK"] = parseFloat(
-    ethers.utils.formatUnits(await linkUsdPriceFeed.latestAnswer(), 8)
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(linkPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
   );
+
+  // UNI
+  let uniPrice = await feedingRegistry.latestRoundData(uniTokenAddress, USD);
   priceFeeds["UNI"] = parseFloat(
-    ethers.utils.formatUnits(await uniUsdPriceFeed.latestAnswer(), 8)
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(uniPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
   );
-  priceFeeds["WBTC"] = parseFloat(
-    ethers.utils.formatUnits(await btcUsdPriceFeed.latestAnswer(), 8)
-  );
+
+  //SNX
+  let snxPrice = await feedingRegistry.latestRoundData(snxTokenAddress, USD);
   priceFeeds["SNX"] = parseFloat(
-    ethers.utils.formatUnits(await snxUsdPriceFeed.latestAnswer(), 8)
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(snxPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
   );
 
   //AAVE
@@ -242,7 +265,13 @@ const priceFeeds = async () => {
   );
   priceFeeds["AXS"] = parseFloat(axs["data"]["axie-infinity"]["usd"]);
 
-  //   console.log(priceFeeds);
+  console.log(await priceFeeds);
+
+  newPriceFeeds["ETH"] = ethPrice;
+  newPriceFeeds["WETH"] = ethPrice;
+  newPriceFeeds["rETH"] = ethPrice;
+  newPriceFeeds["WBTC"] = btcPrice;
+  console.log(newPriceFeeds);
   return priceFeeds;
 };
 

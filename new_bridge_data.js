@@ -202,30 +202,24 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await nexm.balanceOf(bridgeAddress), 18)
     ),
-
     parseFloat(
       ethers.utils.formatUnits(await xcn.balanceOf(bridgeAddress), 18)
     ),
-
     parseFloat(
       ethers.utils.formatUnits(await ldo.balanceOf(bridgeAddress), 18)
     ),
-
     parseFloat(
       ethers.utils.formatUnits(await sushi.balanceOf(bridgeAddress), 18)
     ),
     parseFloat(
       ethers.utils.formatUnits(await yfi.balanceOf(bridgeAddress), 18)
     ),
-
     parseFloat(
       ethers.utils.formatUnits(await woofy.balanceOf(bridgeAddress), 18)
     ),
-
     parseFloat(
       ethers.utils.formatUnits(await fxs.balanceOf(bridgeAddress), 18)
     ),
-
     parseFloat(
       ethers.utils.formatUnits(await ice.balanceOf(bridgeAddress), 18)
     ),
@@ -333,4 +327,4 @@ const data = async () => {
   return bridgeTotals;
 };
 
-// data();
+data();
