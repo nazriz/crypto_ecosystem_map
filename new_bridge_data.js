@@ -60,6 +60,64 @@ const feeds = async () => {
   return feeds;
 };
 
+const newBridgeBalance = async (bridgeAddress) => {
+  bridgeTotals = {};
+  const [
+    usdcBalance,
+    usdtBalance,
+    daiBalance,
+    fraxBalance,
+    husdBalance,
+    busdBalance,
+    tusdBalance,
+    dolaBalance,
+    ethBalance,
+  ] = await Promise.all([
+    parseFloat(
+      ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await usdt.balanceOf(bridgeAddress), 6)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await dai.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await frax.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await husd.balanceOf(bridgeAddress), 8)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await busd.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await tusd.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await dola.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await provider.getBalance(bridgeAddress), 18)
+    ),
+  ]);
+
+  bridgeTotals["ETH"] = ethBalance;
+
+  bridgeTotals["USD"] =
+    daiBalance +
+    usdtBalance +
+    usdcBalance +
+    tusdBalance +
+    fraxBalance +
+    husdBalance +
+    busdBalance +
+    dolaBalance;
+
+  console.log(bridgeTotals);
+  return bridgeTotals;
+};
+
 const getBridgeBalance = async (bridgeAddress) => {
   let bridgeTotals = {};
 
@@ -236,15 +294,12 @@ const getBridgeBalance = async (bridgeAddress) => {
 // }
 
 const arbitrumBridgeBalance = async () => {
-  const arbitrumCustomGateway = await getBridgeBalance(
-    "0xcEe284F754E854890e311e3280b767F80797180d"
-  ); // ERC20's
-  const arbitrumWethGateway = await getBridgeBalance(
-    "0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"
-  ); // WETH
-  const arbitrumERC20Gateway = await getBridgeBalance(
-    "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"
-  ); // ERC20's
+  const [arbitrumCustomGateway, arbitrumWethGateway, arbitrumERC20Gateway] =
+    await Promise.all([
+      newBridgeBalance("0xcEe284F754E854890e311e3280b767F80797180d"),
+      newBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"),
+      newBridgeBalance("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"),
+    ]);
 
   const bridgeTotal = {};
   for (const [key1, value1] of Object.entries(arbitrumCustomGateway)) {
@@ -256,9 +311,12 @@ const arbitrumBridgeBalance = async () => {
       }
     }
   }
-
+  console.log(bridgeTotal);
   return bridgeTotal;
 };
+// newBridgeBalance("0xcEe284F754E854890e311e3280b767F80797180d");
+// newBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515");
+// newBridgeBalance("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC");
 
 arbitrumBridgeBalance();
 
@@ -291,4 +349,4 @@ const data = async () => {
   return bridgeTotals;
 };
 
-data();
+// data();
