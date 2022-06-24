@@ -60,7 +60,7 @@ const feeds = async () => {
   return feeds;
 };
 
-const newBridgeBalance = async (bridgeAddress) => {
+const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals = {};
   const [
     usdcBalance,
@@ -282,27 +282,12 @@ const newBridgeBalance = async (bridgeAddress) => {
   return bridgeTotals;
 };
 
-const getBridgeBalance = async (bridgeAddress) => {
-  let bridgeTotals = {};
-
-  bridgeTotals["USD"] =
-    daiBalance +
-    usdtBalance +
-    usdcBalance +
-    tusdBalance +
-    fraxBalance +
-    husdBalance +
-    busdBalance +
-    dolaBalance;
-  return bridgeTotals;
-};
-
 const arbitrumBridgeBalance = async () => {
   const [arbitrumCustomGateway, arbitrumWethGateway, arbitrumERC20Gateway] =
     await Promise.all([
-      newBridgeBalance("0xcEe284F754E854890e311e3280b767F80797180d"),
-      newBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"),
-      newBridgeBalance("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"),
+      getBridgeBalance("0xcEe284F754E854890e311e3280b767F80797180d"),
+      getBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"),
+      getBridgeBalance("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"),
     ]);
 
   const bridgeTotal = {};
