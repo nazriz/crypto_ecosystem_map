@@ -589,6 +589,27 @@ const roninBridgeBalance = async () => {
   return bridgeTotals;
 };
 
+// const zkSyncBridgeBalance = async () => {
+//   const zkSyncBridgeAddress = "0xaBEA9132b05A70803a4E85094fD0e1800777fBEF";
+//   let bridgeTotals = {};
+
+//   let usdcBalance = parseFloat(
+//     ethers.utils.formatUnits(await usdc.balanceOf(nearRainbowBridgeAddress), 6)
+//   );
+//   let usdtBalance = parseFloat(
+//     ethers.utils.formatUnits(await usdt.balanceOf(nearRainbowBridgeAddress), 6)
+//   );
+//   let daiBalance = parseFloat(
+//     ethers.utils.formatUnits(await dai.balanceOf(nearRainbowBridgeAddress), 18)
+//   );
+
+//   let fraxBalance = parseFloat(
+//     ethers.utils.formatUnits(await frax.balanceOf(nearRainbowBridgeAddress), 18)
+//   );
+
+//   return bridgeTotals;
+// };
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {

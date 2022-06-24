@@ -45,6 +45,9 @@ const priceFeeds = async () => {
   priceFeeds["ETH"] = parseFloat(
     ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
   );
+  priceFeeds["WETH"] = parseFloat(
+    ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
+  );
   priceFeeds["rETH"] = parseFloat(
     ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
   ); // using same feed as Eth for now
