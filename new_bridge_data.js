@@ -60,7 +60,7 @@ const feeds = async () => {
   return feeds;
 };
 
-const grabBridgeData = async (bridgeAddress) => {
+const getBridgeBalance = async (bridgeAddress) => {
   let bridgeTotals = {};
 
   let usdcBalance = parseFloat(
@@ -222,11 +222,47 @@ const grabBridgeData = async (bridgeAddress) => {
     husdBalance +
     busdBalance +
     dolaBalance;
-  console.log(bridgeTotals);
   return bridgeTotals;
 };
 
-grabBridgeData("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC");
+// const newTotals = {};
+// for (const [key1, value1] of Object.entries(testObject)) {
+//   for (const [key2, value2] of Object.entries(testObject2)) {
+//     if (key1 === key2) {
+//       newTotals[key1] = value1 + value2;
+//       // console.log(`It's a match! ${key1} equals ${key2}`);
+//     }
+//   }
+// }
+
+const arbitrumBridgeBalance = async () => {
+  const arbitrumCustomGateway = await getBridgeBalance(
+    "0xcEe284F754E854890e311e3280b767F80797180d"
+  ); // ERC20's
+  const arbitrumWethGateway = await getBridgeBalance(
+    "0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"
+  ); // WETH
+  const arbitrumERC20Gateway = await getBridgeBalance(
+    "0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"
+  ); // ERC20's
+
+  const bridgeTotal = {};
+  for (const [key1, value1] of Object.entries(arbitrumCustomGateway)) {
+    for (const [key2, value2] of Object.entries(arbitrumWethGateway)) {
+      for (const [key3, value3] of Object.entries(arbitrumERC20Gateway)) {
+        if (key1 === key2 && key1 === key3) {
+          bridgeTotal[key1] = value1 + value2 + value3;
+        }
+      }
+    }
+  }
+
+  return bridgeTotal;
+};
+
+arbitrumBridgeBalance();
+
+// console.log(getBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"));
 
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
@@ -242,42 +278,17 @@ const calculateTotal = (inputBridge, priceFeed) => {
 };
 
 // // Compiles all bridge data into an object, and returns that object
-// const data = async () => {
-//   let bridgeTotals = {};
+const data = async () => {
+  let bridgeTotals = {};
 
-//   let [
-//     arbitrumResults,
-//     optimismResults,
-//     polygonResults,
-//     avalancheResults,
-//     solanaResults,
-//     nearResults,
-//     fantomResults,
-//     moonriverResults,
-//     roninResults,
-//     feedPrices,
-//   ] = await Promise.all([
-//     arbitrumBridgeBalance(),
-//     bridgeAddressBalance(),
-//     polygonBridgeBalance(),
-//     avalancheBridgeBalance(),
-//     solanaBridgeBalance(),
-//     nearBridgeBalance(),
-//     fantomAnyswapBridgeBalance(),
-//     moonRiverBridgeBalance(),
-//     roninBridgeBalance(),
-//     feeds(),
-//   ]);
+  let [arbitrumResults, feedPrices] = await Promise.all([
+    arbitrumBridgeBalance(),
+    feeds(),
+  ]);
 
-//   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
-//   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
-//   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
-//   bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
-//   bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
-//   bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
-//   bridgeTotals["fantom"] = calculateTotal(fantomResults, feedPrices);
-//   bridgeTotals["moonriver"] = calculateTotal(moonriverResults, feedPrices);
-//   bridgeTotals["ronin"] = calculateTotal(roninResults, feedPrices);
-//   console.log(bridgeTotals);
-//   return bridgeTotals;
-// };
+  bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
+  console.log(bridgeTotals);
+  return bridgeTotals;
+};
+
+data();
