@@ -61,7 +61,7 @@ const feeds = async () => {
 };
 
 const getBridgeBalance = async (bridgeAddress) => {
-  bridgeTotals = {};
+  let bridgeTotals = {};
   const [
     usdcBalance,
     usdtBalance,
@@ -272,7 +272,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     busdBalance +
     dolaBalance;
 
-  console.log(bridgeTotals);
+  // console.log(bridgeTotals);
   return bridgeTotals;
 };
 
@@ -284,21 +284,20 @@ const arbitrumBridgeBalance = async () => {
       getBridgeBalance("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"),
     ]);
 
-  const bridgeTotal = {};
+  let bridgeTotal = {};
   for (const [key1, value1] of Object.entries(arbitrumCustomGateway)) {
     for (const [key2, value2] of Object.entries(arbitrumWethGateway)) {
       for (const [key3, value3] of Object.entries(arbitrumERC20Gateway)) {
         if (key1 === key2 && key1 === key3) {
           bridgeTotal[key1] = value1 + value2 + value3;
+        } else {
+          continue;
         }
       }
     }
   }
-  console.log(bridgeTotal);
   return bridgeTotal;
 };
-
-arbitrumBridgeBalance();
 
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
