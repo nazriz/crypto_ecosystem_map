@@ -305,7 +305,12 @@ const calculateTotal = (inputBridge, priceFeed) => {
   let runningTotal = 0.0;
   for (const item in inputBridge) {
     if (item != "USD") {
+      // console.log(item);
       runningTotal += inputBridge[item] * priceFeed[item];
+      // console.log(runningTotal);
+      // console.log(
+      //   `Bridge item: ${inputBridge[item]}, feed item: ${priceFeed[item]}`
+      // );
     }
   }
   let total = inputBridge["USD"] + runningTotal;

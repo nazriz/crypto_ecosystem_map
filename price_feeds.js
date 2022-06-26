@@ -151,6 +151,7 @@ const priceFeeds = async () => {
   priceFeeds["WETH"] = ethPrice;
   priceFeeds["rETH"] = ethPrice;
   priceFeeds["WBTC"] = btcPrice;
+  priceFeeds["HBTC"] = btcPrice;
 
   priceFeeds["LINK"] = parseFloat(
     ethers.utils.formatUnits(
@@ -261,7 +262,7 @@ const priceFeeds = async () => {
   priceFeeds["WOOFY"] = parseFloat(woofy["data"]["woofy"]["usd"]);
   priceFeeds["AXS"] = parseFloat(axs["data"]["axie-infinity"]["usd"]);
 
-  console.log(priceFeeds);
+  // console.log(priceFeeds);
   return priceFeeds;
 };
 
