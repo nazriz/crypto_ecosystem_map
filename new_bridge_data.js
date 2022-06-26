@@ -364,11 +364,21 @@ const polygonBridgeBalance = async () => {
 const avalancheBridgeBalance = async () => {
   const avalancheBridgeAddress = "0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0";
 
-  const [avalancheBridge] = await Promise.all(
-    getBridgeBalance("0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0")
-  );
+  const [avalancheBridge] = await Promise.all([
+    getBridgeBalance("0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0"),
+  ]);
+
+  return avalancheBridge;
 };
 
+// const solanaBridgeBalance = async () => {
+//   const solanaSolletBridge = "0xeae57ce9cc1984F202e15e038B964bb8bdF7229a";
+//   const solanaWormHoleBridge = "0xf92cD566Ea4864356C5491c177A430C222d7e678";
+//   const solanaWormholeTokenBridge =
+//     "0x3ee18B2214AFF97000D974cf647E7C347E8fa585";
+
+//     const [solanaSolletBridge,]
+// };
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -386,17 +396,24 @@ const calculateTotal = (inputBridge, priceFeed) => {
 const data = async () => {
   let bridgeTotals = {};
 
-  let [arbitrumResults, optimismResults, polygonResults, feedPrices] =
-    await Promise.all([
-      arbitrumBridgeBalance(),
-      optimismBridgeBalance(),
-      polygonBridgeBalance(),
-      feeds(),
-    ]);
+  let [
+    arbitrumResults,
+    optimismResults,
+    polygonResults,
+    avalancheResults,
+    feedPrices,
+  ] = await Promise.all([
+    arbitrumBridgeBalance(),
+    optimismBridgeBalance(),
+    polygonBridgeBalance(),
+    avalancheBridgeBalance(),
+    feeds(),
+  ]);
 
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
+  bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;
