@@ -67,6 +67,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     usdtBalance,
     daiBalance,
     fraxBalance,
+    lusdBalance,
     husdBalance,
     busdBalance,
     tusdBalance,
@@ -116,6 +117,9 @@ const getBridgeBalance = async (bridgeAddress) => {
     ),
     parseFloat(
       ethers.utils.formatUnits(await frax.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await lusd.balanceOf(bridgeAddress), 18)
     ),
     parseFloat(
       ethers.utils.formatUnits(await husd.balanceOf(bridgeAddress), 8)
@@ -268,6 +272,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     usdcBalance +
     tusdBalance +
     fraxBalance +
+    lusdBalance +
     husdBalance +
     busdBalance +
     dolaBalance;
@@ -299,18 +304,45 @@ const arbitrumBridgeBalance = async () => {
   return bridgeTotal;
 };
 
+const optimismBridgeBalance = async () => {
+  const [optimismDaiBridge, optimismBridge, optimismSnxBridge] =
+    await Promise.all([
+      getBridgeBalance("0x467194771dae2967aef3ecbedd3bf9a310c76c65"),
+      getBridgeBalance("0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1"),
+      getBridgeBalance("0x5Fd79D46EBA7F351fe49BFF9E87cdeA6c821eF9f"),
+    ]);
+
+  let bridgeTotal = {};
+  for (const [key1, value1] of Object.entries(optimismDaiBridge)) {
+    for (const [key2, value2] of Object.entries(optimismBridge)) {
+      for (const [key3, value3] of Object.entries(optimismSnxBridge)) {
+        if (key1 === key2 && key1 === key3) {
+          bridgeTotal[key1] = value1 + value2 + value3;
+        } else {
+          continue;
+        }
+      }
+    }
+  }
+  return bridgeTotal;
+};
+
+const polygonBridgeBalance = async () => {
+  const [polygonEthBridge, polygonPlasmaBridge, polygonERC20Bridge] =
+    await Promise.all([
+      getBridgeBalance("0x8484Ef722627bf18ca5Ae6BcF031c23E6e922B30"),
+      getBridgeBalance("0x401F6c983eA34274ec46f84D70b31C151321188b"),
+      getBridgeBalance("0x40ec5B33f54e0E8A33A975908C5BA1c14e5BbbDf"),
+    ]);
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
   let runningTotal = 0.0;
   for (const item in inputBridge) {
     if (item != "USD") {
-      // console.log(item);
       runningTotal += inputBridge[item] * priceFeed[item];
-      // console.log(runningTotal);
-      // console.log(
-      //   `Bridge item: ${inputBridge[item]}, feed item: ${priceFeed[item]}`
-      // );
     }
   }
   let total = inputBridge["USD"] + runningTotal;
@@ -321,12 +353,14 @@ const calculateTotal = (inputBridge, priceFeed) => {
 const data = async () => {
   let bridgeTotals = {};
 
-  let [arbitrumResults, feedPrices] = await Promise.all([
+  let [arbitrumResults, optimismResults, feedPrices] = await Promise.all([
     arbitrumBridgeBalance(),
+    optimismBridgeBalance(),
     feeds(),
   ]);
 
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
+  bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
   console.log(bridgeTotals);
   return bridgeTotals;
 };
