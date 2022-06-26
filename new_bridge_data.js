@@ -277,6 +277,17 @@ const getBridgeBalance = async (bridgeAddress) => {
     busdBalance +
     dolaBalance;
 
+  // console.log(
+  //   daiBalance,
+  //   usdtBalance,
+  //   usdcBalance,
+  //   tusdBalance,
+  //   fraxBalance,
+  //   lusdBalance,
+  //   husdBalance,
+  //   busdBalance,
+  //   dolaBalance
+  // );
   // console.log(bridgeTotals);
   return bridgeTotals;
 };
@@ -334,6 +345,28 @@ const polygonBridgeBalance = async () => {
       getBridgeBalance("0x401F6c983eA34274ec46f84D70b31C151321188b"),
       getBridgeBalance("0x40ec5B33f54e0E8A33A975908C5BA1c14e5BbbDf"),
     ]);
+
+  let bridgeTotal = {};
+  for (const [key1, value1] of Object.entries(polygonEthBridge)) {
+    for (const [key2, value2] of Object.entries(polygonPlasmaBridge)) {
+      for (const [key3, value3] of Object.entries(polygonERC20Bridge)) {
+        if (key1 === key2 && key1 === key3) {
+          bridgeTotal[key1] = value1 + value2 + value3;
+        } else {
+          continue;
+        }
+      }
+    }
+  }
+  return bridgeTotal;
+};
+
+const avalancheBridgeBalance = async () => {
+  const avalancheBridgeAddress = "0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0";
+
+  const [avalancheBridge] = await Promise.all(
+    getBridgeBalance("0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0")
+  );
 };
 
 // Function for Calculating the USD total of a respective bridge
@@ -353,14 +386,18 @@ const calculateTotal = (inputBridge, priceFeed) => {
 const data = async () => {
   let bridgeTotals = {};
 
-  let [arbitrumResults, optimismResults, feedPrices] = await Promise.all([
-    arbitrumBridgeBalance(),
-    optimismBridgeBalance(),
-    feeds(),
-  ]);
+  let [arbitrumResults, optimismResults, polygonResults, feedPrices] =
+    await Promise.all([
+      arbitrumBridgeBalance(),
+      optimismBridgeBalance(),
+      polygonBridgeBalance(),
+      feeds(),
+    ]);
 
   bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
+  bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
+
   console.log(bridgeTotals);
   return bridgeTotals;
 };
