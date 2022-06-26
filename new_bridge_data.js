@@ -394,6 +394,22 @@ const solanaBridgeBalance = async () => {
   return bridgeTotal;
 };
 
+const nearBridgeBalance = async () => {
+  // Contract address holds the entire uncirculating supply for some projects,
+  // These tokens have been omitted from the calculation:
+  // Omitted tokens:
+  // Aurora (AURORA)
+  // Aurigami (PLY)
+  // Octopus Network (OCT)
+  // YouMinter (UMINT)
+
+  const [nearRainbowBridge] = await Promise.all([
+    getBridgeBalance("0x23Ddd3e3692d1861Ed57EDE224608875809e127f"),
+  ]);
+
+  return nearRainbowBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -417,6 +433,7 @@ const data = async () => {
     polygonResults,
     avalancheResults,
     solanaResults,
+    nearResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -424,6 +441,7 @@ const data = async () => {
     polygonBridgeBalance(),
     avalancheBridgeBalance(),
     solanaBridgeBalance(),
+    nearBridgeBalance(),
     feeds(),
   ]);
 
@@ -432,6 +450,7 @@ const data = async () => {
   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
   bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
+  bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;
