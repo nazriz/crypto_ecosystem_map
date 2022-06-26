@@ -455,6 +455,13 @@ const zksyncBridgeBalance = async () => {
   return zkSyncBridge;
 };
 
+const dYdXBridgeBalance = async () => {
+  const [dYdXBridge] = await Promise.all([
+    getBridgeBalance("0xD54f502e184B6B739d7D27a6410a67dc462D69c8"),
+  ]);
+
+  return dYdXBridge;
+};
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -486,6 +493,7 @@ const data = async () => {
     moonriverResults,
     roninResults,
     zkSyncResults,
+    dYdXResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -498,12 +506,14 @@ const data = async () => {
     moonriverBridgeBalance(),
     roninBridgeBalance(),
     zksyncBridgeBalance(),
+    dYdXBridgeBalance(),
     feeds(),
   ]);
 
   layer2Totals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   layer2Totals["optimism"] = calculateTotal(optimismResults, feedPrices);
   layer2Totals["zkSync"] = calculateTotal(zkSyncResults, feedPrices);
+  layer2Totals["dYdX"] = calculateTotal(dYdXResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
