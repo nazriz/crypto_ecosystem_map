@@ -371,14 +371,29 @@ const avalancheBridgeBalance = async () => {
   return avalancheBridge;
 };
 
-// const solanaBridgeBalance = async () => {
-//   const solanaSolletBridge = "0xeae57ce9cc1984F202e15e038B964bb8bdF7229a";
-//   const solanaWormHoleBridge = "0xf92cD566Ea4864356C5491c177A430C222d7e678";
-//   const solanaWormholeTokenBridge =
-//     "0x3ee18B2214AFF97000D974cf647E7C347E8fa585";
+const solanaBridgeBalance = async () => {
+  const [solanaSolletBridge, solanaWormHoleBridge, solanaWormholeTokenBridge] =
+    await Promise.all([
+      getBridgeBalance("0xeae57ce9cc1984F202e15e038B964bb8bdF7229a"),
+      getBridgeBalance("0xf92cD566Ea4864356C5491c177A430C222d7e678"),
+      getBridgeBalance("0x3ee18B2214AFF97000D974cf647E7C347E8fa585"),
+    ]);
 
-//     const [solanaSolletBridge,]
-// };
+  let bridgeTotal = {};
+  for (const [key1, value1] of Object.entries(solanaSolletBridge)) {
+    for (const [key2, value2] of Object.entries(solanaWormHoleBridge)) {
+      for (const [key3, value3] of Object.entries(solanaWormholeTokenBridge)) {
+        if (key1 === key2 && key1 === key3) {
+          bridgeTotal[key1] = value1 + value2 + value3;
+        } else {
+          continue;
+        }
+      }
+    }
+  }
+  return bridgeTotal;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -401,12 +416,14 @@ const data = async () => {
     optimismResults,
     polygonResults,
     avalancheResults,
+    solanaResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
     optimismBridgeBalance(),
     polygonBridgeBalance(),
     avalancheBridgeBalance(),
+    solanaBridgeBalance(),
     feeds(),
   ]);
 
@@ -414,6 +431,7 @@ const data = async () => {
   bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
   bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
+  bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;
