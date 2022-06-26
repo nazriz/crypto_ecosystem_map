@@ -426,6 +426,16 @@ const moonriverBridgeBalance = async () => {
   return moonRiverBridge;
 };
 
+// I believe the bridge is still halted/might change altogether
+// But including it as is, so that I don't forget about it in the future
+const roninBridgeBalance = async () => {
+  const [roninBridge] = await Promise.all([
+    getBridgeBalance("0x1A2a1c938CE3eC39b6D47113c7955bAa9DD454F2"),
+  ]);
+
+  return roninBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -452,6 +462,7 @@ const data = async () => {
     nearResults,
     fantomResults,
     moonriverResults,
+    roninResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -462,6 +473,7 @@ const data = async () => {
     nearBridgeBalance(),
     fantomBridgeBalance(),
     moonriverBridgeBalance(),
+    roninBridgeBalance(),
     feeds(),
   ]);
 
@@ -473,6 +485,7 @@ const data = async () => {
   bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
   bridgeTotals["fantom"] = calculateTotal(fantomResults, feedPrices);
   bridgeTotals["moonriver"] = calculateTotal(moonriverResults, feedPrices);
+  bridgeTotals["ronin"] = calculateTotal(roninResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;
