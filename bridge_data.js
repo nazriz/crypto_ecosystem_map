@@ -54,6 +54,7 @@ const {
   axs,
   wsteth,
   iceth,
+  lrc,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -108,6 +109,8 @@ const getBridgeBalance = async (bridgeAddress) => {
     iceBalance,
     axsBalance,
     wstethBalance,
+    icethBalance,
+    lrcBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -239,6 +242,9 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await iceth.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await lrc.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -275,7 +281,8 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["ICE"] = iceBalance;
   bridgeTotals["AXS"] = axsBalance;
   bridgeTotals["wstETH"] = wstethBalance;
-  bridgeAddress["icETH"] = iceBalance;
+  bridgeTotals["icETH"] = icethBalance;
+  bridgeTotals["LRC"] = lrcBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -462,6 +469,14 @@ const dYdXBridgeBalance = async () => {
 
   return dYdXBridge;
 };
+
+const loopringBridgeBalance = async () => {
+  const [loopringBridge] = await Promise.all([
+    getBridgeBalance("0x674bdf20A0F284D710BC40872100128e2d66Bd3f"),
+  ]);
+  return loopringBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -494,6 +509,7 @@ const data = async () => {
     roninResults,
     zkSyncResults,
     dYdXResults,
+    loopringResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -507,6 +523,7 @@ const data = async () => {
     roninBridgeBalance(),
     zksyncBridgeBalance(),
     dYdXBridgeBalance(),
+    loopringBridgeBalance(),
     feeds(),
   ]);
 
@@ -514,6 +531,7 @@ const data = async () => {
   layer2Totals["optimism"] = calculateTotal(optimismResults, feedPrices);
   layer2Totals["zkSync"] = calculateTotal(zkSyncResults, feedPrices);
   layer2Totals["dYdX"] = calculateTotal(dYdXResults, feedPrices);
+  layer2Totals["loopring"] = calculateTotal(loopringResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);

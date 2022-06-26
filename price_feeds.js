@@ -42,6 +42,7 @@ const snxTokenAddress = "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F";
 const wbtcTokenAddress = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599";
 const uniTokenAddress = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984";
 const linkTokenAddress = "0x514910771af9ca656af840dff83e8264ecf986ca";
+const lrcTokenAddress = "0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD";
 
 const priceFeeds = async () => {
   let priceFeeds = {};
@@ -61,6 +62,7 @@ const priceFeeds = async () => {
     yfiPrice,
     fxsPrice,
     sushiPrice,
+    lrcPrice,
     ghst,
     dg,
     xdg,
@@ -97,6 +99,7 @@ const priceFeeds = async () => {
     await feedingRegistry.latestRoundData(yfiTokenAddress, USD),
     await feedingRegistry.latestRoundData(fxsTokenAddress, USD),
     await feedingRegistry.latestRoundData(sushiTokenAddress, USD),
+    await feedingRegistry.latestRoundData(lrcTokenAddress, USD),
     //Centralised Feeds
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=aavegotchi&vs_currencies=usd`
@@ -236,6 +239,12 @@ const priceFeeds = async () => {
   priceFeeds["FXS"] = parseFloat(
     ethers.utils.formatUnits(
       ethers.BigNumber.from(fxsPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
+  priceFeeds["LRC"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(lrcPrice["answer"]["_hex"]).toNumber(),
       8
     )
   );

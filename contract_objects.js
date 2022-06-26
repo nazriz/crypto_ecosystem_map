@@ -309,6 +309,12 @@ const icethContract = () => {
   return icethContract;
 };
 
+const lrcContract = () => {
+  const lrcAddress = "0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD";
+  let lrcContract = new ethers.Contract(lrcAddress, erc20ABI, provider);
+  return lrcContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -433,6 +439,7 @@ const ice = iceContract();
 const axs = axsContract();
 const wsteth = wstethContract();
 const iceth = icethContract();
+const lrc = lrcContract();
 
 module.exports = {
   usdc,
@@ -478,6 +485,7 @@ module.exports = {
   axs,
   wsteth,
   iceth,
+  lrc,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,
