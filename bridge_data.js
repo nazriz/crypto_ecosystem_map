@@ -55,6 +55,8 @@ const {
   wsteth,
   iceth,
   lrc,
+  imx,
+  omi,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -111,6 +113,8 @@ const getBridgeBalance = async (bridgeAddress) => {
     wstethBalance,
     icethBalance,
     lrcBalance,
+    imxBalance,
+    omiBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -245,6 +249,12 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await lrc.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await imx.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await omi.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -283,6 +293,8 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["wstETH"] = wstethBalance;
   bridgeTotals["icETH"] = icethBalance;
   bridgeTotals["LRC"] = lrcBalance;
+  bridgeTotals["IMX"] = imxBalance;
+  bridgeTotals["OMI"] = omiBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -477,6 +489,14 @@ const loopringBridgeBalance = async () => {
   return loopringBridge;
 };
 
+const immutableXBridgeBalance = async () => {
+  const [immutableXBridge] = await Promise.all([
+    getBridgeBalance("0x5FDCCA53617f4d2b9134B29090C87D01058e27e9"),
+  ]);
+
+  return immutableXBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -510,6 +530,7 @@ const data = async () => {
     zkSyncResults,
     dYdXResults,
     loopringResults,
+    immutableXResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -524,6 +545,7 @@ const data = async () => {
     zksyncBridgeBalance(),
     dYdXBridgeBalance(),
     loopringBridgeBalance(),
+    immutableXBridgeBalance(),
     feeds(),
   ]);
 
@@ -532,6 +554,7 @@ const data = async () => {
   layer2Totals["zkSync"] = calculateTotal(zkSyncResults, feedPrices);
   layer2Totals["dYdX"] = calculateTotal(dYdXResults, feedPrices);
   layer2Totals["loopring"] = calculateTotal(loopringResults, feedPrices);
+  layer2Totals["immutableX"] = calculateTotal(immutableXResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
@@ -558,6 +581,14 @@ MISC BRIDGES:
 
 ZigZag: ZkSync > Polygon 0xbb256f544b8087596e8e6cdd7fe9726cc98cb400
 HOP Protocol
+synapseprotocol.com
+bridge poly network
+celer bridge
+boring dao
+relay chain
+
+
+
 
 
 */

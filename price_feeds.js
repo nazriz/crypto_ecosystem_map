@@ -43,6 +43,7 @@ const wbtcTokenAddress = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599";
 const uniTokenAddress = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984";
 const linkTokenAddress = "0x514910771af9ca656af840dff83e8264ecf986ca";
 const lrcTokenAddress = "0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD";
+const imxTokenAddress = "0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF";
 
 const priceFeeds = async () => {
   let priceFeeds = {};
@@ -63,6 +64,7 @@ const priceFeeds = async () => {
     fxsPrice,
     sushiPrice,
     lrcPrice,
+    imxPrice,
     ghst,
     dg,
     xdg,
@@ -80,6 +82,7 @@ const priceFeeds = async () => {
     woofy,
     axs,
     iceth,
+    omi,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
@@ -100,6 +103,7 @@ const priceFeeds = async () => {
     await feedingRegistry.latestRoundData(fxsTokenAddress, USD),
     await feedingRegistry.latestRoundData(sushiTokenAddress, USD),
     await feedingRegistry.latestRoundData(lrcTokenAddress, USD),
+    await feedingRegistry.latestRoundData(imxTokenAddress, USD),
     //Centralised Feeds
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=aavegotchi&vs_currencies=usd`
@@ -151,6 +155,9 @@ const priceFeeds = async () => {
     ),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=interest-compounding-eth-index&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=ecomi&vs_currencies=usd`
     ),
   ]);
 
@@ -248,6 +255,12 @@ const priceFeeds = async () => {
       8
     )
   );
+  priceFeeds["IMX"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(imxPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
 
   // Centralised Feeds
   //Aavegotchi
@@ -278,6 +291,7 @@ const priceFeeds = async () => {
   priceFeeds["icETH"] = parseFloat(
     iceth["data"]["interest-compounding-eth-index"]["usd"]
   );
+  priceFeeds["OMI"] = parseFloat(omi["data"]["ecomi"]["usd"]);
 
   // console.log(priceFeeds);
   return priceFeeds;
