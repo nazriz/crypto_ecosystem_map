@@ -436,6 +436,14 @@ const roninBridgeBalance = async () => {
   return roninBridge;
 };
 
+const zksyncBridgeBalance = async () => {
+  const [zkSyncBridge] = await Promise.all([
+    getBridgeBalance("0xaBEA9132b05A70803a4E85094fD0e1800777fBEF"),
+  ]);
+
+  return zkSyncBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -452,6 +460,9 @@ const calculateTotal = (inputBridge, priceFeed) => {
 // // Compiles all bridge data into an object, and returns that object
 const data = async () => {
   let bridgeTotals = {};
+  let layer2Totals = {};
+  let altL1Totals = {};
+  let sidechainTotals = {};
 
   let [
     arbitrumResults,
@@ -463,6 +474,7 @@ const data = async () => {
     fantomResults,
     moonriverResults,
     roninResults,
+    zkSyncResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -474,18 +486,26 @@ const data = async () => {
     fantomBridgeBalance(),
     moonriverBridgeBalance(),
     roninBridgeBalance(),
+    zksyncBridgeBalance(),
     feeds(),
   ]);
 
-  bridgeTotals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
-  bridgeTotals["optimism"] = calculateTotal(optimismResults, feedPrices);
-  bridgeTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
-  bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
-  bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
-  bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
-  bridgeTotals["fantom"] = calculateTotal(fantomResults, feedPrices);
-  bridgeTotals["moonriver"] = calculateTotal(moonriverResults, feedPrices);
-  bridgeTotals["ronin"] = calculateTotal(roninResults, feedPrices);
+  layer2Totals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
+  layer2Totals["optimism"] = calculateTotal(optimismResults, feedPrices);
+  layer2Totals["zkSync"] = calculateTotal(zkSyncResults, feedPrices);
+
+  sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
+  sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
+
+  altL1Totals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
+  altL1Totals["solana"] = calculateTotal(solanaResults, feedPrices);
+  altL1Totals["near"] = calculateTotal(nearResults, feedPrices);
+  altL1Totals["fantom"] = calculateTotal(fantomResults, feedPrices);
+  altL1Totals["moonriver"] = calculateTotal(moonriverResults, feedPrices);
+
+  bridgeTotals["layer2"] = layer2Totals;
+  bridgeTotals["sidechain"] = sidechainTotals;
+  bridgeTotals["alt_l1"] = altL1Totals;
 
   console.log(bridgeTotals);
   return bridgeTotals;
