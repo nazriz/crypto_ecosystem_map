@@ -410,6 +410,14 @@ const nearBridgeBalance = async () => {
   return nearRainbowBridge;
 };
 
+const fantomBridgeBalance = async () => {
+  const [fantomAnyswapBridge] = await Promise.all([
+    getBridgeBalance("0xC564EE9f21Ed8A2d8E7e76c085740d5e4c5FaFbE"),
+  ]);
+
+  return fantomAnyswapBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -434,6 +442,7 @@ const data = async () => {
     avalancheResults,
     solanaResults,
     nearResults,
+    fantomResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -442,6 +451,7 @@ const data = async () => {
     avalancheBridgeBalance(),
     solanaBridgeBalance(),
     nearBridgeBalance(),
+    fantomBridgeBalance(),
     feeds(),
   ]);
 
@@ -451,6 +461,7 @@ const data = async () => {
   bridgeTotals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
   bridgeTotals["solana"] = calculateTotal(solanaResults, feedPrices);
   bridgeTotals["near"] = calculateTotal(nearResults, feedPrices);
+  bridgeTotals["fantom"] = calculateTotal(fantomResults, feedPrices);
 
   console.log(bridgeTotals);
   return bridgeTotals;
