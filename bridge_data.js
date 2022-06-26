@@ -52,6 +52,8 @@ const {
   fxs,
   ice,
   axs,
+  wsteth,
+  iceth,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -105,6 +107,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     fxsBalance,
     iceBalance,
     axsBalance,
+    wstethBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -230,6 +233,12 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await axs.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await wsteth.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await iceth.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -265,6 +274,8 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["FXS"] = fxsBalance;
   bridgeTotals["ICE"] = iceBalance;
   bridgeTotals["AXS"] = axsBalance;
+  bridgeTotals["wstETH"] = wstethBalance;
+  bridgeAddress["icETH"] = iceBalance;
 
   bridgeTotals["USD"] =
     daiBalance +

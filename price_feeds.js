@@ -77,6 +77,7 @@ const priceFeeds = async () => {
     ice,
     woofy,
     axs,
+    iceth,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
@@ -145,11 +146,15 @@ const priceFeeds = async () => {
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=axie-infinity&vs_currencies=usd`
     ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=interest-compounding-eth-index&vs_currencies=usd`
+    ),
   ]);
 
   priceFeeds["ETH"] = ethPrice;
   priceFeeds["WETH"] = ethPrice;
   priceFeeds["rETH"] = ethPrice;
+  priceFeeds["wstETH"] = ethPrice;
   priceFeeds["WBTC"] = btcPrice;
   priceFeeds["HBTC"] = btcPrice;
 
@@ -261,6 +266,9 @@ const priceFeeds = async () => {
   priceFeeds["ICE"] = parseFloat(ice["data"]["ice-token"]["usd"]);
   priceFeeds["WOOFY"] = parseFloat(woofy["data"]["woofy"]["usd"]);
   priceFeeds["AXS"] = parseFloat(axs["data"]["axie-infinity"]["usd"]);
+  priceFeeds["icETH"] = parseFloat(
+    iceth["data"]["interest-compounding-eth-index"]["usd"]
+  );
 
   // console.log(priceFeeds);
   return priceFeeds;

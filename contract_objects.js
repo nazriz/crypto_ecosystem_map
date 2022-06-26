@@ -293,8 +293,20 @@ const iceContract = () => {
 
 const axsContract = () => {
   const axsAddress = "0xBB0E17EF65F82Ab018d8EDd776e8DD940327B28b";
-  const axsContract = new ethers.Contract(axsAddress, erc20ABI, provider);
+  let axsContract = new ethers.Contract(axsAddress, erc20ABI, provider);
   return axsContract;
+};
+
+const wstethContract = () => {
+  const wstethAddress = "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0";
+  let wstethContract = new ethers.Contract(wstethAddress, erc20ABI, provider);
+  return wstethContract;
+};
+
+const icethContract = () => {
+  const icethAddress = "0x7c07f7abe10ce8e33dc6c5ad68fe033085256a84";
+  let icethContract = new ethers.Contract(icethAddress, erc20ABI, provider);
+  return icethContract;
 };
 
 // Chainlink price feeds
@@ -419,6 +431,8 @@ const woofy = woofyContract();
 const fxs = fxsContract();
 const ice = iceContract();
 const axs = axsContract();
+const wsteth = wstethContract();
+const iceth = icethContract();
 
 module.exports = {
   usdc,
@@ -462,6 +476,8 @@ module.exports = {
   fxs,
   ice,
   axs,
+  wsteth,
+  iceth,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,
