@@ -478,10 +478,6 @@ module.exports = {
   xdvf,
   //pricefeeds
   ethUsdPriceContract,
-  // linkUsdPriceContract,
-  // uniUsdPriceContract,
   btcUsdPriceContract,
-  // snxUsdPriceContract,
-  // aaveUsdPriceContract,
   feedRegistry,
 };

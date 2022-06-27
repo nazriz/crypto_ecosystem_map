@@ -517,6 +517,13 @@ const deversiFiBridgeBalance = async () => {
   return deversiFiBridge;
 };
 
+const sorareBridgeBalance = async () => {
+  const [sorareBridge] = await Promise.all([
+    getBridgeBalance("0xF5C9F957705bea56a7e806943f98F7777B995826"),
+  ]);
+
+  return sorareBridge;
+};
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -552,6 +559,7 @@ const data = async () => {
     loopringResults,
     immutableXResults,
     deversiFiResults,
+    sorareResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -568,6 +576,7 @@ const data = async () => {
     loopringBridgeBalance(),
     immutableXBridgeBalance(),
     deversiFiBridgeBalance(),
+    sorareBridgeBalance(),
     feeds(),
   ]);
 
@@ -578,6 +587,7 @@ const data = async () => {
   layer2Totals["loopring"] = calculateTotal(loopringResults, feedPrices);
   layer2Totals["immutableX"] = calculateTotal(immutableXResults, feedPrices);
   layer2Totals["deversiFi"] = calculateTotal(deversiFiResults, feedPrices);
+  layer2Totals["sorare"] = calculateTotal(sorareResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
