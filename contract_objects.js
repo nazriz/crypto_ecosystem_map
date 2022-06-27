@@ -366,6 +366,12 @@ const omgContract = () => {
   return omgContract;
 };
 
+const zksContract = () => {
+  const zksAddress = "0xe4815ae53b124e7263f08dcdbbb757d41ed658c6";
+  let zksContract = new ethers.Contract(zksAddress, erc20ABI, provider);
+  return zksContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -457,6 +463,7 @@ const hez = hezContract();
 const metis = metisContract();
 const boba = bobaContract();
 const omg = omgContract();
+const zks = zksContract();
 
 module.exports = {
   usdc,
@@ -511,6 +518,7 @@ module.exports = {
   metis,
   boba,
   omg,
+  zks,
   //pricefeeds
   ethUsdPriceContract,
   btcUsdPriceContract,

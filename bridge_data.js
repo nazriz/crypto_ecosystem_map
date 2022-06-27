@@ -68,6 +68,7 @@ const {
   metis,
   boba,
   omg,
+  zks,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -132,6 +133,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     metisBalance,
     bobaBalance,
     omgBalance,
+    zksBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -290,6 +292,9 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await omg.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await zks.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -336,6 +341,7 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["METIS"] = metisBalance;
   bridgeTotals["BOBA"] = bobaBalance;
   bridgeTotals["OMG"] = omgBalance;
+  bridgeTotals["ZKS"] = zksBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -627,6 +633,8 @@ const zkSpaceBridgeBalance = async () => {
   const [zkSpaceBridge] = await Promise.all([
     getBridgeBalance("0x5CDAF83E077DBaC2692b5864CA18b61d67453Be8"),
   ]);
+
+  return zkSpaceBridge;
 };
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
@@ -670,6 +678,7 @@ const data = async () => {
     polygonHermezResults,
     metisAndromedaResults,
     bobaNetworkResults,
+    ZKSpaceResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -693,6 +702,7 @@ const data = async () => {
     polygonHermezBridgeBalance(),
     metisAndromedaBridgeBalance(),
     bobaNetworkBridgeBalance(),
+    zkSpaceBridgeBalance(),
     feeds(),
   ]);
 
@@ -718,6 +728,7 @@ const data = async () => {
   );
 
   layer2Totals["bobaNetwork"] = calculateTotal(bobaNetworkResults, feedPrices);
+  layer2Totals["ZKSpace"] = calculateTotal(ZKSpaceResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);

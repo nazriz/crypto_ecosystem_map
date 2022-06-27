@@ -86,6 +86,7 @@ const priceFeeds = async () => {
     hez,
     metis,
     boba,
+    zks,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
@@ -174,6 +175,9 @@ const priceFeeds = async () => {
     ),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=boba-network&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=zkspace&vs_currencies=usd`
     ),
   ]);
 
@@ -320,6 +324,7 @@ const priceFeeds = async () => {
   priceFeeds["HEZ"] = parseFloat(hez["data"]["hermez-network-token"]["usd"]);
   priceFeeds["METIS"] = parseFloat(metis["data"]["metis-token"]["usd"]);
   priceFeeds["BOBA"] = parseFloat(boba["data"]["boba-network"]["usd"]);
+  priceFeeds["ZKS"] = parseFloat(zks["data"]["zkspace"]["usd"]);
 
   // console.log(priceFeeds);
   return priceFeeds;
