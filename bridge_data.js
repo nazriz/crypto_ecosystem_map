@@ -557,6 +557,24 @@ const OMGBridgeBalance = async () => {
   return bridgeTotal;
 };
 
+const starknetBridgeBalance = async () => {
+  const [ethStarkgate, daiVault] = await Promise.all([
+    getBridgeBalance("0xae0Ee0A63A2cE6BaeEFFE56e7714FB4EFE48D419"),
+    getBridgeBalance("0x0437465dfb5B79726e35F08559B0cBea55bb585C"),
+  ]);
+  let bridgeTotal = {};
+  for (const [key1, value1] of Object.entries(ethStarkgate)) {
+    for (const [key2, value2] of Object.entries(daiVault)) {
+      if (key1 === key2) {
+        bridgeTotal[key1] = value1 + value2;
+      } else {
+        continue;
+      }
+    }
+  }
+  return bridgeTotal;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -595,6 +613,7 @@ const data = async () => {
     sorareResults,
     aztecResults,
     OMGResults,
+    starknetResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -614,6 +633,7 @@ const data = async () => {
     sorareBridgeBalance(),
     aztecBridgeBalance(),
     OMGBridgeBalance(),
+    starknetBridgeBalance(),
     feeds(),
   ]);
 
@@ -627,6 +647,7 @@ const data = async () => {
   layer2Totals["sorare"] = calculateTotal(sorareResults, feedPrices);
   layer2Totals["aztec"] = calculateTotal(aztecResults, feedPrices);
   layer2Totals["OMG"] = calculateTotal(OMGResults, feedPrices);
+  layer2Totals["starknet"] = calculateTotal(starknetResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);

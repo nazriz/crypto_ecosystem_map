@@ -4,11 +4,14 @@ const API_KEY = process.env.API_KEY;
 const priceFeedABI = require("./ABI/aggregatorV3InterfaceABI.json");
 const erc20ABI = require("./ABI/erc20_abi.json");
 
-const provider = new ethers.providers.AlchemyProvider(
-  (network = "homestead"),
-  process.env.ALCHEMY_API_KEY
-);
-
+// const provider = new ethers.providers.AlchemyProvider(
+//   (network = "homestead"),
+//   process.env.ALCHEMY_API_KEY
+// );
+const provider = new ethers.providers.InfuraProvider("homestead", {
+  projectId: process.env.INFURA_PROJECT_ID,
+  projectSecret: process.env.INFURA_PROJECT_SECRET,
+});
 // Contracts for general tokens
 // Stablecoins
 
