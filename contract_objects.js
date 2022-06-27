@@ -353,28 +353,7 @@ const ethUsdPriceContract = () => {
   return ethUsdPriceContract;
 };
 
-const linkUsdPriceContract = () => {
-  const usdLinkAddress = "0x2c1d072e956affc0d435cb7ac38ef18d24d9127c";
-  const usdLinkABI = require("./ABI/usdLinkPriceFeed_abi.json");
-  const linkUsdPriceContract = new ethers.Contract(
-    usdLinkAddress,
-    usdLinkABI,
-    provider
-  );
-  return linkUsdPriceContract;
-};
-
-const uniUsdPriceContract = () => {
-  const usdUniAddress = "0x553303d460EE0afB37EdFf9bE42922D8FF63220e";
-  const usdUniABI = require("./ABI/usdUniPriceFeed_abi.json");
-  const uniUsdPriceContract = new ethers.Contract(
-    usdUniAddress,
-    usdUniABI,
-    provider
-  );
-  return uniUsdPriceContract;
-};
-
+// BTC/USD
 const btcUsdPriceContract = () => {
   const usdBtcPriceAddress = "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c";
   const usdBtcABI = require("./ABI/usdBtcPriceFeed_abi.json");
@@ -384,27 +363,6 @@ const btcUsdPriceContract = () => {
     provider
   );
   return usdBtcPriceContract;
-};
-
-const snxUsdPriceContract = () => {
-  snxUsdPriceAdddress = "0xDC3EA94CD0AC27d9A86C180091e7f78C683d3699";
-  snxUsdABI = require("./ABI/usdSnxPriceFeed_abi.json");
-  const snxUsdPriceContract = new ethers.Contract(
-    snxUsdPriceAdddress,
-    snxUsdABI,
-    provider
-  );
-  return snxUsdPriceContract;
-};
-
-const aaveUsdPriceContract = () => {
-  aaveUsdPriceFeedAddress = "0x547a514d5e3769680ce22b2361c10ea13619e8a9";
-  const aaveUsdPriceFeedContract = new ethers.Contract(
-    aaveUsdPriceFeedAddress,
-    priceFeedABI,
-    provider
-  );
-  return aaveUsdPriceFeedContract;
 };
 
 // Feed Registry
@@ -520,10 +478,10 @@ module.exports = {
   xdvf,
   //pricefeeds
   ethUsdPriceContract,
-  linkUsdPriceContract,
-  uniUsdPriceContract,
+  // linkUsdPriceContract,
+  // uniUsdPriceContract,
   btcUsdPriceContract,
-  snxUsdPriceContract,
-  aaveUsdPriceContract,
+  // snxUsdPriceContract,
+  // aaveUsdPriceContract,
   feedRegistry,
 };

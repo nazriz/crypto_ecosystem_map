@@ -10,22 +10,22 @@ const provider = new ethers.providers.AlchemyProvider(
 
 const {
   ethUsdPriceContract,
-  uniUsdPriceContract,
+  // uniUsdPriceContract,
   btcUsdPriceContract,
-  snxUsdPriceContract,
-  linkUsdPriceContract,
-  aaveUsdPriceContract,
+  // snxUsdPriceContract,
+  // linkUsdPriceContract,
+  // aaveUsdPriceContract,
   feedRegistry,
 } = require("./contract_objects");
 
 const addresses = require("./contract_objects");
 
 const ethUsdPriceFeed = ethUsdPriceContract();
-const linkUsdPriceFeed = linkUsdPriceContract();
+// const linkUsdPriceFeed = linkUsdPriceContract();
 const btcUsdPriceFeed = btcUsdPriceContract();
-const uniUsdPriceFeed = uniUsdPriceContract();
-const snxUsdPriceFeed = snxUsdPriceContract();
-let aaveUsdPriceFeed = aaveUsdPriceContract();
+// const uniUsdPriceFeed = uniUsdPriceContract();
+// const snxUsdPriceFeed = snxUsdPriceContract();
+// let aaveUsdPriceFeed = aaveUsdPriceContract();
 let feedingRegistry = feedRegistry();
 const USD = "0x0000000000000000000000000000000000000348";
 const aaveTokenAddress = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9";
