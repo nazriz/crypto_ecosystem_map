@@ -41,6 +41,7 @@ const uniTokenAddress = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984";
 const linkTokenAddress = "0x514910771af9ca656af840dff83e8264ecf986ca";
 const lrcTokenAddress = "0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD";
 const imxTokenAddress = "0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF";
+const omgTokenAddress = "0xd26114cd6ee289accf82350c8d8487fedb8a0c07";
 
 const priceFeeds = async () => {
   let priceFeeds = {};
@@ -62,6 +63,7 @@ const priceFeeds = async () => {
     sushiPrice,
     lrcPrice,
     imxPrice,
+    omgPrice,
     ghst,
     dg,
     xdg,
@@ -83,6 +85,7 @@ const priceFeeds = async () => {
     dvf,
     hez,
     metis,
+    boba,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
@@ -104,6 +107,7 @@ const priceFeeds = async () => {
     await feedingRegistry.latestRoundData(sushiTokenAddress, USD),
     await feedingRegistry.latestRoundData(lrcTokenAddress, USD),
     await feedingRegistry.latestRoundData(imxTokenAddress, USD),
+    await feedingRegistry.latestRoundData(omgTokenAddress, USD),
     //Centralised Feeds
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=aavegotchi&vs_currencies=usd`
@@ -167,6 +171,9 @@ const priceFeeds = async () => {
     ),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=metis-token&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=boba-network&vs_currencies=usd`
     ),
   ]);
 
@@ -271,6 +278,13 @@ const priceFeeds = async () => {
     )
   );
 
+  priceFeeds["OMG"] = parseFloat(
+    ethers.utils.formatUnits(
+      ethers.BigNumber.from(omgPrice["answer"]["_hex"]).toNumber(),
+      8
+    )
+  );
+
   // Centralised Feeds
   //Aavegotchi
   priceFeeds["GHST"] = parseFloat(ghst["data"]["aavegotchi"]["usd"]);
@@ -305,6 +319,7 @@ const priceFeeds = async () => {
   priceFeeds["xDVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
   priceFeeds["HEZ"] = parseFloat(hez["data"]["hermez-network-token"]["usd"]);
   priceFeeds["METIS"] = parseFloat(metis["data"]["metis-token"]["usd"]);
+  priceFeeds["BOBA"] = parseFloat(boba["data"]["boba-network"]["usd"]);
 
   // console.log(priceFeeds);
   return priceFeeds;

@@ -354,6 +354,18 @@ const metisContract = () => {
   return metisContract;
 };
 
+const bobaContract = () => {
+  const bobaAddress = "0x42bbfa2e77757c645eeaad1655e0911a7553efbc";
+  let bobaContract = new ethers.Contract(bobaAddress, erc20ABI, provider);
+  return bobaContract;
+};
+
+const omgContract = () => {
+  const omgAddress = "0xd26114cd6ee289accf82350c8d8487fedb8a0c07";
+  let omgContract = new ethers.Contract(omgAddress, erc20ABI, provider);
+  return omgContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -443,6 +455,8 @@ const dvf = dvfContract();
 const xdvf = xdvfContract();
 const hez = hezContract();
 const metis = metisContract();
+const boba = bobaContract();
+const omg = omgContract();
 
 module.exports = {
   usdc,
@@ -495,6 +509,8 @@ module.exports = {
   xdvf,
   hez,
   metis,
+  boba,
+  omg,
   //pricefeeds
   ethUsdPriceContract,
   btcUsdPriceContract,

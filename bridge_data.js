@@ -66,6 +66,8 @@ const {
   xdvf,
   hez,
   metis,
+  boba,
+  omg,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -128,6 +130,8 @@ const getBridgeBalance = async (bridgeAddress) => {
     xdvfBalance,
     hezBalance,
     metisBalance,
+    bobaBalance,
+    omgBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -280,6 +284,12 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await metis.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await boba.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await omg.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -324,6 +334,8 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["xDVF"] = xdvfBalance;
   bridgeTotals["HEZ"] = hezBalance;
   bridgeTotals["METIS"] = metisBalance;
+  bridgeTotals["BOBA"] = bobaBalance;
+  bridgeTotals["OMG"] = omgBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -602,6 +614,20 @@ const metisAndromedaBridgeBalance = async () => {
 
   return metisAndromedaBridge;
 };
+
+const bobaNetworkBridgeBalance = async () => {
+  const [bobaNetworkBridge] = await Promise.all([
+    getBridgeBalance("0xdc1664458d2f0B6090bEa60A8793A4E66c2F1c00"),
+  ]);
+
+  return bobaNetworkBridge;
+};
+
+const zkSpaceBridgeBalance = async () => {
+  const [zkSpaceBridge] = await Promise.all([
+    getBridgeBalance("0x5CDAF83E077DBaC2692b5864CA18b61d67453Be8"),
+  ]);
+};
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -643,6 +669,7 @@ const data = async () => {
     starknetResults,
     polygonHermezResults,
     metisAndromedaResults,
+    bobaNetworkResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -665,6 +692,7 @@ const data = async () => {
     starknetBridgeBalance(),
     polygonHermezBridgeBalance(),
     metisAndromedaBridgeBalance(),
+    bobaNetworkBridgeBalance(),
     feeds(),
   ]);
 
@@ -688,6 +716,8 @@ const data = async () => {
     metisAndromedaResults,
     feedPrices
   );
+
+  layer2Totals["bobaNetwork"] = calculateTotal(bobaNetworkResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
