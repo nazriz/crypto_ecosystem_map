@@ -57,6 +57,8 @@ const {
   lrc,
   imx,
   omi,
+  dvf,
+  xdvf,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -115,6 +117,8 @@ const getBridgeBalance = async (bridgeAddress) => {
     lrcBalance,
     imxBalance,
     omiBalance,
+    dvfBalance,
+    xdvfBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -255,6 +259,12 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await omi.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await dvf.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await xdvf.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -295,6 +305,8 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["LRC"] = lrcBalance;
   bridgeTotals["IMX"] = imxBalance;
   bridgeTotals["OMI"] = omiBalance;
+  bridgeTotals["DVF"] = dvfBalance;
+  bridgeTotals["xDVF"] = xdvfBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -497,6 +509,14 @@ const immutableXBridgeBalance = async () => {
   return immutableXBridge;
 };
 
+const deversiFiBridgeBalance = async () => {
+  const [deversiFiBridge] = await Promise.all([
+    getBridgeBalance("0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b"),
+  ]);
+
+  return deversiFiBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -531,6 +551,7 @@ const data = async () => {
     dYdXResults,
     loopringResults,
     immutableXResults,
+    deversiFiResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -546,6 +567,7 @@ const data = async () => {
     dYdXBridgeBalance(),
     loopringBridgeBalance(),
     immutableXBridgeBalance(),
+    deversiFiBridgeBalance(),
     feeds(),
   ]);
 
@@ -555,6 +577,7 @@ const data = async () => {
   layer2Totals["dYdX"] = calculateTotal(dYdXResults, feedPrices);
   layer2Totals["loopring"] = calculateTotal(loopringResults, feedPrices);
   layer2Totals["immutableX"] = calculateTotal(immutableXResults, feedPrices);
+  layer2Totals["deversiFi"] = calculateTotal(deversiFiResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);

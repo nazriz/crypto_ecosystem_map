@@ -83,6 +83,7 @@ const priceFeeds = async () => {
     axs,
     iceth,
     omi,
+    dvf,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
@@ -158,6 +159,9 @@ const priceFeeds = async () => {
     ),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=ecomi&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=dvf&vs_currencies=usd`
     ),
   ]);
 
@@ -292,6 +296,8 @@ const priceFeeds = async () => {
     iceth["data"]["interest-compounding-eth-index"]["usd"]
   );
   priceFeeds["OMI"] = parseFloat(omi["data"]["ecomi"]["usd"]);
+  priceFeeds["DVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
+  priceFeeds["xDVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
 
   // console.log(priceFeeds);
   return priceFeeds;

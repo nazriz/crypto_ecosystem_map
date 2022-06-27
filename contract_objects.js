@@ -327,6 +327,18 @@ const omiContract = () => {
   return omiContract;
 };
 
+const dvfContract = () => {
+  const dvfAddress = "0xDDdddd4301A082e62E84e43F474f044423921918";
+  let dvfContract = new ethers.Contract(dvfAddress, erc20ABI, provider);
+  return dvfContract;
+};
+
+const xdvfContract = () => {
+  const xdvfAddress = "0xdDDd0e38d30dD29C683033fA0132f868597763AB";
+  let xdvfContract = new ethers.Contract(xdvfAddress, erc20ABI, provider);
+  return xdvfContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -454,6 +466,8 @@ const iceth = icethContract();
 const lrc = lrcContract();
 const imx = imxContract();
 const omi = omiContract();
+const dvf = dvfContract();
+const xdvf = xdvfContract();
 
 module.exports = {
   usdc,
@@ -502,6 +516,8 @@ module.exports = {
   lrc,
   imx,
   omi,
+  dvf,
+  xdvf,
   //pricefeeds
   ethUsdPriceContract,
   linkUsdPriceContract,
