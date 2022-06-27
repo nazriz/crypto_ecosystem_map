@@ -64,6 +64,7 @@ const {
   omi,
   dvf,
   xdvf,
+  hez,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -124,6 +125,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     omiBalance,
     dvfBalance,
     xdvfBalance,
+    hezBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -270,6 +272,9 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await xdvf.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await hez.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -312,6 +317,7 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["OMI"] = omiBalance;
   bridgeTotals["DVF"] = dvfBalance;
   bridgeTotals["xDVF"] = xdvfBalance;
+  bridgeTotals["HEZ"] = hezBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -575,6 +581,14 @@ const starknetBridgeBalance = async () => {
   return bridgeTotal;
 };
 
+const polygonHermezBridgeBalance = async () => {
+  const [polygonHermezBridge] = await Promise.all([
+    getBridgeBalance("0xA68D85dF56E733A06443306A095646317B5Fa633"),
+  ]);
+
+  return polygonHermezBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -614,6 +628,7 @@ const data = async () => {
     aztecResults,
     OMGResults,
     starknetResults,
+    polygonHermezResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -634,6 +649,7 @@ const data = async () => {
     aztecBridgeBalance(),
     OMGBridgeBalance(),
     starknetBridgeBalance(),
+    polygonHermezBridgeBalance(),
     feeds(),
   ]);
 
@@ -648,6 +664,10 @@ const data = async () => {
   layer2Totals["aztec"] = calculateTotal(aztecResults, feedPrices);
   layer2Totals["OMG"] = calculateTotal(OMGResults, feedPrices);
   layer2Totals["starknet"] = calculateTotal(starknetResults, feedPrices);
+  layer2Totals["polygonHermez"] = calculateTotal(
+    polygonHermezResults,
+    feedPrices
+  );
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);

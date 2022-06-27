@@ -81,6 +81,7 @@ const priceFeeds = async () => {
     iceth,
     omi,
     dvf,
+    hez,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
@@ -159,6 +160,9 @@ const priceFeeds = async () => {
     ),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=dvf&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=hermez-network-token&vs_currencies=usd`
     ),
   ]);
 
@@ -295,6 +299,7 @@ const priceFeeds = async () => {
   priceFeeds["OMI"] = parseFloat(omi["data"]["ecomi"]["usd"]);
   priceFeeds["DVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
   priceFeeds["xDVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
+  priceFeeds["HEZ"] = parseFloat(hez["data"]["hermez-network-token"]["usd"]);
 
   // console.log(priceFeeds);
   return priceFeeds;
