@@ -3,10 +3,15 @@ require("dotenv").config();
 const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
 
-const provider = new ethers.providers.AlchemyProvider(
-  (network = "homestead"),
-  process.env.ALCHEMY_API_KEY
-);
+// const provider = new ethers.providers.AlchemyProvider(
+//   (network = "homestead"),
+//   process.env.ALCHEMY_API_KEY
+// );
+
+const provider = new ethers.providers.InfuraProvider("homestead", {
+  projectId: process.env.INFURA_PROJECT_ID,
+  projectSecret: process.env.INFURA_PROJECT_SECRET,
+});
 
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
@@ -524,6 +529,15 @@ const sorareBridgeBalance = async () => {
 
   return sorareBridge;
 };
+
+const aztecBridgeBalance = async () => {
+  const [aztecBridge] = await Promise.all([
+    getBridgeBalance("0x737901bea3eeb88459df9ef1BE8fF3Ae1B42A2ba"),
+  ]);
+
+  return aztecBridge;
+};
+
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -560,6 +574,7 @@ const data = async () => {
     immutableXResults,
     deversiFiResults,
     sorareResults,
+    aztecResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -577,6 +592,7 @@ const data = async () => {
     immutableXBridgeBalance(),
     deversiFiBridgeBalance(),
     sorareBridgeBalance(),
+    aztecBridgeBalance(),
     feeds(),
   ]);
 
@@ -588,6 +604,7 @@ const data = async () => {
   layer2Totals["immutableX"] = calculateTotal(immutableXResults, feedPrices);
   layer2Totals["deversiFi"] = calculateTotal(deversiFiResults, feedPrices);
   layer2Totals["sorare"] = calculateTotal(sorareResults, feedPrices);
+  layer2Totals["aztec"] = calculateTotal(aztecResults, feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);

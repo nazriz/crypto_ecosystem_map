@@ -3,29 +3,26 @@ require("dotenv").config();
 const axios = require("axios");
 const API_KEY = process.env.API_KEY;
 
-const provider = new ethers.providers.AlchemyProvider(
-  (network = "homestead"),
-  process.env.ALCHEMY_API_KEY
-);
+// const provider = new ethers.providers.AlchemyProvider(
+//   (network = "homestead"),
+//   process.env.ALCHEMY_API_KEY
+// );
+
+const provider = new ethers.providers.InfuraProvider("homestead", {
+  projectId: process.env.INFURA_PROJECT_ID,
+  projectSecret: process.env.INFURA_PROJECT_SECRET,
+});
 
 const {
   ethUsdPriceContract,
-  // uniUsdPriceContract,
   btcUsdPriceContract,
-  // snxUsdPriceContract,
-  // linkUsdPriceContract,
-  // aaveUsdPriceContract,
   feedRegistry,
 } = require("./contract_objects");
 
 const addresses = require("./contract_objects");
 
 const ethUsdPriceFeed = ethUsdPriceContract();
-// const linkUsdPriceFeed = linkUsdPriceContract();
 const btcUsdPriceFeed = btcUsdPriceContract();
-// const uniUsdPriceFeed = uniUsdPriceContract();
-// const snxUsdPriceFeed = snxUsdPriceContract();
-// let aaveUsdPriceFeed = aaveUsdPriceContract();
 let feedingRegistry = feedRegistry();
 const USD = "0x0000000000000000000000000000000000000348";
 const aaveTokenAddress = "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9";
