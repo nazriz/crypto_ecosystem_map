@@ -65,6 +65,7 @@ const {
   dvf,
   xdvf,
   hez,
+  metis,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -126,6 +127,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     dvfBalance,
     xdvfBalance,
     hezBalance,
+    metisBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -275,6 +277,9 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await hez.balanceOf(bridgeAddress), 18)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await metis.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -318,6 +323,7 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["DVF"] = dvfBalance;
   bridgeTotals["xDVF"] = xdvfBalance;
   bridgeTotals["HEZ"] = hezBalance;
+  bridgeTotals["METIS"] = metisBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -589,6 +595,13 @@ const polygonHermezBridgeBalance = async () => {
   return polygonHermezBridge;
 };
 
+const metisAndromedaBridgeBalance = async () => {
+  const [metisAndromedaBridge] = await Promise.all([
+    getBridgeBalance("0x3980c9ed79d2c191A89E02Fa3529C60eD6e9c04b"),
+  ]);
+
+  return metisAndromedaBridge;
+};
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -629,6 +642,7 @@ const data = async () => {
     OMGResults,
     starknetResults,
     polygonHermezResults,
+    metisAndromedaResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -650,6 +664,7 @@ const data = async () => {
     OMGBridgeBalance(),
     starknetBridgeBalance(),
     polygonHermezBridgeBalance(),
+    metisAndromedaBridgeBalance(),
     feeds(),
   ]);
 
@@ -666,6 +681,11 @@ const data = async () => {
   layer2Totals["starknet"] = calculateTotal(starknetResults, feedPrices);
   layer2Totals["polygonHermez"] = calculateTotal(
     polygonHermezResults,
+    feedPrices
+  );
+
+  layer2Totals["metisAndromeda"] = calculateTotal(
+    metisAndromedaResults,
     feedPrices
   );
 
