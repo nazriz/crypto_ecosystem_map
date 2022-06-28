@@ -372,6 +372,27 @@ const zksContract = () => {
   return zksContract;
 };
 
+const cdaiContract = () => {
+  const cdaiAddress = "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643";
+  const cdaiABI = require("./ABI/cDAI_ABI.json");
+  let cdaiContract = new ethers.Contract(cdaiAddress, cdaiABI, provider);
+  return cdaiContract;
+};
+
+const ausdtContract = () => {
+  const ausdtAddress = "0x3Ed3B47Dd13EC9a98b44e6204A523E766B225811";
+  const ausdtABI = require("./ABI/aUSDT_abi.json");
+  let ausdtContract = new ethers.Contract(ausdtAddress, ausdtABI, provider);
+  return ausdtContract;
+};
+
+const ausdcContract = () => {
+  const ausdcAddress = "0xBcca60bB61934080951369a648Fb03DF4F96263C";
+  const ausdcABI = require("./ABI/aUSDC_abi.json");
+  let ausdcContract = new ethers.Contract(ausdcAddress, ausdcABI, provider);
+  return ausdcContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -409,6 +430,17 @@ const feedRegistry = () => {
   );
 
   return feedRegistryContract;
+};
+
+const orbitBridgeContract = () => {
+  let orbitBridgeAddress = "0x1Bf68A9d1EaEe7826b3593C20a0ca93293cb489a";
+  const orbitBridgeABI = require("./ABI/orbit_bridge_abi.json");
+  let orbitBridgeContract = new ethers.Contract(
+    orbitBridgeAddress,
+    orbitBridgeABI,
+    provider
+  );
+  return orbitBridgeContract;
 };
 
 const usdc = usdcContract();
@@ -464,6 +496,9 @@ const metis = metisContract();
 const boba = bobaContract();
 const omg = omgContract();
 const zks = zksContract();
+const cdai = cdaiContract();
+const ausdt = ausdtContract();
+const ausdc = ausdcContract();
 
 module.exports = {
   usdc,
@@ -519,8 +554,11 @@ module.exports = {
   boba,
   omg,
   zks,
+  cdai,
   //pricefeeds
   ethUsdPriceContract,
   btcUsdPriceContract,
   feedRegistry,
+  //Bridges
+  orbitBridgeContract,
 };

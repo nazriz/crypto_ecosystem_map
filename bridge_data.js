@@ -69,6 +69,7 @@ const {
   boba,
   omg,
   zks,
+  cdai,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -134,6 +135,7 @@ const getBridgeBalance = async (bridgeAddress) => {
     bobaBalance,
     omgBalance,
     zksBalance,
+    cdaiBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -294,6 +296,9 @@ const getBridgeBalance = async (bridgeAddress) => {
     ),
     parseFloat(
       ethers.utils.formatUnits(await zks.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await cdai.balanceOf(bridgeAddress), 8)
     ),
   ]);
 
@@ -636,6 +641,28 @@ const zkSpaceBridgeBalance = async () => {
 
   return zkSpaceBridge;
 };
+
+const gnosisChainBridgeBalance = async () => {
+  const [xDaiBridge, OmniBridge, OmniBridgeStablecoins] = await Promise.all([
+    getBridgeBalance("0x4aa42145Aa6Ebf72e164C9bBC74fbD3788045016"),
+    getBridgeBalance("0x88ad09518695c6c3712AC10a214bE5109a655671"),
+    getBridgeBalance("0x87D48c565D0D85770406D248efd7dc3cbd41e729"),
+  ]);
+
+  let bridgeTotal = {};
+  for (const [key1, value1] of Object.entries(xDaiBridge)) {
+    for (const [key2, value2] of Object.entries(OmniBridge)) {
+      for (const [key3, value3] of Object.entries(OmniBridgeStablecoins)) {
+        if (key1 === key2 && key1 === key3) {
+          bridgeTotal[key1] = value1 + value2 + value3;
+        } else {
+          continue;
+        }
+      }
+    }
+  }
+  return bridgeTotal;
+};
 // Function for Calculating the USD total of a respective bridge
 // Using the priceFeed definitions in /price_feeds.js
 const calculateTotal = (inputBridge, priceFeed) => {
@@ -679,6 +706,7 @@ const data = async () => {
     metisAndromedaResults,
     bobaNetworkResults,
     ZKSpaceResults,
+    gnosisChainResults,
     feedPrices,
   ] = await Promise.all([
     arbitrumBridgeBalance(),
@@ -703,6 +731,7 @@ const data = async () => {
     metisAndromedaBridgeBalance(),
     bobaNetworkBridgeBalance(),
     zkSpaceBridgeBalance(),
+    gnosisChainBridgeBalance(),
     feeds(),
   ]);
 
@@ -732,6 +761,10 @@ const data = async () => {
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
+  sidechainTotals["gnosisChain"] = calculateTotal(
+    gnosisChainResults,
+    feedPrices
+  );
 
   altL1Totals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
   altL1Totals["solana"] = calculateTotal(solanaResults, feedPrices);
@@ -743,7 +776,11 @@ const data = async () => {
   bridgeTotals["sidechain"] = sidechainTotals;
   bridgeTotals["alt_l1"] = altL1Totals;
 
-  console.log(bridgeTotals);
+  let ecosystem = {};
+
+  ecosystem["Ethereum"] = bridgeTotals;
+
+  console.log(ecosystem);
   return bridgeTotals;
 };
 
@@ -761,7 +798,12 @@ celer bridge
 boring dao
 relay chain
 
+Aurora Mainnet?
 
+For BNB, Celer cBridge and Anyswap? But extremely difficult
+to get data
+
+Cronos
 
 
 

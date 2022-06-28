@@ -4,3 +4,4 @@ package-lock.json
 package.json
 workspace.code-workspace
 .prettierignore
+historical_data.js
