@@ -1,5 +1,6 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
+const fs = require("fs");
 const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
 
@@ -817,10 +818,18 @@ const data = async () => {
 
   ecosystem["Ethereum"] = bridgeTotals;
 
+  //Write data to file
+  fs.writeFile("data.json", JSON.stringify(ecosystem), (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+
   console.log(ecosystem);
-  return bridgeTotals;
+  return ecosystem;
 };
 
+console.log("Calculating data... (this can take about 30 secs)");
 data();
 
 /*
@@ -834,6 +843,10 @@ bridge poly network
 celer bridge
 boring dao
 relay chain
+
+wanchain for xrp bridge
+
+skale?? I don't think they have anything
 
 Aurora Mainnet?
 
