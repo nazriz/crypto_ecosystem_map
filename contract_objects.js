@@ -393,6 +393,30 @@ const ausdcContract = () => {
   return ausdcContract;
 };
 
+const hoprContract = () => {
+  const hoprAddress = "0xf5581dfefd8fb0e4aec526be659cfab1f8c781da";
+  let hoprContract = new ethers.Contract(hoprAddress, erc20ABI, provider);
+  return hoprContract;
+};
+
+const dxdContract = () => {
+  const dxdAddress = "0xa1d65e8fb6e87b60feccbc582f7f97804b725521";
+  let dxdContract = new ethers.Contract(dxdAddress, erc20ABI, provider);
+  return dxdContract;
+};
+
+const gnoContract = () => {
+  const gnoAddress = "0x6810e776880c02933d47db1b9fc05908e5386b96";
+  let gnoContract = new ethers.Contract(gnoAddress, erc20ABI, provider);
+  return gnoContract;
+};
+
+const nodeContract = () => {
+  const nodeAddress = "0xda007777d86ac6d989cc9f79a73261b3fc5e0da0";
+  let nodeContract = new ethers.Contract(nodeAddress, erc20ABI, provider);
+  return nodeContract;
+};
+
 // Chainlink price feeds
 
 // USD/ETH Feed
@@ -499,6 +523,10 @@ const zks = zksContract();
 const cdai = cdaiContract();
 const ausdt = ausdtContract();
 const ausdc = ausdcContract();
+const hopr = hoprContract();
+const dxd = dxdContract();
+const gno = gnoContract();
+const node = nodeContract();
 
 module.exports = {
   usdc,
@@ -555,6 +583,12 @@ module.exports = {
   omg,
   zks,
   cdai,
+  ausdt,
+  ausdc,
+  hopr,
+  dxd,
+  gno,
+  node,
   //pricefeeds
   ethUsdPriceContract,
   btcUsdPriceContract,

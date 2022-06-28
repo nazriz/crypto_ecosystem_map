@@ -70,6 +70,12 @@ const {
   omg,
   zks,
   cdai,
+  ausdt,
+  ausdc,
+  hopr,
+  dxd,
+  gno,
+  node,
 } = require("./contract_objects");
 const { priceFeeds } = require("./price_feeds");
 
@@ -136,6 +142,12 @@ const getBridgeBalance = async (bridgeAddress) => {
     omgBalance,
     zksBalance,
     cdaiBalance,
+    ausdtBalance,
+    ausdcBalance,
+    hoprBalance,
+    dxdBalance,
+    gnoBalance,
+    nodeBalance,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await usdc.balanceOf(bridgeAddress), 6)
@@ -300,6 +312,24 @@ const getBridgeBalance = async (bridgeAddress) => {
     parseFloat(
       ethers.utils.formatUnits(await cdai.balanceOf(bridgeAddress), 8)
     ),
+    parseFloat(
+      ethers.utils.formatUnits(await ausdt.balanceOf(bridgeAddress), 6)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await ausdc.balanceOf(bridgeAddress), 6)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await hopr.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await dxd.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await gno.balanceOf(bridgeAddress), 18)
+    ),
+    parseFloat(
+      ethers.utils.formatUnits(await node.balanceOf(bridgeAddress), 18)
+    ),
   ]);
 
   bridgeTotals["ETH"] = ethBalance;
@@ -347,6 +377,11 @@ const getBridgeBalance = async (bridgeAddress) => {
   bridgeTotals["BOBA"] = bobaBalance;
   bridgeTotals["OMG"] = omgBalance;
   bridgeTotals["ZKS"] = zksBalance;
+  bridgeTotals["cDAI"] = cdaiBalance;
+  bridgeTotals["HOPR"] = hoprBalance;
+  bridgeTotals["DXD"] = dxdBalance;
+  bridgeTotals["GNO"] = gnoBalance;
+  bridgeTotals["NODE"] = nodeBalance;
 
   bridgeTotals["USD"] =
     daiBalance +
@@ -357,7 +392,9 @@ const getBridgeBalance = async (bridgeAddress) => {
     lusdBalance +
     husdBalance +
     busdBalance +
-    dolaBalance;
+    dolaBalance +
+    ausdcBalance +
+    ausdtBalance;
 
   // console.log(
   //   daiBalance,

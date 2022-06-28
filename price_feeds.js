@@ -87,6 +87,11 @@ const priceFeeds = async () => {
     metis,
     boba,
     zks,
+    cdai,
+    hopr,
+    dxd,
+    gno,
+    node,
   ] = await Promise.all([
     parseFloat(
       ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
@@ -178,6 +183,21 @@ const priceFeeds = async () => {
     ),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=zkspace&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=cdai&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=hopr&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=dxdao&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=gnosis&vs_currencies=usd`
+    ),
+    await axios.get(
+      `https://api.coingecko.com/api/v3/simple/price?ids=dappnode&vs_currencies=usd`
     ),
   ]);
 
@@ -325,6 +345,11 @@ const priceFeeds = async () => {
   priceFeeds["METIS"] = parseFloat(metis["data"]["metis-token"]["usd"]);
   priceFeeds["BOBA"] = parseFloat(boba["data"]["boba-network"]["usd"]);
   priceFeeds["ZKS"] = parseFloat(zks["data"]["zkspace"]["usd"]);
+  priceFeeds["cDAI"] = parseFloat(cdai["data"]["cdai"]["usd"]);
+  priceFeeds["HOPR"] = parseFloat(hopr["data"]["hopr"]["usd"]);
+  priceFeeds["DXD"] = parseFloat(dxd["data"]["dxdao"]["usd"]);
+  priceFeeds["GNO"] = parseFloat(gno["data"]["gnosis"]["usd"]);
+  priceFeeds["NODE"] = parseFloat(node["data"]["dappnode"]["usd"]);
 
   // console.log(priceFeeds);
   return priceFeeds;
