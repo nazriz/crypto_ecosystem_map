@@ -11,6 +11,37 @@ const provider = new ethers.providers.InfuraProvider("homestead", {
 
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
+const defiLlamaChainTVLData = async () => {
+  const [chainData] = await Promise.all([
+    await axios.get(
+      `https://api.llama.fi/chains
+        `
+    ),
+  ]);
+
+  let newChainData = chainData["data"];
+
+  const getChainTVL = (chainName, data) => {
+    for (let i = 0; i < data.length; i++) {
+      let tempData = data[i];
+      if (tempData["name"] === chainName) {
+        return tempData["tvl"];
+      } else {
+        continue;
+      }
+    }
+  };
+
+  let chainTVL = {};
+
+  chainTVL["Ethereum"] = getChainTVL("ETH", newChainData);
+  chainTVL["OptimismTVL"] = getChainTVL("Optimism", newChainData);
+
+  console.log(optimismTVL);
+
+  return chainData;
+};
+
 const bitcoinMcapTvl = async () => {
   const [bitcoinData, lightningNetworkData, omniAssets] = await Promise.all([
     await axios.get(
@@ -36,4 +67,5 @@ const bitcoinMcapTvl = async () => {
   console.log(omniUSDT);
 };
 
-bitcoinMcapTvl();
+// bitcoinMcapTvl();
+// defiLlamaChainTVLData();
