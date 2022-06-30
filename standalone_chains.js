@@ -76,17 +76,32 @@ const bitcoinMcapTvl = async () => {
 };
 
 const polygonTotalTokenValue = async () => {
-  const polygonscanTokenTotal = async (contractAddress) => {
-    let tokenData = await axios.get(
-      `https://api.polygonscan.com/api?module=stats&action=tokensupply&contractaddress=${contractAddress}&apikey=${POLYGONSCAN_API_KEY}`
+  // Creates contract object from address and returns
+  // supply and ticker in object
+  // For EVM forks, i.e. polygon, avalanche, etc. this calculation can somewhat
+  // accurately calculate circulating supply of tokens and produce a circulating
+  // mcap result. This is because the token contracts on these chains are not the
+  // original contracts from Etherum. There will be some outliers, but this should
+  // not drastically impact calculation too much.
+  const tokenTotalSupply = async (contractAddress, decimal) => {
+    let tokenContract = new ethers.Contract(
+      contractAddress,
+      erc20ABI,
+      polygonProvider
     );
 
-    return tokenData["data"]["result"];
+    let [tokenSupply, tokenTicker] = await Promise.all([
+      parseFloat(
+        ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)
+      ),
+      tokenContract.symbol(),
+    ]);
+
+    let obj = { [tokenTicker]: tokenSupply };
+    return obj;
   };
 
-  let polygonTokenTotals = {};
-
-  const [
+  const tokens = ([
     usdt,
     amusdc,
     amusdt,
@@ -119,306 +134,42 @@ const polygonTotalTokenValue = async () => {
     usdc,
     weth,
   ] = await Promise.all([
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"
-        ),
-        6
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x1a13F4Ca1d028320A707D99520AbFefca3998b7F"
-        ),
-        6
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x60D55F02A771d515e077c9C2403a1ef324885CeC"
-        ),
-        6
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x28424507fefb6f7f8E9D3860F56504E4e5f5f390"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x8A953CfE442c5E8855cc6c61b1293FA648BAE472"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xD6DF932A45C0f255f85145f286eA0b292B21C90B"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x27F8D03b3a2196956ED754baDc28D73be8830A6e"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x1d2a0E5EC8E5bBDCA5CB219e649B565d8e5c3360"
-        ),
-        18
-      )
-    ),
+    await tokenTotalSupply("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6),
+    await tokenTotalSupply("0x1a13F4Ca1d028320A707D99520AbFefca3998b7F", 6),
+    await tokenTotalSupply("0x60D55F02A771d515e077c9C2403a1ef324885CeC", 6),
+    await tokenTotalSupply("0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", 18),
+    await tokenTotalSupply("0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", 18),
+    await tokenTotalSupply("0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4", 18),
+    await tokenTotalSupply("0x28424507fefb6f7f8E9D3860F56504E4e5f5f390", 18),
+    await tokenTotalSupply("0x8A953CfE442c5E8855cc6c61b1293FA648BAE472", 18),
+    await tokenTotalSupply("0xD6DF932A45C0f255f85145f286eA0b292B21C90B", 18),
+    await tokenTotalSupply("0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7", 18),
+    await tokenTotalSupply("0x27F8D03b3a2196956ED754baDc28D73be8830A6e", 18),
+    await tokenTotalSupply("0x1d2a0E5EC8E5bBDCA5CB219e649B565d8e5c3360", 18),
+    await tokenTotalSupply("0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", 8),
+    await tokenTotalSupply("0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683", 18),
+    await tokenTotalSupply("0xf28164A485B0B2C90639E47b0f377b4a438a16B1", 18),
+    await tokenTotalSupply("0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a", 18),
+    await tokenTotalSupply("0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", 18),
+    await tokenTotalSupply("0xC004e2318722EA2b15499D6375905d75Ee5390B8", 8),
+    await tokenTotalSupply("0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4", 18),
+    await tokenTotalSupply("0xEFeE2de82343BE622Dcb4E545f75a3b9f50c272D", 18),
+    await tokenTotalSupply("0x172370d5Cd63279eFa6d502DAB29171933a610AF", 18),
+    await tokenTotalSupply("0xcf32822ff397Ef82425153a9dcb726E5fF61DCA7", 18),
+    await tokenTotalSupply("0xb33EaAd8d922B1083446DC23f610c2567fB5180f", 18),
+    await tokenTotalSupply("0xd6A5aB46ead26f49b03bBB1F9EB1Ad5c1767974a", 18),
+    await tokenTotalSupply("0xdF7837DE1F2Fa4631D716CF2502f8b230F1dcc32", 2),
+    await tokenTotalSupply("0x580A84C73811E1839F75d86d75d88cCa0c241fF4", 18),
+    await tokenTotalSupply("0x9a71012B13CA4d3D0Cdc72A177DF3ef03b0E76A3", 18),
+    await tokenTotalSupply("0xC168E40227E4ebD8C1caE80F7a55a4F0e6D66C97", 18),
+    await tokenTotalSupply("0xa3Fa99A148fA48D14Ed51d610c367C61876997F1", 18),
+    await tokenTotalSupply("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", 6),
+    await tokenTotalSupply("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", 18),
+  ]));
 
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"
-        ),
-        8
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xf28164A485B0B2C90639E47b0f377b4a438a16B1"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xC004e2318722EA2b15499D6375905d75Ee5390B8"
-        ),
-        8
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xEFeE2de82343BE622Dcb4E545f75a3b9f50c272D"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x172370d5Cd63279eFa6d502DAB29171933a610AF"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xcf32822ff397Ef82425153a9dcb726E5fF61DCA7"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xb33EaAd8d922B1083446DC23f610c2567fB5180f"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xd6A5aB46ead26f49b03bBB1F9EB1Ad5c1767974a"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xdF7837DE1F2Fa4631D716CF2502f8b230F1dcc32"
-        ),
-        2
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x580A84C73811E1839F75d86d75d88cCa0c241fF4"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x9a71012B13CA4d3D0Cdc72A177DF3ef03b0E76A3"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xC168E40227E4ebD8C1caE80F7a55a4F0e6D66C97"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0xa3Fa99A148fA48D14Ed51d610c367C61876997F1"
-        ),
-        18
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"
-        ),
-        6
-      )
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(
-        await polygonscanTokenTotal(
-          "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
-        ),
-        18
-      )
-    ),
-  ]);
-
-  polygonTokenTotals["USDT"] = usdt;
-  polygonTokenTotals["amUSDC"] = amusdc;
-  polygonTokenTotals["amUSDT"] = amusdt;
-  polygonTokenTotals["DAI"] = dai;
-  polygonTokenTotals["WMATIC"] = wmatic;
-  polygonTokenTotals["amWMATIC"] = amwmatic;
-  polygonTokenTotals["amWETH"] = amweth;
-  polygonTokenTotals["POLYDOGE"] = polyDoge;
-  polygonTokenTotals["AAVE"] = aave;
-  polygonTokenTotals["GHST"] = ghst;
-  polygonTokenTotals["amDAI"] = amdai;
-  polygonTokenTotals["amAAVE"] = amaave;
-  polygonTokenTotals["WBTC"] = wbtc;
-  polygonTokenTotals["SAND"] = sand;
-  polygonTokenTotals["DQUICK"] = dquick;
-  polygonTokenTotals["SUSHI"] = sushi;
-  polygonTokenTotals["LINK"] = link;
-  polygonTokenTotals["KOM"] = kom;
-  polygonTokenTotals["MANA"] = mana;
-  polygonTokenTotals["TRY"] = trytoken;
-  polygonTokenTotals["CRV"] = crv;
-  polygonTokenTotals["GMEE"] = gmee;
-  polygonTokenTotals["UNI"] = uni;
-  polygonTokenTotals["EMON"] = emon;
-  polygonTokenTotals["TEL"] = tel;
-  polygonTokenTotals["QI"] = qi;
-  polygonTokenTotals["BAL"] = bal;
-  polygonTokenTotals["DFYN"] = dfyn;
-  polygonTokenTotals["MIMATIC"] = mimatic;
-  polygonTokenTotals["USDC"] = usdc;
-  polygonTokenTotals["WETH"] = weth;
-
-  console.log(await polygonTokenTotals);
+  const allTokens = Object.assign({}, ...tokens);
+  console.log(allTokens);
+  return allTokens;
 };
 
-const totalSupplyTest = async (contractAddress) => {
-  let tokenContract = new ethers.Contract(
-    contractAddress,
-    erc20ABI,
-    polygonProvider
-  );
-
-  let temp = parseFloat(
-    ethers.utils.formatUnits(await tokenContract.totalSupply(), 9)
-  );
-  console.log(temp);
-};
-
-totalSupplyTest("0x4e78011Ce80ee02d2c3e649Fb657E45898257815");
-// polygonTotalTokenValue();
-// bitcoinMcapTvl();
-// defiLlamaChainTVLData();
+polygonTotalTokenValue();
