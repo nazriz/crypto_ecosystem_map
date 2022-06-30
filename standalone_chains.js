@@ -90,14 +90,33 @@ const polygonTotalTokenValue = async () => {
       polygonProvider
     );
 
-    let [tokenSupply, tokenTicker] = await Promise.all([
+    let [tokenSupply, tokenTicker, coingeckoData] = await Promise.all([
       parseFloat(
         ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)
       ),
       tokenContract.symbol(),
+      await axios.get(
+        `https://api.coingecko.com/api/v3/simple/token_price/polygon-pos?contract_addresses=${contractAddress}&vs_currencies=usd`
+      ),
     ]);
 
-    let obj = { [tokenTicker]: tokenSupply };
+    let data = await coingeckoData["data"];
+
+    let obj = {};
+    let emptyObj = {};
+
+    if (Object.keys(data).length !== 0) {
+      let gecko = Object.values(data);
+      let geckoPrice = gecko[0]["usd"];
+      let tokenValue = tokenSupply * geckoPrice;
+      tokenValue = `$${tokenValue}`;
+      obj = { [tokenTicker]: tokenValue };
+    } else {
+      obj = { [tokenTicker]: tokenSupply };
+    }
+
+    console.log(obj);
+
     return obj;
   };
 
@@ -182,7 +201,7 @@ const polygonTotalTokenValue = async () => {
     snp,
     owl,
     lfi,
-    cxo,
+    // cxo,
     fin,
     usds,
     gbyte,
@@ -272,7 +291,7 @@ const polygonTotalTokenValue = async () => {
     await tokenTotalSupply("0x6911F552842236bd9E8ea8DDBB3fb414e2C5FA9d", 18),
     await tokenTotalSupply("0x9085B4d52c3e0B8B6F9AF6213E85A433c7D76f19", 18),
     await tokenTotalSupply("0xCa7BF3C514d412AC12D10Eff302301A81153F557", 18),
-    await tokenTotalSupply("0xf2ae0038696774d65E67892c9D301C5f2CbbDa58", 18),
+    // await tokenTotalSupply("0xf2ae0038696774d65E67892c9D301C5f2CbbDa58", 18),
     await tokenTotalSupply("0x576c990A8a3E7217122e9973b2230A3be9678E94", 18),
     await tokenTotalSupply("0x2f1b1662A895C6Ba01a99DcAf56778E7d77e5609", 18),
     await tokenTotalSupply("0xAB5F7a0e20b0d056Aed4Aa4528C78da45BE7308b", 18),
@@ -288,4 +307,64 @@ const polygonTotalTokenValue = async () => {
   return allTokens;
 };
 
-polygonTotalTokenValue();
+// polygonTokenPriceFeed = async () => {
+//   getCoingeckoPrice = async (contractAddress) => {
+
+//     // let data = await axios.get(
+//     //   `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`
+//     // );
+
+//     // priceFeeds["xDVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
+//   };
+
+// };
+
+// polygonTotalTokenValue();
+
+let tickerAddressObj = {};
+
+const tokenTotalSupply = async (contractAddress, decimal) => {
+  let tokenContract = new ethers.Contract(
+    contractAddress,
+    erc20ABI,
+    polygonProvider
+  );
+
+  let [tokenSupply, tokenTicker] = await Promise.all([
+    parseFloat(
+      ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)
+    ),
+    tokenContract.symbol(),
+  ]);
+
+  tickerAddressObj[[tokenTicker]] = contractAddress;
+  //   console.log(tickerAddressObj);
+
+  let array = [];
+
+  array = [tokenTicker, tokenSupply, contractAddress];
+
+  return array;
+};
+
+let temp = tokenTotalSupply("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6);
+
+test = async () => {
+  //   let temp = await tickerAddressObj;
+  let test = await temp;
+
+  console.log(await test[0]);
+  let testObj = {};
+  testObj[test[0]] = test[2];
+  console.log(testObj);
+};
+
+test();
+
+// let testArray = ["ETH", 1000, "0x00000"];
+
+// let newObj = {};
+
+// newObj[testArray[0]] = testArray[2];
+
+// console.log(newObj);
