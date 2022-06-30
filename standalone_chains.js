@@ -90,36 +90,22 @@ const polygonTotalTokenValue = async () => {
       polygonProvider
     );
 
-    let [tokenSupply, tokenTicker, coingeckoData] = await Promise.all([
+    let [tokenSupply, tokenTicker] = await Promise.all([
       parseFloat(
         ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)
       ),
       tokenContract.symbol(),
-      await axios.get(
-        `https://api.coingecko.com/api/v3/simple/token_price/polygon-pos?contract_addresses=${contractAddress}&vs_currencies=usd`
-      ),
     ]);
 
-    let data = await coingeckoData["data"];
+    tickerAddressObj[[tokenTicker]] = contractAddress;
+    //   console.log(tickerAddressObj);
 
-    let obj = {};
-    let emptyObj = {};
+    let array = [];
 
-    if (Object.keys(data).length !== 0) {
-      let gecko = Object.values(data);
-      let geckoPrice = gecko[0]["usd"];
-      let tokenValue = tokenSupply * geckoPrice;
-      tokenValue = `$${tokenValue}`;
-      obj = { [tokenTicker]: tokenValue };
-    } else {
-      obj = { [tokenTicker]: tokenSupply };
-    }
+    array = [tokenTicker, tokenSupply, contractAddress];
 
-    console.log(obj);
-
-    return obj;
+    return array;
   };
-
   const tokens = ([
     usdt,
     amusdc,
@@ -201,7 +187,7 @@ const polygonTotalTokenValue = async () => {
     snp,
     owl,
     lfi,
-    // cxo,
+    cxo,
     fin,
     usds,
     gbyte,
@@ -291,7 +277,7 @@ const polygonTotalTokenValue = async () => {
     await tokenTotalSupply("0x6911F552842236bd9E8ea8DDBB3fb414e2C5FA9d", 18),
     await tokenTotalSupply("0x9085B4d52c3e0B8B6F9AF6213E85A433c7D76f19", 18),
     await tokenTotalSupply("0xCa7BF3C514d412AC12D10Eff302301A81153F557", 18),
-    // await tokenTotalSupply("0xf2ae0038696774d65E67892c9D301C5f2CbbDa58", 18),
+    await tokenTotalSupply("0xf2ae0038696774d65E67892c9D301C5f2CbbDa58", 18),
     await tokenTotalSupply("0x576c990A8a3E7217122e9973b2230A3be9678E94", 18),
     await tokenTotalSupply("0x2f1b1662A895C6Ba01a99DcAf56778E7d77e5609", 18),
     await tokenTotalSupply("0xAB5F7a0e20b0d056Aed4Aa4528C78da45BE7308b", 18),
@@ -302,24 +288,99 @@ const polygonTotalTokenValue = async () => {
     await tokenTotalSupply("0xCf66EB3D546F0415b368d98A95EAF56DeD7aA752", 18),
   ]));
 
-  const allTokens = Object.assign({}, ...tokens);
-  console.log(allTokens);
-  return allTokens;
+  //   const allTokens = Object.assign({}, ...tokens);
+  //   console.log(allTokens);
+  console.log(tokens);
+  return tokens;
 };
 
-// polygonTokenPriceFeed = async () => {
-//   getCoingeckoPrice = async (contractAddress) => {
+let polygonTestArray = [
+  ["JPYC", 400000000, "0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB"],
+  ["LIME", 500000000, "0x7f67639Ffc8C93dD558d452b8920b28815638c44"],
+  ["FXS", 565086.0831284081, "0x1a3acf6D19267E2d3e7f898f42803e90C9219062"],
+  ["IOI", 0.000007178127585811, "0xAF24765F631C8830B5528B57002241eE7eef1C14"],
+  ["PAY", 10000000000, "0xe580074A10360404AF3ABfe2d524D5806D993ea3"],
+  ["renBTC", 348.72480037, "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501"],
+  ["KITTY", 390076.4890364027, "0x182dB1252C39073eeC9d743F13b5eeb80FDE314e"],
+  ["oORC", 44894069.37200968, "0x12c9FFE6538f20A982FD4D17912f0ca00fA82D30"],
+  ["AWX", 1531108.4505245066, "0x56A0eFEFC9F1FBb54FBd25629Ac2aA764F1b56F7"],
+  ["ORBS", 188113672.04982173, "0x614389EaAE0A6821DC49062D56BDA3d9d45Fa2ff"],
+  ["CERBY", 26795856260.302353, "0xdef1fac7Bf08f173D286BbBDcBeeADe695129840"],
+  ["EURS", 3912886.38, "0xE111178A87A3BFf0c8d18DECBa5798827539Ae99"],
+  ["ERP", 120983983.3469345, "0x28accA4ed2F6186c3D93e20e29e6e6a9Af656341"],
+  ["AWS", 565663.1958731912, "0xA96D47c621a8316d4F9539E3B38180C7067e84CA"],
+  ["CHER", 11517889.57, "0x8f36Cc333F55B09Bb71091409A3d7ADE399e3b1C"],
+  ["SWD", 345109.2464920573, "0xaeE24d5296444c007a532696aaDa9dE5cE6caFD0"],
+  ["SNP", 199275000, "0x6911F552842236bd9E8ea8DDBB3fb414e2C5FA9d"],
+  ["OWL", 500000000, "0x9085B4d52c3e0B8B6F9AF6213E85A433c7D76f19"],
+  ["LFI", 971916537.8439189, "0xCa7BF3C514d412AC12D10Eff302301A81153F557"],
+  ["CXO", 6850866.3692188235, "0xf2ae0038696774d65E67892c9D301C5f2CbbDa58"],
+  ["FIN", 168000000, "0x576c990A8a3E7217122e9973b2230A3be9678E94"],
+  ["USDS", 1004398.8764082872, "0x2f1b1662A895C6Ba01a99DcAf56778E7d77e5609"],
+  ["GBYTE", 3578.882365439, "0xAB5F7a0e20b0d056Aed4Aa4528C78da45BE7308b"],
+  ["CTI", 755860.7893870656, "0x8Ba941b64901E306667a287A370F145d98811096"],
+  ["SPICE", 10105226.238652235, "0x66e8617d1Df7ab523a316a6c01D16Aa5beD93681"],
+  ["GM", 100000000, "0x6a335AC6A3cdf444967Fe03E7b6B273c86043990"],
+  ["iUSDS", 2004935.7361218215, "0x66F31345Cb9477B427A1036D43f923a557C432A4"],
+  ["USX", 15050005, "0xCf66EB3D546F0415b368d98A95EAF56DeD7aA752"],
+];
 
-//     // let data = await axios.get(
-//     //   `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`
-//     // );
+const getPrices = async (array) => {
+  let tickerSupply = {};
+  let tickerAddress = {};
+  for (let i = 0; i < array.length; i++) {
+    temp = array[i];
+    tickerSupply[temp[0]] = temp[1];
+    tickerAddress[temp[0]] = temp[2];
+  }
 
-//     // priceFeeds["xDVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
-//   };
+  let payload = "";
+  for (const [key1, value1] of Object.entries(tickerAddress)) {
+    payload += value1 + ",";
+  }
 
-// };
+  let geckoData = await axios.get(
+    `https://api.coingecko.com/api/v3/simple/token_price/polygon-pos?contract_addresses=${payload}&vs_currencies=usd`
+  );
 
-// polygonTotalTokenValue();
+  let geckoPriceOutput = geckoData["data"];
+
+  let tickerPrice = {};
+
+  for (const [xkey1, xvalue1] of Object.entries(geckoPriceOutput)) {
+    for (const [xkey2, xvalue2] of Object.entries(tickerAddress)) {
+      if (xkey1 === xvalue2.toLowerCase()) {
+        let temp = geckoPriceOutput[xkey1];
+        let price = temp["usd"];
+        tickerPrice[xkey2] = price;
+        console.log(tickerPrice);
+      }
+    }
+  }
+
+  // make final calculation
+
+  let totalWithPrices = {};
+  for (const [ykey1, yvalue1] of Object.entries(tickerSupply)) {
+    for (const [ykey2, yvalue2] of Object.entries(tickerPrice)) {
+      if (ykey1 === ykey2) {
+        let amount = yvalue1 * yvalue2;
+        totalWithPrices[ykey1] = `$${amount}`;
+      }
+    }
+  }
+
+  console.log(totalWithPrices);
+};
+
+// let polygonTokens = polygonTotalTokenValue();
+
+const test = async () => {
+  let polygonTokens = await polygonTotalTokenValue();
+  getPrices(await polygonTokens);
+};
+
+test();
 
 let tickerAddressObj = {};
 
@@ -347,19 +408,19 @@ const tokenTotalSupply = async (contractAddress, decimal) => {
   return array;
 };
 
-let temp = tokenTotalSupply("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6);
+// let temp = tokenTotalSupply("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6);
 
-test = async () => {
-  //   let temp = await tickerAddressObj;
-  let test = await temp;
+// test = async () => {
+//   //   let temp = await tickerAddressObj;
+//   let test = await temp;
 
-  console.log(await test[0]);
-  let testObj = {};
-  testObj[test[0]] = test[2];
-  console.log(testObj);
-};
+//   console.log(await test[0]);
+//   let testObj = {};
+//   testObj[test[0]] = test[2];
+//   console.log(testObj);
+// };
 
-test();
+// test();
 
 // let testArray = ["ETH", 1000, "0x00000"];
 
