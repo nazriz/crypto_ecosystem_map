@@ -360,3 +360,11 @@ priceFeeds();
 module.exports = {
   priceFeeds,
 };
+
+const tokens = ([usdte, usdt, usdc, usdce, busde] = await Promise.all([
+  await tokenTotalSupply("0xc7198437980c041c805A1EDcbA50c1Ce5db95118", 6),
+  await tokenTotalSupply("0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7", 6),
+  await tokenTotalSupply("0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E", 6),
+  await tokenTotalSupply("0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664", 6),
+  await tokenTotalSupply("0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664", 18),
+]));

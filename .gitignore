@@ -5,3 +5,4 @@ package.json
 workspace.code-workspace
 .prettierignore
 historical_data.js
+.prettierrc

@@ -6,16 +6,16 @@ const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
 const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY;
 const ALCHEMY_POLYGON_API_KEY = process.env.ALCHEMY_POLYGON_API_KEY;
+const MORALIS_AVALANCHE = process.env.MORALIS_AVALANCHE;
 
 const provider = new ethers.providers.InfuraProvider("homestead", {
   projectId: process.env.INFURA_PROJECT_ID,
   projectSecret: process.env.INFURA_PROJECT_SECRET,
 });
 
-const polygonProvider = new ethers.providers.AlchemyProvider(
-  "matic",
-  ALCHEMY_POLYGON_API_KEY
-);
+const polygonProvider = new ethers.providers.AlchemyProvider("matic", ALCHEMY_POLYGON_API_KEY);
+
+const avalancheProvider = new ethers.providers.JsonRpcProvider(MORALIS_AVALANCHE);
 
 const signer = new ethers.Wallet(PRIV_KEY, provider);
 
@@ -69,43 +69,37 @@ const bitcoinMcapTvl = async () => {
   }
 
   let bitcoinMcap = await bitcoinData["data"][0]["market_cap"];
-  let lightningNetworkTVL = await lightningNetworkData["data"][
-    "networkcapacityusd"
-  ];
+  let lightningNetworkTVL = await lightningNetworkData["data"]["networkcapacityusd"];
   console.log(omniUSDT);
 };
 
+// Creates contract object from address and returns
+// supply and ticker in object
+// For EVM forks, i.e. polygon, avalanche, etc. this calculation can somewhat
+// accurately calculate circulating supply of tokens and produce a circulating
+// mcap result. This is because the token contracts on these chains are not the
+// original contracts from Etherum. There will be some outliers, but this should
+// not drastically impact calculation too much.
+const tokenTotalSupply = async (chainProvider, contractAddress, decimal) => {
+  let tokenContract = new ethers.Contract(contractAddress, erc20ABI, chainProvider);
+
+  let [tokenSupply, tokenTicker] = await Promise.all([
+    parseFloat(ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)),
+    tokenContract.symbol(),
+  ]);
+
+  let tickerAddressObj = {};
+  tickerAddressObj[[tokenTicker]] = contractAddress;
+  //   console.log(tickerAddressObj);
+
+  let array = [];
+
+  array = [tokenTicker, tokenSupply, contractAddress];
+
+  return array;
+};
+
 const polygonTotalTokenValue = async () => {
-  // Creates contract object from address and returns
-  // supply and ticker in object
-  // For EVM forks, i.e. polygon, avalanche, etc. this calculation can somewhat
-  // accurately calculate circulating supply of tokens and produce a circulating
-  // mcap result. This is because the token contracts on these chains are not the
-  // original contracts from Etherum. There will be some outliers, but this should
-  // not drastically impact calculation too much.
-  const tokenTotalSupply = async (contractAddress, decimal) => {
-    let tokenContract = new ethers.Contract(
-      contractAddress,
-      erc20ABI,
-      polygonProvider
-    );
-
-    let [tokenSupply, tokenTicker] = await Promise.all([
-      parseFloat(
-        ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)
-      ),
-      tokenContract.symbol(),
-    ]);
-
-    tickerAddressObj[[tokenTicker]] = contractAddress;
-    //   console.log(tickerAddressObj);
-
-    let array = [];
-
-    array = [tokenTicker, tokenSupply, contractAddress];
-
-    return array;
-  };
   const tokens = ([
     usdt,
     amusdc,
@@ -197,135 +191,104 @@ const polygonTotalTokenValue = async () => {
     iusds,
     usx,
   ] = await Promise.all([
-    await tokenTotalSupply("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6),
-    await tokenTotalSupply("0x1a13F4Ca1d028320A707D99520AbFefca3998b7F", 6),
-    await tokenTotalSupply("0x60D55F02A771d515e077c9C2403a1ef324885CeC", 6),
-    await tokenTotalSupply("0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", 18),
-    await tokenTotalSupply("0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", 18),
-    await tokenTotalSupply("0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4", 18),
-    await tokenTotalSupply("0x28424507fefb6f7f8E9D3860F56504E4e5f5f390", 18),
-    await tokenTotalSupply("0x8A953CfE442c5E8855cc6c61b1293FA648BAE472", 18),
-    await tokenTotalSupply("0xD6DF932A45C0f255f85145f286eA0b292B21C90B", 18),
-    await tokenTotalSupply("0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7", 18),
-    await tokenTotalSupply("0x27F8D03b3a2196956ED754baDc28D73be8830A6e", 18),
-    await tokenTotalSupply("0x1d2a0E5EC8E5bBDCA5CB219e649B565d8e5c3360", 18),
-    await tokenTotalSupply("0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", 8),
-    await tokenTotalSupply("0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683", 18),
-    await tokenTotalSupply("0xf28164A485B0B2C90639E47b0f377b4a438a16B1", 18),
-    await tokenTotalSupply("0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a", 18),
-    await tokenTotalSupply("0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", 18),
-    await tokenTotalSupply("0xC004e2318722EA2b15499D6375905d75Ee5390B8", 8),
-    await tokenTotalSupply("0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4", 18),
-    await tokenTotalSupply("0xEFeE2de82343BE622Dcb4E545f75a3b9f50c272D", 18),
-    await tokenTotalSupply("0x172370d5Cd63279eFa6d502DAB29171933a610AF", 18),
-    await tokenTotalSupply("0xcf32822ff397Ef82425153a9dcb726E5fF61DCA7", 18),
-    await tokenTotalSupply("0xb33EaAd8d922B1083446DC23f610c2567fB5180f", 18),
-    await tokenTotalSupply("0xd6A5aB46ead26f49b03bBB1F9EB1Ad5c1767974a", 18),
-    await tokenTotalSupply("0xdF7837DE1F2Fa4631D716CF2502f8b230F1dcc32", 2),
-    await tokenTotalSupply("0x580A84C73811E1839F75d86d75d88cCa0c241fF4", 18),
-    await tokenTotalSupply("0x9a71012B13CA4d3D0Cdc72A177DF3ef03b0E76A3", 18),
-    await tokenTotalSupply("0xC168E40227E4ebD8C1caE80F7a55a4F0e6D66C97", 18),
-    await tokenTotalSupply("0xa3Fa99A148fA48D14Ed51d610c367C61876997F1", 18),
-    await tokenTotalSupply("0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", 6),
-    await tokenTotalSupply("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", 18),
-    await tokenTotalSupply("0x4e78011Ce80ee02d2c3e649Fb657E45898257815", 9),
-    await tokenTotalSupply("0xEe9801669C6138E84bD50dEB500827b776777d28", 18),
-    await tokenTotalSupply("0xC1543024DC71247888a7e139c644F44E75E96d38", 18),
-    await tokenTotalSupply("0x311434160D7537be358930def317AfB606C0D737", 18),
-    await tokenTotalSupply("0x9A06Db14D639796B25A6ceC6A1bf614fd98815EC", 18),
-    await tokenTotalSupply("0xef938b6da8576a896f6E0321ef80996F4890f9c4", 18),
-    await tokenTotalSupply("0xC17c30e98541188614dF99239cABD40280810cA3", 18),
-    await tokenTotalSupply("0x16ECCfDbb4eE1A85A33f3A9B21175Cd7Ae753dB4", 18),
-    await tokenTotalSupply("0x874e178A2f3f3F9d34db862453Cd756E7eAb0381", 18),
-    await tokenTotalSupply("0x282d8efCe846A88B159800bd4130ad77443Fa1A1", 18),
-    await tokenTotalSupply("0x235737dBb56e8517391473f7c964DB31fA6ef280", 18),
-    await tokenTotalSupply("0x61f95bd637e3034133335C1baA0148E518D438ad", 18),
-    await tokenTotalSupply("0x45c32fA6DF82ead1e2EF74d17b76547EDdFaFF89", 18),
-    await tokenTotalSupply("0xD85d1e945766Fea5Eda9103F918Bd915FbCa63E6", 4),
-    await tokenTotalSupply("0xE5417Af564e4bFDA1c483642db72007871397896", 18),
-    await tokenTotalSupply("0x596eBE76e2DB4470966ea395B0d063aC6197A8C5", 18),
-    await tokenTotalSupply("0xF4B0903774532AEe5ee567C02aaB681a81539e92", 18),
-    await tokenTotalSupply("0x1B815d120B3eF02039Ee11dC2d33DE7aA4a8C603", 18),
-    await tokenTotalSupply("0x236eeC6359fb44CCe8f97E99387aa7F8cd5cdE1f", 6),
-    await tokenTotalSupply("0xB5C064F955D8e7F38fE0460C556a72987494eE17", 18),
-    await tokenTotalSupply("0x2e1AD108fF1D8C782fcBbB89AAd783aC49586756", 18),
-    await tokenTotalSupply("0x950e1561B7A7dEB1A32A6419FD435410daf851B0", 18),
-    await tokenTotalSupply("0x66C59Dded4EF01a3412a8B019B6e41D4a8C49A35", 18),
-    await tokenTotalSupply("0x428360b02C1269bc1c79fbC399ad31d58C1E8fdA", 18),
-    await tokenTotalSupply("0x0000000000004946c0e9F43F4Dee607b0eF1fA1c", 0),
-    await tokenTotalSupply("0xdb725f82818De83e99F1dAc22A9b5B51d3d04DD4", 18),
-    await tokenTotalSupply("0xC5B57e9a1E7914FDA753A88f24E5703e617Ee50c", 18),
-    await tokenTotalSupply("0xbD1463F02f61676d53fd183C2B19282BFF93D099", 18),
-    await tokenTotalSupply("0xB41EC2c036f8a42DA384DDE6ADA79884F8b84b26", 18),
-    await tokenTotalSupply("0x4FAfad147c8Cd0e52f83830484d164e960BdC6C3", 18),
-    await tokenTotalSupply("0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB", 18),
-    await tokenTotalSupply("0x7f67639Ffc8C93dD558d452b8920b28815638c44", 18),
-    await tokenTotalSupply("0x1a3acf6D19267E2d3e7f898f42803e90C9219062", 18),
-    await tokenTotalSupply("0xAF24765F631C8830B5528B57002241eE7eef1C14", 18),
-    await tokenTotalSupply("0xe580074A10360404AF3ABfe2d524D5806D993ea3", 18),
-    await tokenTotalSupply("0xDBf31dF14B66535aF65AaC99C32e9eA844e14501", 8),
-    await tokenTotalSupply("0x182dB1252C39073eeC9d743F13b5eeb80FDE314e", 18),
-    await tokenTotalSupply("0x12c9FFE6538f20A982FD4D17912f0ca00fA82D30", 18),
-    await tokenTotalSupply("0x56A0eFEFC9F1FBb54FBd25629Ac2aA764F1b56F7", 18),
-    await tokenTotalSupply("0x614389EaAE0A6821DC49062D56BDA3d9d45Fa2ff", 18),
-    await tokenTotalSupply("0xdef1fac7Bf08f173D286BbBDcBeeADe695129840", 18),
-    await tokenTotalSupply("0xE111178A87A3BFf0c8d18DECBa5798827539Ae99", 2),
-    await tokenTotalSupply("0x28accA4ed2F6186c3D93e20e29e6e6a9Af656341", 18),
-    await tokenTotalSupply("0xA96D47c621a8316d4F9539E3B38180C7067e84CA", 18),
-    await tokenTotalSupply("0x8f36Cc333F55B09Bb71091409A3d7ADE399e3b1C", 18),
-    await tokenTotalSupply("0xaeE24d5296444c007a532696aaDa9dE5cE6caFD0", 18),
-    await tokenTotalSupply("0x6911F552842236bd9E8ea8DDBB3fb414e2C5FA9d", 18),
-    await tokenTotalSupply("0x9085B4d52c3e0B8B6F9AF6213E85A433c7D76f19", 18),
-    await tokenTotalSupply("0xCa7BF3C514d412AC12D10Eff302301A81153F557", 18),
-    await tokenTotalSupply("0xf2ae0038696774d65E67892c9D301C5f2CbbDa58", 18),
-    await tokenTotalSupply("0x576c990A8a3E7217122e9973b2230A3be9678E94", 18),
-    await tokenTotalSupply("0x2f1b1662A895C6Ba01a99DcAf56778E7d77e5609", 18),
-    await tokenTotalSupply("0xAB5F7a0e20b0d056Aed4Aa4528C78da45BE7308b", 18),
-    await tokenTotalSupply("0x8Ba941b64901E306667a287A370F145d98811096", 18),
-    await tokenTotalSupply("0x66e8617d1Df7ab523a316a6c01D16Aa5beD93681", 18),
-    await tokenTotalSupply("0x6a335AC6A3cdf444967Fe03E7b6B273c86043990", 8),
-    await tokenTotalSupply("0x66F31345Cb9477B427A1036D43f923a557C432A4", 18),
-    await tokenTotalSupply("0xCf66EB3D546F0415b368d98A95EAF56DeD7aA752", 18),
+    await tokenTotalSupply(polygonProvider, "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6),
+    await tokenTotalSupply(polygonProvider, "0x1a13F4Ca1d028320A707D99520AbFefca3998b7F", 6),
+    await tokenTotalSupply(polygonProvider, "0x60D55F02A771d515e077c9C2403a1ef324885CeC", 6),
+    await tokenTotalSupply(polygonProvider, "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063", 18),
+    await tokenTotalSupply(polygonProvider, "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270", 18),
+    await tokenTotalSupply(polygonProvider, "0x8dF3aad3a84da6b69A4DA8aeC3eA40d9091B2Ac4", 18),
+    await tokenTotalSupply(polygonProvider, "0x28424507fefb6f7f8E9D3860F56504E4e5f5f390", 18),
+    await tokenTotalSupply(polygonProvider, "0x8A953CfE442c5E8855cc6c61b1293FA648BAE472", 18),
+    await tokenTotalSupply(polygonProvider, "0xD6DF932A45C0f255f85145f286eA0b292B21C90B", 18),
+    await tokenTotalSupply(polygonProvider, "0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7", 18),
+    await tokenTotalSupply(polygonProvider, "0x27F8D03b3a2196956ED754baDc28D73be8830A6e", 18),
+    await tokenTotalSupply(polygonProvider, "0x1d2a0E5EC8E5bBDCA5CB219e649B565d8e5c3360", 18),
+    await tokenTotalSupply(polygonProvider, "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", 8),
+    await tokenTotalSupply(polygonProvider, "0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683", 18),
+    await tokenTotalSupply(polygonProvider, "0xf28164A485B0B2C90639E47b0f377b4a438a16B1", 18),
+    await tokenTotalSupply(polygonProvider, "0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a", 18),
+    await tokenTotalSupply(polygonProvider, "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", 18),
+    await tokenTotalSupply(polygonProvider, "0xC004e2318722EA2b15499D6375905d75Ee5390B8", 8),
+    await tokenTotalSupply(polygonProvider, "0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4", 18),
+    await tokenTotalSupply(polygonProvider, "0xEFeE2de82343BE622Dcb4E545f75a3b9f50c272D", 18),
+    await tokenTotalSupply(polygonProvider, "0x172370d5Cd63279eFa6d502DAB29171933a610AF", 18),
+    await tokenTotalSupply(polygonProvider, "0xcf32822ff397Ef82425153a9dcb726E5fF61DCA7", 18),
+    await tokenTotalSupply(polygonProvider, "0xb33EaAd8d922B1083446DC23f610c2567fB5180f", 18),
+    await tokenTotalSupply(polygonProvider, "0xd6A5aB46ead26f49b03bBB1F9EB1Ad5c1767974a", 18),
+    await tokenTotalSupply(polygonProvider, "0xdF7837DE1F2Fa4631D716CF2502f8b230F1dcc32", 2),
+    await tokenTotalSupply(polygonProvider, "0x580A84C73811E1839F75d86d75d88cCa0c241fF4", 18),
+    await tokenTotalSupply(polygonProvider, "0x9a71012B13CA4d3D0Cdc72A177DF3ef03b0E76A3", 18),
+    await tokenTotalSupply(polygonProvider, "0xC168E40227E4ebD8C1caE80F7a55a4F0e6D66C97", 18),
+    await tokenTotalSupply(polygonProvider, "0xa3Fa99A148fA48D14Ed51d610c367C61876997F1", 18),
+    await tokenTotalSupply(polygonProvider, "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", 6),
+    await tokenTotalSupply(polygonProvider, "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", 18),
+    await tokenTotalSupply(polygonProvider, "0x4e78011Ce80ee02d2c3e649Fb657E45898257815", 9),
+    await tokenTotalSupply(polygonProvider, "0xEe9801669C6138E84bD50dEB500827b776777d28", 18),
+    await tokenTotalSupply(polygonProvider, "0xC1543024DC71247888a7e139c644F44E75E96d38", 18),
+    await tokenTotalSupply(polygonProvider, "0x311434160D7537be358930def317AfB606C0D737", 18),
+    await tokenTotalSupply(polygonProvider, "0x9A06Db14D639796B25A6ceC6A1bf614fd98815EC", 18),
+    await tokenTotalSupply(polygonProvider, "0xef938b6da8576a896f6E0321ef80996F4890f9c4", 18),
+    await tokenTotalSupply(polygonProvider, "0xC17c30e98541188614dF99239cABD40280810cA3", 18),
+    await tokenTotalSupply(polygonProvider, "0x16ECCfDbb4eE1A85A33f3A9B21175Cd7Ae753dB4", 18),
+    await tokenTotalSupply(polygonProvider, "0x874e178A2f3f3F9d34db862453Cd756E7eAb0381", 18),
+    await tokenTotalSupply(polygonProvider, "0x282d8efCe846A88B159800bd4130ad77443Fa1A1", 18),
+    await tokenTotalSupply(polygonProvider, "0x235737dBb56e8517391473f7c964DB31fA6ef280", 18),
+    await tokenTotalSupply(polygonProvider, "0x61f95bd637e3034133335C1baA0148E518D438ad", 18),
+    await tokenTotalSupply(polygonProvider, "0x45c32fA6DF82ead1e2EF74d17b76547EDdFaFF89", 18),
+    await tokenTotalSupply(polygonProvider, "0xD85d1e945766Fea5Eda9103F918Bd915FbCa63E6", 4),
+    await tokenTotalSupply(polygonProvider, "0xE5417Af564e4bFDA1c483642db72007871397896", 18),
+    await tokenTotalSupply(polygonProvider, "0x596eBE76e2DB4470966ea395B0d063aC6197A8C5", 18),
+    await tokenTotalSupply(polygonProvider, "0xF4B0903774532AEe5ee567C02aaB681a81539e92", 18),
+    await tokenTotalSupply(polygonProvider, "0x1B815d120B3eF02039Ee11dC2d33DE7aA4a8C603", 18),
+    await tokenTotalSupply(polygonProvider, "0x236eeC6359fb44CCe8f97E99387aa7F8cd5cdE1f", 6),
+    await tokenTotalSupply(polygonProvider, "0xB5C064F955D8e7F38fE0460C556a72987494eE17", 18),
+    await tokenTotalSupply(polygonProvider, "0x2e1AD108fF1D8C782fcBbB89AAd783aC49586756", 18),
+    await tokenTotalSupply(polygonProvider, "0x950e1561B7A7dEB1A32A6419FD435410daf851B0", 18),
+    await tokenTotalSupply(polygonProvider, "0x66C59Dded4EF01a3412a8B019B6e41D4a8C49A35", 18),
+    await tokenTotalSupply(polygonProvider, "0x428360b02C1269bc1c79fbC399ad31d58C1E8fdA", 18),
+    await tokenTotalSupply(polygonProvider, "0x0000000000004946c0e9F43F4Dee607b0eF1fA1c", 0),
+    await tokenTotalSupply(polygonProvider, "0xdb725f82818De83e99F1dAc22A9b5B51d3d04DD4", 18),
+    await tokenTotalSupply(polygonProvider, "0xC5B57e9a1E7914FDA753A88f24E5703e617Ee50c", 18),
+    await tokenTotalSupply(polygonProvider, "0xbD1463F02f61676d53fd183C2B19282BFF93D099", 18),
+    await tokenTotalSupply(polygonProvider, "0xB41EC2c036f8a42DA384DDE6ADA79884F8b84b26", 18),
+    await tokenTotalSupply(polygonProvider, "0x4FAfad147c8Cd0e52f83830484d164e960BdC6C3", 18),
+    await tokenTotalSupply(polygonProvider, "0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB", 18),
+    await tokenTotalSupply(polygonProvider, "0x7f67639Ffc8C93dD558d452b8920b28815638c44", 18),
+    await tokenTotalSupply(polygonProvider, "0x1a3acf6D19267E2d3e7f898f42803e90C9219062", 18),
+    await tokenTotalSupply(polygonProvider, "0xAF24765F631C8830B5528B57002241eE7eef1C14", 18),
+    await tokenTotalSupply(polygonProvider, "0xe580074A10360404AF3ABfe2d524D5806D993ea3", 18),
+    await tokenTotalSupply(polygonProvider, "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501", 8),
+    await tokenTotalSupply(polygonProvider, "0x182dB1252C39073eeC9d743F13b5eeb80FDE314e", 18),
+    await tokenTotalSupply(polygonProvider, "0x12c9FFE6538f20A982FD4D17912f0ca00fA82D30", 18),
+    await tokenTotalSupply(polygonProvider, "0x56A0eFEFC9F1FBb54FBd25629Ac2aA764F1b56F7", 18),
+    await tokenTotalSupply(polygonProvider, "0x614389EaAE0A6821DC49062D56BDA3d9d45Fa2ff", 18),
+    await tokenTotalSupply(polygonProvider, "0xdef1fac7Bf08f173D286BbBDcBeeADe695129840", 18),
+    await tokenTotalSupply(polygonProvider, "0xE111178A87A3BFf0c8d18DECBa5798827539Ae99", 2),
+    await tokenTotalSupply(polygonProvider, "0x28accA4ed2F6186c3D93e20e29e6e6a9Af656341", 18),
+    await tokenTotalSupply(polygonProvider, "0xA96D47c621a8316d4F9539E3B38180C7067e84CA", 18),
+    await tokenTotalSupply(polygonProvider, "0x8f36Cc333F55B09Bb71091409A3d7ADE399e3b1C", 18),
+    await tokenTotalSupply(polygonProvider, "0xaeE24d5296444c007a532696aaDa9dE5cE6caFD0", 18),
+    await tokenTotalSupply(polygonProvider, "0x6911F552842236bd9E8ea8DDBB3fb414e2C5FA9d", 18),
+    await tokenTotalSupply(polygonProvider, "0x9085B4d52c3e0B8B6F9AF6213E85A433c7D76f19", 18),
+    await tokenTotalSupply(polygonProvider, "0xCa7BF3C514d412AC12D10Eff302301A81153F557", 18),
+    await tokenTotalSupply(polygonProvider, "0xf2ae0038696774d65E67892c9D301C5f2CbbDa58", 18),
+    await tokenTotalSupply(polygonProvider, "0x576c990A8a3E7217122e9973b2230A3be9678E94", 18),
+    await tokenTotalSupply(polygonProvider, "0x2f1b1662A895C6Ba01a99DcAf56778E7d77e5609", 18),
+    await tokenTotalSupply(polygonProvider, "0xAB5F7a0e20b0d056Aed4Aa4528C78da45BE7308b", 18),
+    await tokenTotalSupply(polygonProvider, "0x8Ba941b64901E306667a287A370F145d98811096", 18),
+    await tokenTotalSupply(polygonProvider, "0x66e8617d1Df7ab523a316a6c01D16Aa5beD93681", 18),
+    await tokenTotalSupply(polygonProvider, "0x6a335AC6A3cdf444967Fe03E7b6B273c86043990", 8),
+    await tokenTotalSupply(polygonProvider, "0x66F31345Cb9477B427A1036D43f923a557C432A4", 18),
+    await tokenTotalSupply(polygonProvider, "0xCf66EB3D546F0415b368d98A95EAF56DeD7aA752", 18),
   ]));
 
   //   const allTokens = Object.assign({}, ...tokens);
   //   console.log(allTokens);
-  console.log(tokens);
+  //   console.log(tokens);
   return tokens;
 };
 
-let polygonTestArray = [
-  ["JPYC", 400000000, "0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB"],
-  ["LIME", 500000000, "0x7f67639Ffc8C93dD558d452b8920b28815638c44"],
-  ["FXS", 565086.0831284081, "0x1a3acf6D19267E2d3e7f898f42803e90C9219062"],
-  ["IOI", 0.000007178127585811, "0xAF24765F631C8830B5528B57002241eE7eef1C14"],
-  ["PAY", 10000000000, "0xe580074A10360404AF3ABfe2d524D5806D993ea3"],
-  ["renBTC", 348.72480037, "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501"],
-  ["KITTY", 390076.4890364027, "0x182dB1252C39073eeC9d743F13b5eeb80FDE314e"],
-  ["oORC", 44894069.37200968, "0x12c9FFE6538f20A982FD4D17912f0ca00fA82D30"],
-  ["AWX", 1531108.4505245066, "0x56A0eFEFC9F1FBb54FBd25629Ac2aA764F1b56F7"],
-  ["ORBS", 188113672.04982173, "0x614389EaAE0A6821DC49062D56BDA3d9d45Fa2ff"],
-  ["CERBY", 26795856260.302353, "0xdef1fac7Bf08f173D286BbBDcBeeADe695129840"],
-  ["EURS", 3912886.38, "0xE111178A87A3BFf0c8d18DECBa5798827539Ae99"],
-  ["ERP", 120983983.3469345, "0x28accA4ed2F6186c3D93e20e29e6e6a9Af656341"],
-  ["AWS", 565663.1958731912, "0xA96D47c621a8316d4F9539E3B38180C7067e84CA"],
-  ["CHER", 11517889.57, "0x8f36Cc333F55B09Bb71091409A3d7ADE399e3b1C"],
-  ["SWD", 345109.2464920573, "0xaeE24d5296444c007a532696aaDa9dE5cE6caFD0"],
-  ["SNP", 199275000, "0x6911F552842236bd9E8ea8DDBB3fb414e2C5FA9d"],
-  ["OWL", 500000000, "0x9085B4d52c3e0B8B6F9AF6213E85A433c7D76f19"],
-  ["LFI", 971916537.8439189, "0xCa7BF3C514d412AC12D10Eff302301A81153F557"],
-  ["CXO", 6850866.3692188235, "0xf2ae0038696774d65E67892c9D301C5f2CbbDa58"],
-  ["FIN", 168000000, "0x576c990A8a3E7217122e9973b2230A3be9678E94"],
-  ["USDS", 1004398.8764082872, "0x2f1b1662A895C6Ba01a99DcAf56778E7d77e5609"],
-  ["GBYTE", 3578.882365439, "0xAB5F7a0e20b0d056Aed4Aa4528C78da45BE7308b"],
-  ["CTI", 755860.7893870656, "0x8Ba941b64901E306667a287A370F145d98811096"],
-  ["SPICE", 10105226.238652235, "0x66e8617d1Df7ab523a316a6c01D16Aa5beD93681"],
-  ["GM", 100000000, "0x6a335AC6A3cdf444967Fe03E7b6B273c86043990"],
-  ["iUSDS", 2004935.7361218215, "0x66F31345Cb9477B427A1036D43f923a557C432A4"],
-  ["USX", 15050005, "0xCf66EB3D546F0415b368d98A95EAF56DeD7aA752"],
-];
-
-const getPrices = async (array) => {
+const getPrices = async (networkId, array) => {
   let tickerSupply = {};
   let tickerAddress = {};
   for (let i = 0; i < array.length; i++) {
@@ -340,7 +303,7 @@ const getPrices = async (array) => {
   }
 
   let geckoData = await axios.get(
-    `https://api.coingecko.com/api/v3/simple/token_price/polygon-pos?contract_addresses=${payload}&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/token_price/${networkId}?contract_addresses=${payload}&vs_currencies=usd`
   );
 
   let geckoPriceOutput = geckoData["data"];
@@ -359,73 +322,215 @@ const getPrices = async (array) => {
   }
 
   // make final calculation
-
+  // This excludes tokens that do not return a coingecko price
   let totalWithPrices = {};
   for (const [ykey1, yvalue1] of Object.entries(tickerSupply)) {
     for (const [ykey2, yvalue2] of Object.entries(tickerPrice)) {
       if (ykey1 === ykey2) {
         let amount = yvalue1 * yvalue2;
-        totalWithPrices[ykey1] = `$${amount}`;
+        // totalWithPrices[ykey1] = `$${amount}`;
+        totalWithPrices[ykey1] = amount;
       }
     }
   }
 
   console.log(totalWithPrices);
+
+  // Calculate grand total
+  let grandTotal = 0;
+  for (const [jkey1, jvalue2] of Object.entries(totalWithPrices)) {
+    grandTotal += jvalue2;
+  }
+
+  console.log(grandTotal);
 };
 
-// let polygonTokens = polygonTotalTokenValue();
+// not including wavax
+const avalancheTokenTotalValue = async () => {
+  const tokens = ([
+    usdte,
+    usdt,
+    usdc,
+    usdce,
+    busde,
+    daie,
+    shibe,
+    wbtce,
+    unie,
+    linke,
+    frax,
+    tusd,
+    mkre,
+    aavee,
+    grte,
+    bate,
+    oneinche,
+    compe,
+    zrx,
+    crve,
+    snxe,
+    yfie,
+    knc,
+    sushie,
+    orbs,
+    spell,
+    fxs,
+    sure,
+    xjoe,
+    joe,
+    alphae,
+    rise,
+    bifi,
+    wxt,
+    swape,
+    walbt,
+    insur,
+    pendle,
+    ooe,
+    dyp,
+    qi,
+    png,
+    uncl,
+    acre,
+    oddz,
+    klo,
+    ime,
+    vso,
+    tus,
+    shibx,
+    melt,
+    boofi,
+    snob,
+    more,
+    avxt,
+    btcb,
+    yak,
+    wshare,
+    time,
+    piggy,
+    wlrs,
+    mim,
+    h2o,
+    xava,
+    syn,
+    xptp,
+    elk,
+    cly,
+    tryb,
+    pefi,
+    hon,
+    teddy,
+    hct,
+    jpeg,
+    bpt,
+    cnr,
+    vee,
+    orbit,
+    blzz,
+    smrt,
+    tractor,
+    smrtr,
+    husky,
+    alpha,
+  ] = await Promise.all([
+    await tokenTotalSupply(avalancheProvider, "0xc7198437980c041c805A1EDcbA50c1Ce5db95118", 6),
+    await tokenTotalSupply(avalancheProvider, "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7", 6),
+    await tokenTotalSupply(avalancheProvider, "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E", 6),
+    await tokenTotalSupply(avalancheProvider, "0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664", 6),
+    await tokenTotalSupply(avalancheProvider, "0x19860CCB0A68fd4213aB9D8266F7bBf05A8dDe98", 18),
+    await tokenTotalSupply(avalancheProvider, "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70", 18),
+    await tokenTotalSupply(avalancheProvider, "0x02D980A0D7AF3fb7Cf7Df8cB35d9eDBCF355f665", 18),
+    await tokenTotalSupply(avalancheProvider, "0x50b7545627a5162F82A992c33b87aDc75187B218", 8),
+    await tokenTotalSupply(avalancheProvider, "0x8eBAf22B6F053dFFeaf46f4Dd9eFA95D89ba8580", 18),
+    await tokenTotalSupply(avalancheProvider, "0x5947BB275c521040051D82396192181b413227A3", 18),
+    await tokenTotalSupply(avalancheProvider, "0xD24C2Ad096400B6FBcd2ad8B24E7acBc21A1da64", 18),
+    await tokenTotalSupply(avalancheProvider, "0x1C20E891Bab6b1727d14Da358FAe2984Ed9B59EB", 18),
+    await tokenTotalSupply(avalancheProvider, "0x88128fd4b259552A9A1D457f435a6527AAb72d42", 18),
+    await tokenTotalSupply(avalancheProvider, "0x63a72806098Bd3D9520cC43356dD78afe5D386D9", 18),
+    await tokenTotalSupply(avalancheProvider, "0x8a0cAc13c7da965a312f08ea4229c37869e85cB9", 18),
+    await tokenTotalSupply(avalancheProvider, "0x98443B96EA4b0858FDF3219Cd13e98C7A4690588", 18),
+    await tokenTotalSupply(avalancheProvider, "0xd501281565bf7789224523144Fe5D98e8B28f267", 18),
+    await tokenTotalSupply(avalancheProvider, "0xc3048E19E76CB9a3Aa9d77D8C03c29Fc906e2437", 18),
+    await tokenTotalSupply(avalancheProvider, "0x596fA47043f99A4e0F122243B841E55375cdE0d2", 18),
+    await tokenTotalSupply(avalancheProvider, "0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06", 18),
+    await tokenTotalSupply(avalancheProvider, "0xBeC243C995409E6520D7C41E404da5dEba4b209B", 18),
+    await tokenTotalSupply(avalancheProvider, "0x9eAaC1B23d935365bD7b542Fe22cEEe2922f52dc", 18),
+    await tokenTotalSupply(avalancheProvider, "0x39fC9e94Caeacb435842FADeDeCB783589F50f5f", 18),
+    await tokenTotalSupply(avalancheProvider, "0x37B608519F91f70F2EeB0e5Ed9AF4061722e4F76", 18),
+    await tokenTotalSupply(avalancheProvider, "0x340fE1D898ECCAad394e2ba0fC1F93d27c7b717A", 18),
+    await tokenTotalSupply(avalancheProvider, "0xCE1bFFBD5374Dac86a2893119683F4911a2F7814", 18),
+    await tokenTotalSupply(avalancheProvider, "0x214DB107654fF987AD859F34125307783fC8e387", 18),
+    await tokenTotalSupply(avalancheProvider, "0x5fC17416925789E0852FBFcd81c490ca4abc51F9", 18),
+    await tokenTotalSupply(avalancheProvider, "0x57319d41F71E81F3c65F2a47CA4e001EbAFd4F33", 18),
+    await tokenTotalSupply(avalancheProvider, "0x6e84a6216eA6dACC71eE8E6b0a5B7322EEbC0fDd", 18),
+    await tokenTotalSupply(avalancheProvider, "0x2147EFFF675e4A4eE1C2f918d181cDBd7a8E208f", 18),
+    await tokenTotalSupply(avalancheProvider, "0xC17c30e98541188614dF99239cABD40280810cA3", 18),
+    await tokenTotalSupply(avalancheProvider, "0xd6070ae98b8069de6B494332d1A1a81B6179D960", 18),
+    await tokenTotalSupply(avalancheProvider, "0xfcDe4A87b8b6FA58326BB462882f1778158B02F1", 18),
+    await tokenTotalSupply(avalancheProvider, "0xc7B5D72C836e718cDA8888eaf03707fAef675079", 18),
+    await tokenTotalSupply(avalancheProvider, "0x9E037dE681CaFA6E661e6108eD9c2bd1AA567Ecd", 18),
+    await tokenTotalSupply(avalancheProvider, "0x544c42fBB96B39B21DF61cf322b5EDC285EE7429", 18),
+    await tokenTotalSupply(avalancheProvider, "0xfB98B335551a418cD0737375a2ea0ded62Ea213b", 18),
+    await tokenTotalSupply(avalancheProvider, "0x0ebd9537A25f56713E34c45b38F421A1e7191469", 18),
+    await tokenTotalSupply(avalancheProvider, "0x961C8c0B1aaD0c0b10a51FeF6a867E3091BCef17", 18),
+    await tokenTotalSupply(avalancheProvider, "0x8729438EB15e2C8B576fCc6AeCdA6A148776C0F5", 18),
+    await tokenTotalSupply(avalancheProvider, "0x60781C2586D68229fde47564546784ab3fACA982", 18),
+    await tokenTotalSupply(avalancheProvider, "0x7D86F1eafF29F076576b2Ff09CE3bcC7533fD2C5", 18),
+    await tokenTotalSupply(avalancheProvider, "0x00EE200Df31b869a321B10400Da10b561F3ee60d", 18),
+    await tokenTotalSupply(avalancheProvider, "0xB0a6e056B587D0a85640b39b1cB44086F7a26A1E", 18),
+    await tokenTotalSupply(avalancheProvider, "0xb27c8941a7Df8958A1778c0259f76D1F8B711C35", 18),
+    await tokenTotalSupply(avalancheProvider, "0xF891214fdcF9cDaa5fdC42369eE4F27F226AdaD6", 18),
+    await tokenTotalSupply(avalancheProvider, "0x846D50248BAf8b7ceAA9d9B53BFd12d7D7FBB25a", 18),
+    await tokenTotalSupply(avalancheProvider, "0xf693248F96Fe03422FEa95aC0aFbBBc4a8FdD172", 18),
+    await tokenTotalSupply(avalancheProvider, "0x440aBbf18c54b2782A4917b80a1746d3A2c2Cce1", 18),
+    await tokenTotalSupply(avalancheProvider, "0x47EB6F7525C1aA999FBC9ee92715F5231eB1241D", 18),
+    await tokenTotalSupply(avalancheProvider, "0xB00F1ad977a949a3CCc389Ca1D1282A2946963b0", 18),
+    await tokenTotalSupply(avalancheProvider, "0xC38f41A296A4493Ff429F1238e030924A1542e50", 18),
+    await tokenTotalSupply(avalancheProvider, "0xd9D90f882CDdD6063959A9d837B05Cb748718A05", 18),
+    await tokenTotalSupply(avalancheProvider, "0x397bBd6A0E41bdF4C3F971731E180Db8Ad06eBc1", 6),
+    await tokenTotalSupply(avalancheProvider, "0x152b9d0FdC40C096757F570A51E494bd4b943E50", 8),
+    await tokenTotalSupply(avalancheProvider, "0x59414b3089ce2AF0010e7523Dea7E2b35d776ec7", 18),
+    await tokenTotalSupply(avalancheProvider, "0xe6d1aFea0B76C8f51024683DD27FA446dDAF34B6", 18),
+    await tokenTotalSupply(avalancheProvider, "0xb54f16fB19478766A268F172C9480f8da1a7c9C3", 9),
+    await tokenTotalSupply(avalancheProvider, "0x1a877B68bdA77d78EEa607443CcDE667B31B0CdF", 18),
+    await tokenTotalSupply(avalancheProvider, "0x395908aeb53d33A9B8ac35e148E9805D34A555D3", 18),
+    await tokenTotalSupply(avalancheProvider, "0x130966628846BFd36ff31a822705796e8cb8C18D", 18),
+    await tokenTotalSupply(avalancheProvider, "0x026187BdbC6b751003517bcb30Ac7817D5B766f8", 18),
+    await tokenTotalSupply(avalancheProvider, "0xd1c3f94DE7e5B45fa4eDBBA472491a9f4B166FC4", 18),
+    await tokenTotalSupply(avalancheProvider, "0x1f1E7c893855525b303f99bDF5c3c05Be09ca251", 18),
+    await tokenTotalSupply(avalancheProvider, "0x060556209E507d30f2167a101bFC6D256Ed2f3e1", 18),
+    await tokenTotalSupply(avalancheProvider, "0xE1C110E1B1b4A1deD0cAf3E42BfBdbB7b5d7cE1C", 18),
+    await tokenTotalSupply(avalancheProvider, "0xec3492a2508DDf4FDc0cD76F31f340b30d1793e6", 18),
+    await tokenTotalSupply(avalancheProvider, "0x564A341Df6C126f90cf3ECB92120FD7190ACb401", 6),
+    await tokenTotalSupply(avalancheProvider, "0xe896CDeaAC9615145c0cA09C8Cd5C25bced6384c", 18),
+    await tokenTotalSupply(avalancheProvider, "0xEd2b42D3C9c6E97e11755BB37df29B6375ede3EB", 18),
+    await tokenTotalSupply(avalancheProvider, "0x094bd7B2D99711A1486FB94d4395801C6d0fdDcC", 18),
+    await tokenTotalSupply(avalancheProvider, "0x45C13620B55C35A5f539d26E88247011Eb10fDbd", 18),
+    await tokenTotalSupply(avalancheProvider, "0x6241af3817Db48a7F9E19FD9446d78E50936d275", 18),
+    await tokenTotalSupply(avalancheProvider, "0x1111111111182587795eF1098ac7da81a108C97a", 18),
+    await tokenTotalSupply(avalancheProvider, "0x8D88e48465F30Acfb8daC0b3E35c9D6D7d36abaf", 18),
+    await tokenTotalSupply(avalancheProvider, "0x3709E8615E02C15B096f8a9B460ccb8cA8194e86", 18),
+    await tokenTotalSupply(avalancheProvider, "0x4bf5cd1AC6FfF12E88AEDD3c70EB4148F90F8894", 18),
+    await tokenTotalSupply(avalancheProvider, "0x0f34919404a290e71fc6A510cB4a6aCb8D764b24", 18),
+    await tokenTotalSupply(avalancheProvider, "0xCC2f1d827b18321254223dF4e84dE399D9Ff116c", 18),
+    await tokenTotalSupply(avalancheProvider, "0x542fA0B261503333B90fE60c78F2BeeD16b7b7fD", 9),
+    await tokenTotalSupply(avalancheProvider, "0x6D923f688C7FF287dc3A5943CAeefc994F97b290", 18),
+    await tokenTotalSupply(avalancheProvider, "0x65378b697853568dA9ff8EaB60C13E1Ee9f4a654", 18),
+    await tokenTotalSupply(avalancheProvider, "0x325a98F258a5732c7b06555603F6aF5BC1C17F0a", 9),
+  ]));
+
+  console.log(tokens);
+
+  return tokens;
+};
+
+// avalancheTokenTotalValue();
 
 const test = async () => {
-  let polygonTokens = await polygonTotalTokenValue();
-  getPrices(await polygonTokens);
+  //   let polygonTokens = await polygonTotalTokenValue();
+  let avaxTokens = await avalancheTokenTotalValue();
+  //   getPrices("polygon-pos", polygonTokens);
+  getPrices("avalanche", avaxTokens);
 };
 
 test();
-
-let tickerAddressObj = {};
-
-const tokenTotalSupply = async (contractAddress, decimal) => {
-  let tokenContract = new ethers.Contract(
-    contractAddress,
-    erc20ABI,
-    polygonProvider
-  );
-
-  let [tokenSupply, tokenTicker] = await Promise.all([
-    parseFloat(
-      ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)
-    ),
-    tokenContract.symbol(),
-  ]);
-
-  tickerAddressObj[[tokenTicker]] = contractAddress;
-  //   console.log(tickerAddressObj);
-
-  let array = [];
-
-  array = [tokenTicker, tokenSupply, contractAddress];
-
-  return array;
-};
-
-// let temp = tokenTotalSupply("0xc2132D05D31c914a87C6611C10748AEb04B58e8F", 6);
-
-// test = async () => {
-//   //   let temp = await tickerAddressObj;
-//   let test = await temp;
-
-//   console.log(await test[0]);
-//   let testObj = {};
-//   testObj[test[0]] = test[2];
-//   console.log(testObj);
-// };
-
-// test();
-
-// let testArray = ["ETH", 1000, "0x00000"];
-
-// let newObj = {};
-
-// newObj[testArray[0]] = testArray[2];
-
-// console.log(newObj);
