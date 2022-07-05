@@ -13,11 +13,7 @@ const provider = new ethers.providers.InfuraProvider("homestead", {
   projectSecret: process.env.INFURA_PROJECT_SECRET,
 });
 
-const {
-  ethUsdPriceContract,
-  btcUsdPriceContract,
-  feedRegistry,
-} = require("./contract_objects");
+const { ethUsdPriceContract, btcUsdPriceContract, feedRegistry } = require("./contract_objects");
 
 const addresses = require("./contract_objects");
 
@@ -93,12 +89,8 @@ const priceFeeds = async () => {
     gno,
     node,
   ] = await Promise.all([
-    parseFloat(
-      ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)
-    ),
-    parseFloat(
-      ethers.utils.formatUnits(await btcUsdPriceFeed.latestAnswer(), 8)
-    ),
+    parseFloat(ethers.utils.formatUnits(await ethUsdPriceFeed.latestAnswer(), 8)),
+    parseFloat(ethers.utils.formatUnits(await btcUsdPriceFeed.latestAnswer(), 8)),
     await feedingRegistry.latestRoundData(linkTokenAddress, USD),
     await feedingRegistry.latestRoundData(uniTokenAddress, USD),
     await feedingRegistry.latestRoundData(snxTokenAddress, USD),
@@ -139,39 +131,23 @@ const priceFeeds = async () => {
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=alpha-finance&vs_currencies=usd`
     ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=aleph&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=serum&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=chain-2&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=nexum&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=lido-dao&vs_currencies=usd`
-    ),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=aleph&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=serum&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=chain-2&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=nexum&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=lido-dao&vs_currencies=usd`),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=ice-token&vs_currencies=usd`
     ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=woofy&vs_currencies=usd`
-    ),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=woofy&vs_currencies=usd`),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=axie-infinity&vs_currencies=usd`
     ),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=interest-compounding-eth-index&vs_currencies=usd`
     ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=ecomi&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=dvf&vs_currencies=usd`
-    ),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=ecomi&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=dvf&vs_currencies=usd`),
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=hermez-network-token&vs_currencies=usd`
     ),
@@ -181,24 +157,12 @@ const priceFeeds = async () => {
     await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=boba-network&vs_currencies=usd`
     ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=zkspace&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=cdai&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=hopr&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=dxdao&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=gnosis&vs_currencies=usd`
-    ),
-    await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=dappnode&vs_currencies=usd`
-    ),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=zkspace&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=cdai&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=hopr&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=dxdao&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=gnosis&vs_currencies=usd`),
+    await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=dappnode&vs_currencies=usd`),
   ]);
 
   priceFeeds["ETH"] = ethPrice;
@@ -209,104 +173,59 @@ const priceFeeds = async () => {
   priceFeeds["HBTC"] = btcPrice;
 
   priceFeeds["LINK"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(linkPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(linkPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["UNI"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(uniPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(uniPrice["answer"]["_hex"]).toNumber(), 8)
   );
   priceFeeds["SNX"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(snxPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(snxPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["AAVE"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(aavePrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(aavePrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["CRV"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(crvPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(crvPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["MANA"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(manaPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(manaPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["BAL"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(balPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(balPrice["answer"]["_hex"]).toNumber(), 8)
   );
   priceFeeds["MATIC"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(maticPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(maticPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["FTT"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(fttPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(fttPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["SUSHI"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(sushiPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(sushiPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["YFI"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(yfiPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(yfiPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["FXS"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(fxsPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(fxsPrice["answer"]["_hex"]).toNumber(), 8)
   );
   priceFeeds["LRC"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(lrcPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(lrcPrice["answer"]["_hex"]).toNumber(), 8)
   );
   priceFeeds["IMX"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(imxPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(imxPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   priceFeeds["OMG"] = parseFloat(
-    ethers.utils.formatUnits(
-      ethers.BigNumber.from(omgPrice["answer"]["_hex"]).toNumber(),
-      8
-    )
+    ethers.utils.formatUnits(ethers.BigNumber.from(omgPrice["answer"]["_hex"]).toNumber(), 8)
   );
 
   // Centralised Feeds
@@ -315,9 +234,7 @@ const priceFeeds = async () => {
   // Decentral Games
   priceFeeds["DG"] = parseFloat(dg["data"]["decentral-games"]["usd"]);
   // Decentral Games Governance
-  priceFeeds["XDG"] = parseFloat(
-    xdg["data"]["decentral-games-governance"]["usd"]
-  );
+  priceFeeds["XDG"] = parseFloat(xdg["data"]["decentral-games-governance"]["usd"]);
   // Aurus Defi
   priceFeeds["AWX"] = parseFloat(awx["data"]["auruscoin"]["usd"]);
   // Bella Protocol
@@ -335,9 +252,7 @@ const priceFeeds = async () => {
   priceFeeds["ICE"] = parseFloat(ice["data"]["ice-token"]["usd"]);
   priceFeeds["WOOFY"] = parseFloat(woofy["data"]["woofy"]["usd"]);
   priceFeeds["AXS"] = parseFloat(axs["data"]["axie-infinity"]["usd"]);
-  priceFeeds["icETH"] = parseFloat(
-    iceth["data"]["interest-compounding-eth-index"]["usd"]
-  );
+  priceFeeds["icETH"] = parseFloat(iceth["data"]["interest-compounding-eth-index"]["usd"]);
   priceFeeds["OMI"] = parseFloat(omi["data"]["ecomi"]["usd"]);
   priceFeeds["DVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
   priceFeeds["xDVF"] = parseFloat(dvf["data"]["dvf"]["usd"]);
@@ -360,11 +275,3 @@ priceFeeds();
 module.exports = {
   priceFeeds,
 };
-
-const tokens = ([usdte, usdt, usdc, usdce, busde] = await Promise.all([
-  await tokenTotalSupply("0xc7198437980c041c805A1EDcbA50c1Ce5db95118", 6),
-  await tokenTotalSupply("0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7", 6),
-  await tokenTotalSupply("0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E", 6),
-  await tokenTotalSupply("0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664", 6),
-  await tokenTotalSupply("0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664", 18),
-]));
