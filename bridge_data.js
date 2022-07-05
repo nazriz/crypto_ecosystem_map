@@ -3,6 +3,7 @@ require("dotenv").config();
 const fs = require("fs");
 const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
+const { calcRatios } = require("./bridge_ratios");
 
 // const provider = new ethers.providers.AlchemyProvider(
 //   (network = "homestead"),
@@ -692,54 +693,13 @@ const data = async () => {
     }
   });
 
+  calcRatios(await ecosystem);
   console.log(ecosystem);
   return ecosystem;
 };
 
 // Calculate Ratios of bridged data
 
-let totalValueBridgedFromEthereum = 0;
-for (let type in ecosystem["Ethereum"]) {
-  let chains = ecosystem["Ethereum"][type];
-  for (let [bridge, value] of Object.entries(chains)) {
-    totalValueBridgedFromEthereum += value;
-  }
-}
-
-let ratiosObject = {};
-for (let type in ecosystem["Ethereum"]) {
-  let chains = ecosystem["Ethereum"][type];
-  for (let [bridge2, value2] of Object.entries(chains)) {
-    let ratio = (value2 / totalValueBridgedFromEthereum) * 100;
-    ratiosObject[bridge2] = ratio;
-  }
-}
-
-let ecosystemRatios = ecosystem["Ethereum"];
-let tempSubChain = {};
-let counter = 0;
-for (let [chain1, value1] of Object.entries(ecosystemRatios)) {
-  counter++;
-  let tempChain = ecosystemRatios[chain1];
-  tempSubChain = {};
-  for (let [chain2, value2] of Object.entries(tempChain)) {
-    for (let [ratio, value3] of Object.entries(ratiosObject)) {
-      if (chain2 === ratio) {
-        tempSubChain[chain2] = value3;
-      }
-    }
-    ecosystemRatios[chain1] = tempSubChain;
-  }
-}
-
-let ecosystemRatiosFinal = {};
-
-ecosystemRatiosFinal["Ethereum"] = ecosystemRatios;
-ecosystemRatiosFinal["totalValueBridgedFromEthereum"] = totalValueBridgedFromEthereum;
-
-console.log(ecosystemRatiosFinal);
-
-console.log("Calculating data... (this can take about 30 secs)");
 data();
 
 /*
