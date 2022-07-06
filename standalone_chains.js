@@ -1,7 +1,9 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 const axios = require("axios");
+const fs = require("fs");
 const erc20ABI = require("./ABI/erc20_abi.json");
+const { PassThrough } = require("stream");
 const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
 const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY;
@@ -290,6 +292,47 @@ const polygonTotalTokenValue = async () => {
   //   console.log(allTokens);
   //   console.log(tokens);
   return tokens;
+};
+
+let fileData = fs.readFileSync("eth_circulating_token_supply_data.json");
+let circSupplyData = JSON.parse(fileData);
+const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddress, decimal) => {
+  let tokenContract = new ethers.Contract(contractAddress, erc20ABI, chainProvider);
+
+  let [tokenSupply, tokenTicker] = await Promise.all([
+    parseFloat(ethers.utils.formatUnits(await tokenContract.totalSupply(), decimal)),
+    tokenContract.symbol(),
+  ]);
+
+  let tickerAddressObj = {};
+  tickerAddressObj[[tokenTicker]] = contractAddress;
+  //   console.log(tickerAddressObj);
+
+  if (!(tokenTicker in circSupplyFile)) {
+    let tickerLower = tokenTicker.toLowerCase();
+    try {
+      let data = await axios.get(`https://data.messari.io/api/v1/assets/${tickerLower}/metrics`);
+      let circSupply = (tokenSupply = data["data"]["data"]["supply"]["circulating"]);
+      if (circSupply != null) {
+        tokenSupply = circSupply;
+        circSupplyFile[tokenTicker] = tokenSupply;
+        let dataToWrite = JSON.stringify(circSupplyFile);
+        fs.writeFileSync("eth_circulating_token_supply_data.json", dataToWrite);
+      }
+    } catch (error) {
+      tokenSupply = tokenSupply;
+    }
+  } else {
+    tokenSupply = parseFloat(circSupplyFile[tokenTicker]);
+  }
+
+  //   console.log(tokenSupply);
+
+  let array = [];
+
+  array = [tokenTicker, tokenSupply, contractAddress];
+
+  return array;
 };
 
 const getPrices = async (networkId, array) => {
@@ -648,46 +691,43 @@ const arbitrumTokenTotalValue = async () => {
 };
 
 const optimismTokenTotalValue = async () => {
-  const tokens = ([
-    usdt,
-    usdc,
-    dai,
-    wbtc,
-    link,
-    frax,
-    fxs,
-    snx,
-    susd,
-    rgt,
-    seth,
-    sbtc,
-    thales,
-    dcn,
-    slink,
-    roobee,
-  ] = await Promise.all([
-    await tokenTotalSupply(optimismProvider, "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58", 6),
-    await tokenTotalSupply(optimismProvider, "0x7F5c764cBc14f9669B88837ca1490cCa17c31607", 6),
-    await tokenTotalSupply(optimismProvider, "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", 18),
-    await tokenTotalSupply(optimismProvider, "0x68f180fcCe6836688e9084f035309E29Bf0A2095", 8),
-    await tokenTotalSupply(optimismProvider, "0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6", 18),
-    await tokenTotalSupply(optimismProvider, "0x2E3D870790dC77A83DD1d18184Acc7439A53f475", 18),
-    await tokenTotalSupply(optimismProvider, "0x67CCEA5bb16181E7b4109c9c2143c24a1c2205Be", 18),
-    await tokenTotalSupply(optimismProvider, "0x8700dAec35aF8Ff88c16BdF0418774CB3D7599B4", 18),
-    await tokenTotalSupply(optimismProvider, "0x8c6f28f2F1A3C87F0f938b96d27520d9751ec8d9", 18),
-    await tokenTotalSupply(optimismProvider, "0xB548f63D4405466B36C0c0aC3318a22fDcec711a", 18),
-    await tokenTotalSupply(optimismProvider, "0xE405de8F52ba7559f9df3C368500B6E6ae6Cee49", 18),
-    await tokenTotalSupply(optimismProvider, "0x298B9B95708152ff6968aafd889c6586e9169f1D", 18),
-    await tokenTotalSupply(optimismProvider, "0x217D47011b23BB961eB6D93cA9945B7501a5BB11", 18),
-    await tokenTotalSupply(optimismProvider, "0x1da650C3B2DaA8AA9Ff6F661d4156Ce24d08A062", 18),
-    await tokenTotalSupply(optimismProvider, "0xc5Db22719A06418028A40A9B5E9A7c02959D0d08", 18),
-    await tokenTotalSupply(optimismProvider, "0xb12c13e66AdE1F72f71834f2FC5082Db8C091358", 18),
-  ]));
+  const tokens = ([usdt, usdc, dai, wbtc, link, frax, fxs, snx, susd, rgt, seth, sbtc, thales, dcn, slink, roobee] =
+    await Promise.all([
+      await tokenTotalSupply(optimismProvider, "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58", 6),
+      await tokenTotalSupply(optimismProvider, "0x7F5c764cBc14f9669B88837ca1490cCa17c31607", 6),
+      await tokenTotalSupply(optimismProvider, "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", 18),
+      await tokenTotalSupply(optimismProvider, "0x68f180fcCe6836688e9084f035309E29Bf0A2095", 8),
+      await tokenTotalSupply(optimismProvider, "0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6", 18),
+      await tokenTotalSupply(optimismProvider, "0x2E3D870790dC77A83DD1d18184Acc7439A53f475", 18),
+      await tokenTotalSupply(optimismProvider, "0x67CCEA5bb16181E7b4109c9c2143c24a1c2205Be", 18),
+      await tokenTotalSupply(optimismProvider, "0x8700dAec35aF8Ff88c16BdF0418774CB3D7599B4", 18),
+      await tokenTotalSupply(optimismProvider, "0x8c6f28f2F1A3C87F0f938b96d27520d9751ec8d9", 18),
+      await tokenTotalSupply(optimismProvider, "0xB548f63D4405466B36C0c0aC3318a22fDcec711a", 18),
+      await tokenTotalSupply(optimismProvider, "0xE405de8F52ba7559f9df3C368500B6E6ae6Cee49", 18),
+      await tokenTotalSupply(optimismProvider, "0x298B9B95708152ff6968aafd889c6586e9169f1D", 18),
+      await tokenTotalSupply(optimismProvider, "0x217D47011b23BB961eB6D93cA9945B7501a5BB11", 18),
+      await tokenTotalSupply(optimismProvider, "0x1da650C3B2DaA8AA9Ff6F661d4156Ce24d08A062", 18),
+      await tokenTotalSupply(optimismProvider, "0xc5Db22719A06418028A40A9B5E9A7c02959D0d08", 18),
+      await tokenTotalSupply(optimismProvider, "0xb12c13e66AdE1F72f71834f2FC5082Db8C091358", 18),
+    ]));
 
   //   console.log(tokens);
   return tokens;
 };
 
+const ethereumTokenTotalValue = async () => {
+  const tokens = ([bnb, usdt, usdc, busd, dai, hex] = await Promise.all([
+    await ethTokenTotalSupply(provider, circSupplyData, "0xB8c77482e45F1F44dE1745F52C74426C631bDD52", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x4Fabb145d64652a948d72533023f6E7A623C7C53", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x2b591e99afE9f32eAA6214f7B7629768c40Eeb39", 8),
+  ]));
+  console.log(tokens);
+};
+
+ethereumTokenTotalValue();
 const test = async () => {
   let optimismTokens = optimismTokenTotalValue();
   let arbitrumTokens = arbitrumTokenTotalValue();
@@ -699,4 +739,6 @@ const test = async () => {
   //   getPrices("optimistic-ethereum", await optimismTokens);
 };
 
-test();
+// test();
+
+// ethTokenTotalSupply(provider, circSupplyData, "0x99d8a9c45b2eca8864373a26d1459e3dff1e17f3", 18);
