@@ -304,6 +304,7 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
     tokenContract.symbol(),
   ]);
 
+  //   console.log(tokenSupply);
   let tickerAddressObj = {};
   tickerAddressObj[[tokenTicker]] = contractAddress;
   //   console.log(tickerAddressObj);
@@ -312,7 +313,7 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
     let tickerLower = tokenTicker.toLowerCase();
     try {
       let data = await axios.get(`https://data.messari.io/api/v1/assets/${tickerLower}/metrics`);
-      let circSupply = (tokenSupply = data["data"]["data"]["supply"]["circulating"]);
+      let circSupply = data["data"]["data"]["supply"]["circulating"];
       if (circSupply != null) {
         tokenSupply = circSupply;
         circSupplyFile[tokenTicker] = tokenSupply;
@@ -326,12 +327,9 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
     tokenSupply = parseFloat(circSupplyFile[tokenTicker]);
   }
 
-  //   console.log(tokenSupply);
-
   let array = [];
 
   array = [tokenTicker, tokenSupply, contractAddress];
-
   return array;
 };
 
@@ -715,30 +713,273 @@ const optimismTokenTotalValue = async () => {
   return tokens;
 };
 
+// Excludes: HEX, MKR
+// Need to review: MIM 0x99D8a9C45b2ecA8864373A26D1459e3Dff1e17F3
+
 const ethereumTokenTotalValue = async () => {
-  const tokens = ([bnb, usdt, usdc, busd, dai, hex] = await Promise.all([
+  const tokens = ([
+    bnb,
+    usdt,
+    usdc,
+    busd,
+    dai,
+    shib,
+    leo,
+    theta,
+    wbtc,
+    steth,
+    matic,
+    okb,
+    link,
+    cro,
+    uni,
+    xcn,
+    frax,
+    mana,
+    wfil,
+    gala,
+    tusd,
+    cusdc,
+    kcs,
+    usdp,
+    aave,
+    btt,
+    qnt,
+    hbtc,
+    usdd,
+    grt,
+    ht,
+    bat,
+    ftm,
+    ceth,
+    snx,
+    cdai,
+    paxg,
+    chz,
+    zil,
+    lrc,
+    enj,
+    bit,
+    xaut,
+    amp,
+    wcelo,
+    cel,
+    nexo,
+    oneinch,
+    xdce,
+    comp,
+    ohm,
+    gno,
+    srm,
+    wqtum,
+    ldo,
+    psafemoon,
+    iotx,
+    nxm,
+    zrx,
+    omg,
+    iost,
+    ceek,
+    mco,
+    glm,
+    lpt,
+    one,
+    sushi,
+    ens,
+    wax,
+    woo,
+    yfi,
+    dydx,
+    sxp,
+    mim,
+    chsb,
+    mxc,
+    rpl,
+    apenft,
+    uma,
+    elon,
+    poly,
+    gusd,
+    bal,
+    ogn,
+    knc,
+    syn,
+    rndr,
+    rsr,
+    pltc,
+    eurs,
+    orbs,
+    snt,
+    husd,
+    cet,
+    fx,
+    storj,
+    rev,
+    nmr,
+    chr,
+    pundix,
+    keep,
+    mvl,
+    oxt,
+    dawn,
+    nkn,
+    ant,
+    aurora,
+    susd,
+    renbtc,
+    powr,
+    tel,
+    spell,
+    augur,
+    prom,
+    xsgd,
+    celr,
+    dent,
+    auto,
+    xyo,
+    inj,
+  ] = await Promise.all([
     await ethTokenTotalSupply(provider, circSupplyData, "0xB8c77482e45F1F44dE1745F52C74426C631bDD52", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6),
     await ethTokenTotalSupply(provider, circSupplyData, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6),
     await ethTokenTotalSupply(provider, circSupplyData, "0x4Fabb145d64652a948d72533023f6E7A623C7C53", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18),
-    await ethTokenTotalSupply(provider, circSupplyData, "0x2b591e99afE9f32eAA6214f7B7629768c40Eeb39", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x2AF5D2aD76741191D15Dfe7bF6aC92d4Bd912Ca3", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x3883f5e181fccaF8410FA61e12b59BAd963fb645", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x75231F58b43240C9718Dd58B4967c5114342a86c", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x514910771AF9Ca656af840dff83E8264EcF986CA", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xA0b73E1Ff0B80914AB6fe0444E65848C4C34450b", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xA2cd3D43c775978A96BdBf12d733D5A1ED94fb18", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x853d955aCEf822Db058eb8505911ED77F175b99e", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x6e1A19F235bE7ED8E3369eF73b196C07257494DE", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x15D4c048F83bd7e37d49eA4C83a07267Ec4203dA", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0000000000085d4780B73119b644AE5ecd22b376", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x39AA39c021dfbaE8faC545936693aC917d5E7563", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xf34960d9d60be18cC1D5Afc1A6F012A723a28811", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x8E870D67F660D95d5be530380D0eC0bd388289E1", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xC669928185DbCE49d2230CC9B0979BE6DC797957", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x4a220E6096B25EADb88358cb44068A3248254675", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0316EB71485b0Ab14103307bf65a021042c6d380", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0C10bF8FcB7Bf5412187A595ab97a3609160b5c6", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xc944E90C64B2c07662A292be6244BDf05Cda44a7", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x6f259637dcD74C767781E37Bc6133cd6A68aa161", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0D8775F648430679A709E98d2b0Cb6250d2887EF", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x4E15361FD6b4BB609Fa63C81A2be19d873717870", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x45804880De22913dAFE09f4980848ECE6EcbAf78", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x3506424F91fD33084466F402d5D97f05F8e3b4AF", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x05f4a42e251f2d52b8ed15E9FEdAacFcEF1FAD27", 12),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xF629cBd94d3791C9250152BD8dfBDF380E2a3B9c", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x1A4b46696b2bB4794Eb3D4c26f1c55F9170fa4C5", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x68749665FF8D2d112Fa859AA293F07A622782F38", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xfF20817765cB7f73d4bde2e66e067E58D11095C2", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xE452E6Ea2dDeB012e20dB73bf5d3863A3Ac8d77a", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xaaAEBE6Fe48E54f431b0C390CfaF0b017d09D42d", 4),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xB62132e35a6c13ee1EE0f84dC5d40bad8d815206", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x111111111117dC0aa78b770fA6A738034120C302", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x41AB1b6fcbB2fA9DCEd81aCbdeC13Ea6315F2Bf2", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xc00e94Cb662C3520282E6f5717214004A7f26888", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x64aa3364F17a4D01c6f1751Fd97C2BD3D7e7f1D5", 9),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x6810e776880C02933D47DB1b9fc05908e5386b96", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x476c5E26a75bd202a9683ffD34359C0CC15be0fF", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x3103dF8F05c4D8aF16fD22AE63E406b97FeC6938", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x16631e53C20Fd2670027C6D53EfE2642929b285C", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x6fB3e0A217407EFFf7Ca062D46c26E5d60a14d69", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xd7c49CEE7E9188cCa6AD8FF264C1DA2e69D4Cf3B", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xE41d2489571d322189246DaFA5ebDe1F4699F498", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xFA1a856Cfa3409CFa145Fa4e20Eb270dF3EB21ab", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xb056c38f6b7Dc4064367403E26424CD2c60655e1", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xB63B606Ac810a52cCa15e44bB630fd42D8d1d83d", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x7DD9c5Cba05E151C895FDe1CF355C9A1D5DA6429", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x58b6A8A3302369DAEc383334672404Ee733aB239", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x799a4202c12ca952cB311598a024C80eD371a41e", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x39Bb259F66E1C59d5ABEF88375979b4D20D98022", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x4691937a7508860F876c9c0a2a617E7d9E945D4B", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x92D6C1e31e14520e676a687F0a93788B716BEff5", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x8CE9137d39326AD0cD6491fb5CC0CbA0e089b6A9", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x99D8a9C45b2ecA8864373A26D1459e3Dff1e17F3", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xba9d4199faB4f26eFE3551D490E3821486f135Ba", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x5Ca381bBfb58f0092df149bD3D243b08B9a8386e", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xD33526068D116cE69F19A9ee46F0bd304F21A51f", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x198d14F2Ad9CE69E76ea330B374DE4957C3F850a", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x04Fa0d235C4abf4BcF4787aF4CF447DE572eF828", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x761D38e5ddf6ccf6Cf7c55759d5210750B5D60F3", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x9992eC3cF6A55b00978cdDF2b27BC6882d88D1eC", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x056Fd409E1d7A124BD7017459dFEa2F387b6d5Cd", 2),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xba100000625a3754423978a60c9317c58a424e3D", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x8207c1FfC5B6804F6024322CcF34F29c3541Ae26", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0f2D719407FdBeFF09D87557AbB7232601FD9F29", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x6De037ef9aD2725EB40118Bb1702EBb27e4Aeb24", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x320623b8E4fF03373931769A31Fc52A4E78B5d70", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x429D83Bb0DCB8cdd5311e34680ADC8B12070a07f", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xdB25f211AB05b1c97D595516F45794528a807ad8", 2),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xff56Cc6b1E6dEd347aA0B7676C85AB0B3D08B0FA", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x744d70FDBE2Ba4CF95131626614a1763DF805B9E", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xdF574c24545E5FfEcb9a659c229253D4111d87e1", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x081F67aFA0cCF8c7B17540767BBe95DF2bA8D97F", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x8c15Ef5b4B21951d50E53E4fbdA8298FFAD25057", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xB64ef51C888972c908CFacf59B47C1AfBC0Ab8aC", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x2ef52Ed7De8c5ce03a4eF0efbe9B7450F2D7Edc9", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x1776e1F26f98b1A5dF9cD347953a26dd3Cb46671", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x8A2279d4A90B6fe1C4B30fa660cC9f926797bAA2", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x0FD10b9899882a6f2fcb5c371E17e70FdEe00C38", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x85Eee30c52B0b379b046Fb0F85F4f3Dc3009aFEC", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xA849EaaE994fb86Afa73382e9Bd88c2B6b18Dc71", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x4575f41308EC1483f3d399aa9a2826d74Da13Deb", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x580c8520dEDA0a441522AEAe0f9F7A5f29629aFa", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x5Cf04716BA20127F1E2297AdDCf4B5035000c9eb", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xa117000000f279D81A1D3cc75430fAA017FA5A2e", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xAaAAAA20D9E0e2461697782ef11675f668207961", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x57Ab1ec28D129707052df4dF418D58a2D46d5f51", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x595832F8FC6BF59c85C527fEC3740A1b7a361269", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x467Bccd9d29f223BcE8043b84E8C8B282827790F", 2),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x090185f2135308BaD17527004364eBcC2D37e5F6", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x221657776846890989a759BA2973e427DfF5C9bB", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xfc82bb4ba86045Af6F327323a46E80412b91b27d", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x70e8dE73cE538DA2bEEd35d14187F6959a8ecA96", 6),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x4F9254C83EB525f9FCf346490bbb3ed28a81C667", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x3597bfD533a99c9aa083587B074434E61Eb0A258", 8),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x622dFfCc4e83C64ba959530A5a5580687a57581b", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0x55296f69f40Ea6d20E478533C15A6B08B654E758", 18),
+    await ethTokenTotalSupply(provider, circSupplyData, "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30", 18),
   ]));
-  console.log(tokens);
+
+  return tokens;
 };
 
-ethereumTokenTotalValue();
+// ethereumTokenTotalValue();
 const test = async () => {
-  let optimismTokens = optimismTokenTotalValue();
-  let arbitrumTokens = arbitrumTokenTotalValue();
+  //   let optimismTokens = optimismTokenTotalValue();
+  //   let arbitrumTokens = arbitrumTokenTotalValue();
+  let ethereumTokens = ethereumTokenTotalValue();
   //   let polygonTokens = await polygonTotalTokenValue();
   //   let avaxTokens = await avalancheTokenTotalValue();
   //   getPrices("polygon-pos", polygonTokens);
   //   getPrices("avalanche", avaxTokens);
-  getPrices("arbitrum-one", await arbitrumTokens);
+  //   getPrices("arbitrum-one", await arbitrumTokens);
   //   getPrices("optimistic-ethereum", await optimismTokens);
+  getPrices("ethereum", await ethereumTokens);
 };
 
-// test();
+test();
 
-// ethTokenTotalSupply(provider, circSupplyData, "0x99d8a9c45b2eca8864373a26d1459e3dff1e17f3", 18);
+// ethTokenTotalSupply(provider, circSupplyData, "0x6e1A19F235bE7ED8E3369eF73b196C07257494DE", 18);
+
+// ethTokenTotalSupply(provider, circSupplyData, "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2", 18);
