@@ -96,7 +96,6 @@ const tokenTotalSupply = async (chainProvider, contractAddress, decimal) => {
 
   let tickerAddressObj = {};
   tickerAddressObj[[tokenTicker]] = contractAddress;
-  //   console.log(tickerAddressObj);
 
   let array = [];
 
@@ -294,6 +293,14 @@ const polygonTotalTokenValue = async () => {
   return tokens;
 };
 
+// Token supply on Ethereum is handled differently from token supply on alt chains
+// Since often the total token supply =/= to circulating supply
+// This modified tokenTotalSupply function uses messari circulating token supply data
+// to ensure addtional accuracy of the calculation. Where the messari api returns nothing
+// The total token supply returned from onchain is used. The retrieved circulating supply
+// Is saved locally, to prevent hitting the messari free tier API limits of 30 reqs p/minute
+// This means that circulating token supply will need to be manually updated occassionally
+// From the use of a seperate function.
 let fileData = fs.readFileSync("eth_circulating_token_supply_data.json");
 let circSupplyData = JSON.parse(fileData);
 const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddress, decimal) => {
@@ -304,10 +311,8 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
     tokenContract.symbol(),
   ]);
 
-  //   console.log(tokenSupply);
   let tickerAddressObj = {};
   tickerAddressObj[[tokenTicker]] = contractAddress;
-  //   console.log(tickerAddressObj);
 
   if (!(tokenTicker in circSupplyFile)) {
     let tickerLower = tokenTicker.toLowerCase();
@@ -333,6 +338,11 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
   return array;
 };
 
+// Retrieves the token price of token based on contract address
+// and coingecko network-id, using the coingecko api
+// Output of function returns the final calculation in USD
+// Tokens that do not return a price from the coingecko API are
+// ommitted from the final calculation
 const getPrices = async (networkId, array) => {
   let tickerSupply = {};
   let tickerAddress = {};
@@ -361,11 +371,10 @@ const getPrices = async (networkId, array) => {
         let temp = geckoPriceOutput[xkey1];
         let price = temp["usd"];
         tickerPrice[xkey2] = price;
+        // console.log(tickerPrice);
       }
     }
   }
-
-  //   console.log(tickerPrice);
 
   // make final calculation
   // This excludes tokens that do not return a coingecko price
@@ -953,8 +962,6 @@ const ethereumTokenTotalValue = async () => {
     qsp,
     krl,
     net,
-    df,
-    ult,
     mdt,
     lon,
     grid,
@@ -977,7 +984,6 @@ const ethereumTokenTotalValue = async () => {
     qrl,
     hoge,
     gto,
-    avt,
     ast,
     crpt,
     civ,
@@ -1228,8 +1234,6 @@ const ethereumTokenTotalValue = async () => {
     await ethTokenTotalSupply(provider, circSupplyData, "0x99ea4dB9EE77ACD40B119BD1dC4E33e1C070b80d", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0x464eBE77c293E473B48cFe96dDCf88fcF7bFDAC0", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0xcfb98637bcae43C13323EAa1731cED2B716962fD", 18),
-    await ethTokenTotalSupply(provider, circSupplyData, "0x431ad2ff6a9C365805eBaD47Ee021148d6f7DBe0", 18),
-    await ethTokenTotalSupply(provider, circSupplyData, "0xE884cc2795b9c45bEeac0607DA9539Fd571cCF85", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0x814e0908b12A99FeCf5BC101bB5d0b8B5cDf7d26", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0x0000000000095413afC295d19EDeb1Ad7B71c952", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0x12B19D3e2ccc14Da04FAe33e63652ce469b3F2FD", 12),
@@ -1252,7 +1256,6 @@ const ethereumTokenTotalValue = async () => {
     await ethTokenTotalSupply(provider, circSupplyData, "0x697beac28B09E122C4332D163985e8a73121b97F", 8),
     await ethTokenTotalSupply(provider, circSupplyData, "0xfAd45E47083e4607302aa43c65fB3106F1cd7607", 9),
     await ethTokenTotalSupply(provider, circSupplyData, "0xC5bBaE50781Be1669306b9e001EFF57a2957b09d", 5),
-    await ethTokenTotalSupply(provider, circSupplyData, "0x0d88eD6E74bbFD96B831231638b66C05571e824F", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0x27054b13b1B798B345b591a4d22e6562d47eA75a", 4),
     await ethTokenTotalSupply(provider, circSupplyData, "0x08389495D7456E1951ddF7c3a1314A4bfb646d8B", 18),
     await ethTokenTotalSupply(provider, circSupplyData, "0x08389495D7456E1951ddF7c3a1314A4bfb646d8B", 18),
@@ -1277,6 +1280,8 @@ const ethereumTokenTotalValue = async () => {
   console.log(tokens);
   return tokens;
 };
+
+const TESTethTokensTotalySupply = async () => {};
 
 // ethereumTokenTotalValue();
 const test = async () => {
