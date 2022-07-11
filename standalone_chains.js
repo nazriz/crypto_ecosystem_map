@@ -341,6 +341,49 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
   return array;
 };
 
+let testArray = [
+  ["ETH", 1404999.9999908486, "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"],
+  ["USDT", 4979997922.172658, "0x55d398326f99059fF775485246999027B3197955"],
+  ["USDC", 1879000000, "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"],
+  ["WBNB", 4707375.621664749, "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"],
+  ["BUSD", 4850999328.62941, "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"],
+  ["XRP", 277000000, "0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE"],
+  ["ADA", 280000000, "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47"],
+  ["DOGE", 1400000000, "0xbA2aE424d960c26247Dd6c32edC70B295c744C43"],
+  ["DAI", 161999999.99999902, "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"],
+  ["DOT", 15999999.991309563, "0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402"],
+  ["SHIB", 7059999999990.641, "0x2859e4544C4bB03966803b044A93563Bd2D0DD4D"],
+  ["AVAX", 2000000, "0x1CE0c2827e2eF14D5C4f29a091d735A204794041"],
+  ["UNI", 4500000, "0xBf5140A22578168FD562DCcF235E5D43A02ce9B1"],
+  ["LTC", 725000, "0x4338665CBB7B2485A8855A139b75D5e34AB0DB94"],
+  ["LINK", 8600000, "0xF8A0BF9cF54Bb92F17374d9e9A321E6a111a51bD"],
+  ["BTT", 54390000000, "0x8595F9dA7b868b1822194fAEd312235E43007b49"],
+  ["NEAR", 6000000, "0x1Fa4a73a3F0133f0025378af00236f3aBDEE5D63"],
+  ["ATOM", 1900000, "0x0Eb3a705fc54725037CC9e008bDede697f62F335"],
+  ["XCN", 432322231.329601, "0x7324c7C0d95CEBC73eEa7E85CbAac0dBdf88a05b"],
+  ["BTCB", 112501, "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"],
+  ["ETC", 800000, "0x3d6545b08693daE087E957cb1180ee38B9e3c25E"],
+  ["BCH", 160000, "0x8fF795a6F4D97E7887C79beA79aba5cc76444aDf"],
+  ["FLOW", 3300100, "0xC943c5320B9c18C153d1e2d12cC3074bebfb31A2"],
+  ["XTZ", 4400000, "0x16939ef78684453bfDFb47825F8a5F714f12623a"],
+  ["FRAX", 4572119.6575252805, "0x90C97F71E18723b0Cf0dfa30ee176Ab653E89F40"],
+  ["TUSD", 113000000, "0x14016E85a25aeb13065688cAFB43044C2ef86784"],
+  ["AXS", 1210000, "0x715D400F88C167884bbCc41C5FeA407ed4D2f8A0"],
+  ["EGLD", 600000, "0xbF7c81FFF98BbE61B40Ed186e4AfD6DDd01337fe"],
+  ["EOS", 13640000, "0x56b6fB708fC5732DEC1Afc8D8556423A2EDcCbD6"],
+  ["PAX", 3571937, "0xb7F8Cd00C5A06c0537E2aBfF0b58033d02e5E094"],
+  ["MKR", 5000, "0x5f0Da599BB2ccCfcf6Fdfd7D81743B6020864350"],
+  ["ZEC", 100000, "0x1Ba42e5193dfA8B03D15dd1B86a3113bbBEF8Eeb"],
+  ["USDP", 2428064.2026706, "0xb3c11196A4f3b1da7c23d9FB0A3dDE9c6340934F"],
+  ["BTT", 36718625363073.04, "0x352Cb5E19b12FC216548a2677bD0fce83BaE434B"],
+  ["IOTA", 25906056.6, "0xd944f1D1e9d5f9Bb90b62f9D45e447D989580782"],
+  ["XEC", 36873241589, "0x0Ef2e7602adD1733Bfdb17aC3094d0421B502cA3"],
+  ["USDD", 110581328.92378615, "0xd17479997F34dd9156Deef8F95A52D81D265be9c"],
+  ["FTM", 36000000, "0xAD29AbB318791D579433D831ed122aFeAf29dcfe"],
+  ["BAT", 25000000, "0x101d82428437127bF1608F699CD651e6Abf9766E"],
+  ["PAXG", 300, "0x7950865a9140cB519342433146Ed5b40c6F210f7"],
+];
+
 // Retrieves the token price of token based on contract address
 // and coingecko network-id, using the coingecko api
 // Output of function returns the final calculation in USD
@@ -356,10 +399,12 @@ const getPrices = async (networkId, array) => {
   }
 
   let payload = "";
+  let payloadArray = [];
   for (const [key1, value1] of Object.entries(tickerAddress)) {
-    payload += value1 + ",";
+    // payload += value1 + ",";
+    payloadArray.push(value1);
   }
-
+  console.log(payloadArray);
   let geckoData = await axios.get(
     `https://api.coingecko.com/api/v3/simple/token_price/${networkId}?contract_addresses=${payload}&vs_currencies=usd`
   );
@@ -392,7 +437,7 @@ const getPrices = async (networkId, array) => {
     }
   }
 
-  console.log(totalWithPrices);
+  // console.log(totalWithPrices);
 
   // Calculate grand total
   let grandTotal = 0;
@@ -402,6 +447,8 @@ const getPrices = async (networkId, array) => {
 
   console.log(grandTotal);
 };
+
+getPrices("binance-smart-chain", testArray);
 
 // not including wavax
 const avalancheTokenTotalValue = async () => {
@@ -1681,6 +1728,52 @@ const bnbTotalTokenValue = async () => {
     uncx,
     vrt,
     matter,
+    raven,
+    monsta,
+    lnr,
+    brbc,
+    vdai,
+    cas,
+    tkp,
+    stax,
+    o3,
+    fries,
+    vltc,
+    poolz,
+    satt,
+    ice,
+    vlink,
+    sparta,
+    nfty,
+    bog,
+    zmn,
+    vfox,
+    broobee,
+    gton,
+    vsxp,
+    evai,
+    free,
+    mda,
+    fnx,
+    vdot,
+    ioi,
+    idna,
+    ddim,
+    dafi,
+    uncl,
+    xtm,
+    xcur,
+    iftoken,
+    juld,
+    belt,
+    acs,
+    gum,
+    skmt,
+    wana,
+    bhc,
+    he,
+    oddz,
+    wsg,
   ] = await Promise.all([
     await tokenTotalSupply(bnbProvider, "0x2170Ed0880ac9A755fd29B2688956BD959F933F8", 18),
     await tokenTotalSupply(bnbProvider, "0x55d398326f99059fF775485246999027B3197955", 18),
@@ -1829,6 +1922,52 @@ const bnbTotalTokenValue = async () => {
     await tokenTotalSupply(bnbProvider, "0x09a6c44c3947B69E2B45F4D51b67E6a39ACfB506", 18),
     await tokenTotalSupply(bnbProvider, "0x5F84ce30DC3cF7909101C69086c50De191895883", 18),
     await tokenTotalSupply(bnbProvider, "0x1C9491865a1DE77C5b6e19d2E6a5F1D7a6F2b25F", 18),
+    await tokenTotalSupply(bnbProvider, "0xcD7C5025753a49f1881B31C48caA7C517Bb46308", 18),
+    await tokenTotalSupply(bnbProvider, "0x8A5d7FCD4c90421d21d30fCC4435948aC3618B2f", 18),
+    await tokenTotalSupply(bnbProvider, "0x9D4451151A8dE5B545a1bC6c8fdEB9d94a2868e1", 9),
+    await tokenTotalSupply(bnbProvider, "0x8E3BCC334657560253B83f08331d85267316e08a", 18),
+    await tokenTotalSupply(bnbProvider, "0x334b3eCB4DCa3593BCCC3c7EBD1A1C1d1780FBF1", 8),
+    await tokenTotalSupply(bnbProvider, "0x780207B8C0Fdc32cF60E957415bFa1f2d4d9718c", 18),
+    await tokenTotalSupply(bnbProvider, "0x7849ed1447250d0B896f89b58f3075B127ca29B3", 18),
+    await tokenTotalSupply(bnbProvider, "0x0Da6Ed8B13214Ff28e9Ca979Dd37439e8a88F6c4", 18),
+    await tokenTotalSupply(bnbProvider, "0xEe9801669C6138E84bD50dEB500827b776777d28", 18),
+    await tokenTotalSupply(bnbProvider, "0x393B312C01048b3ed2720bF1B090084C09e408A1", 18),
+    await tokenTotalSupply(bnbProvider, "0x57A5297F2cB2c0AaC9D554660acd6D385Ab50c6B", 8),
+    await tokenTotalSupply(bnbProvider, "0x77018282fD033DAF370337A5367E62d8811Bc885", 8),
+    await tokenTotalSupply(bnbProvider, "0x448BEE2d93Be708b54eE6353A7CC35C4933F1156", 18),
+    await tokenTotalSupply(bnbProvider, "0xf16e81dce15B08F326220742020379B855B87DF9", 18),
+    await tokenTotalSupply(bnbProvider, "0x650b940a1033B8A1b1873f78730FcFC73ec11f1f", 8),
+    await tokenTotalSupply(bnbProvider, "0x3910db0600eA925F63C36DdB1351aB6E2c6eb102", 18),
+    await tokenTotalSupply(bnbProvider, "0x5774B2fc3e91aF89f89141EacF76545e74265982", 18),
+    await tokenTotalSupply(bnbProvider, "0xB09FE1613fE03E7361319d2a43eDc17422f36B09", 18),
+    await tokenTotalSupply(bnbProvider, "0xFCb8a4B1a0B645e08064e05B98E9cc6f48D2aa57", 18),
+    await tokenTotalSupply(bnbProvider, "0x4D61577d8Fd2208A0afb814ea089fDeAe19ed202", 18),
+    await tokenTotalSupply(bnbProvider, "0xE64F5Cb844946C1F102Bd25bBD87a5aB4aE89Fbe", 18),
+    await tokenTotalSupply(bnbProvider, "0x64D5BaF5ac030e2b7c435aDD967f787ae94D0205", 18),
+    await tokenTotalSupply(bnbProvider, "0x2fF3d0F6990a40261c66E1ff2017aCBc282EB6d0", 8),
+    await tokenTotalSupply(bnbProvider, "0x233302A38fdBDd2b3f6Ee19A66d7E47c4A64Fe46", 8),
+    await tokenTotalSupply(bnbProvider, "0x12e34cDf6A031a10FE241864c32fB03a4FDaD739", 18),
+    await tokenTotalSupply(bnbProvider, "0xd72aA9e1cDDC2F6D6e0444580002170fbA1f8eED", 18),
+    await tokenTotalSupply(bnbProvider, "0xdFd9e2A17596caD6295EcFfDa42D9B6F63F7B5d5", 18),
+    await tokenTotalSupply(bnbProvider, "0x1610bc33319e9398de5f57B33a5b184c806aD217", 8),
+    await tokenTotalSupply(bnbProvider, "0x959229D94c9060552daea25AC17193bcA65D7884", 6),
+    await tokenTotalSupply(bnbProvider, "0x0De08C1AbE5fB86Dd7FD2ac90400AcE305138d5B", 18),
+    await tokenTotalSupply(bnbProvider, "0xc9132C76060F6b319764Ea075973a650A1a53bC9", 18),
+    await tokenTotalSupply(bnbProvider, "0x22439bE3AeBC1590B05E3243780eD4156b629604", 18),
+    await tokenTotalSupply(bnbProvider, "0x0E8D5504bF54D9E44260f8d153EcD5412130CaBb", 18),
+    await tokenTotalSupply(bnbProvider, "0xCd1fAFf6e578Fa5cAC469d2418C95671bA1a62Fe", 18),
+    await tokenTotalSupply(bnbProvider, "0xd52669712f253CD6b2Fe8A8638F66ed726cb770C", 8),
+    await tokenTotalSupply(bnbProvider, "0xB0e1fc65C1a741b4662B813eB787d369b8614Af1", 18),
+    await tokenTotalSupply(bnbProvider, "0x5A41F637C3f7553dBa6dDC2D3cA92641096577ea", 18),
+    await tokenTotalSupply(bnbProvider, "0xE0e514c71282b6f4e823703a39374Cf58dc3eA4f", 18),
+    await tokenTotalSupply(bnbProvider, "0x4197C6EF3879a08cD51e5560da5064B773aa1d29", 18),
+    await tokenTotalSupply(bnbProvider, "0xc53708664b99DF348dd27C3Ac0759d2DA9c40462", 18),
+    await tokenTotalSupply(bnbProvider, "0x1B2fdB1626285B94782af2Fda8e270E95cEbC3b4", 18),
+    await tokenTotalSupply(bnbProvider, "0x339C72829AB7DD45C3C52f965E7ABe358dd8761E", 18),
+    await tokenTotalSupply(bnbProvider, "0x6fd7c98458a943f469E1Cf4eA85B173f5Cd342F4", 18),
+    await tokenTotalSupply(bnbProvider, "0x20D39a5130F799b95B55a930E5b7eBC589eA9Ed8", 18),
+    await tokenTotalSupply(bnbProvider, "0xCD40F2670CF58720b694968698A5514e924F742d", 18),
+    await tokenTotalSupply(bnbProvider, "0xA58950F05FeA2277d2608748412bf9F802eA4901", 18),
   ]));
 
   // console.log(tokens);
@@ -1862,7 +2001,7 @@ const test = async () => {
   getPrices("binance-smart-chain", await bnbTokens);
 };
 
-test();
+// test();
 
 // ethTokenTotalSupply(provider, circSupplyData, "0x6e1A19F235bE7ED8E3369eF73b196C07257494DE", 18);
 
