@@ -397,19 +397,48 @@ const getPrices = async (networkId, array) => {
     tickerSupply[temp[0]] = temp[1];
     tickerAddress[temp[0]] = temp[2];
   }
-
   let payload = "";
+  let geckoPriceOutput = {};
   let payloadArray = [];
   for (const [key1, value1] of Object.entries(tickerAddress)) {
     // payload += value1 + ",";
     payloadArray.push(value1);
   }
-  console.log(payloadArray);
-  let geckoData = await axios.get(
-    `https://api.coingecko.com/api/v3/simple/token_price/${networkId}?contract_addresses=${payload}&vs_currencies=usd`
-  );
+  // console.log(payloadArray);
 
-  let geckoPriceOutput = geckoData["data"];
+  while (payloadArray.length > 0) {
+    let tempArray = [];
+    payload = "";
+    for (let i = 0; i < 100; i++) {
+      let tempItem = payloadArray.pop();
+      tempArray.push(tempItem);
+    }
+
+    for (item in tempArray) {
+      payload += tempArray[item] + ",";
+    }
+
+    let geckoData = await axios.get(
+      `https://api.coingecko.com/api/v3/simple/token_price/${networkId}?contract_addresses=${payload}&vs_currencies=usd`
+    );
+
+    let cleanData = geckoData["data"];
+
+    geckoPriceOutput = Object.assign(geckoPriceOutput, cleanData);
+    // for (dataKey in cleanData) {
+    //   // geckoPriceOutput[dataKey] = dataValue;
+    //   console.log(dataKe);
+    // }
+
+    // console.log("ANOTHER ONE");
+  }
+
+  console.log(geckoPriceOutput);
+  // let geckoPriceOutput = geckoData["data"];
+
+  // console.log(geckoData);
+
+  // console.log(geckoPriceOutput);
 
   let tickerPrice = {};
 
@@ -2001,7 +2030,7 @@ const test = async () => {
   getPrices("binance-smart-chain", await bnbTokens);
 };
 
-// test();
+test();
 
 // ethTokenTotalSupply(provider, circSupplyData, "0x6e1A19F235bE7ED8E3369eF73b196C07257494DE", 18);
 
