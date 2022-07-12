@@ -433,7 +433,7 @@ const getPrices = async (networkId, array) => {
     // console.log("ANOTHER ONE");
   }
 
-  console.log(geckoPriceOutput);
+  // console.log(geckoPriceOutput);
   // let geckoPriceOutput = geckoData["data"];
 
   // console.log(geckoData);
@@ -2003,6 +2003,58 @@ const bnbTotalTokenValue = async () => {
   return tokens;
 };
 
+const solanaTokenValue = async () => {
+  const getSolscanData = async (limit, offset) => {
+    let returnedData = await axios.get(
+      `https://public-api.solscan.io/token/list?sortBy=market_cap&direction=desc&limit=${limit}&offset=${offset}`
+    );
+
+    let solscanTokenData = returnedData["data"]["data"];
+    let solTokenMcap = {};
+
+    for (let i = 0; i < solscanTokenData.length; i++) {
+      let tempToken = solscanTokenData[i]["tokenSymbol"];
+      solTokenMcap[tempToken] = solscanTokenData[i]["marketCapFD"];
+    }
+
+    return solTokenMcap;
+  };
+
+  let [solscanData1, solscanData2, solscanData3, solscanData4, solscanData5, solscanData6, solscanData7, solscanData8] =
+    await Promise.all([
+      await getSolscanData(50, 0),
+      await getSolscanData(50, 50),
+      await getSolscanData(50, 100),
+      await getSolscanData(50, 150),
+      await getSolscanData(50, 200),
+      await getSolscanData(50, 250),
+      await getSolscanData(50, 300),
+      await getSolscanData(50, 350),
+    ]);
+
+  let solanaTickerMcap = {
+    ...solscanData1,
+    ...solscanData2,
+    ...solscanData3,
+    ...solscanData4,
+    ...solscanData5,
+    ...solscanData6,
+    ...solscanData7,
+    ...solscanData8,
+  };
+
+  console.log(solanaTickerMcap);
+  let solanaTokenValueGrandTotal = 0;
+  for (const [key, value] of Object.entries(solanaTickerMcap)) {
+    solanaTokenValueGrandTotal += solanaTickerMcap[key];
+  }
+
+  // console.log(solanaTokenValueGrandTotal);
+
+  return solanaTokenValueGrandTotal;
+};
+
+solanaTokenValue();
 // bnbTotalTokenValue();
 
 // const TESTethTokensTotalySupply = async () => {
@@ -2013,11 +2065,11 @@ const bnbTotalTokenValue = async () => {
 
 // ethereumTokenTotalValue();
 const test = async () => {
-  let bnbTokens = bnbTotalTokenValue();
+  // let bnbTokens = bnbTotalTokenValue();
   //   let testEthTokens = TESTethTokensTotalySupply();
   //   let optimismTokens = optimismTokenTotalValue();
   //   let arbitrumTokens = arbitrumTokenTotalValue();
-  // let ethereumTokens = ethereumTokenTotalValue();
+  let ethereumTokens = ethereumTokenTotalValue();
   // ethereumTokenTotalValue();
   //   let polygonTokens = await polygonTotalTokenValue();
   //   let avaxTokens = await avalancheTokenTotalValue();
@@ -2025,12 +2077,12 @@ const test = async () => {
   //   getPrices("avalanche", avaxTokens);
   //   getPrices("arbitrum-one", await arbitrumTokens);
   //   getPrices("optimistic-ethereum", await optimismTokens);
-  //   getPrices("ethereum", await ethereumTokens);
+  getPrices("ethereum", await ethereumTokens);
   //   getPrices("ethereum", await testEthTokens);
-  getPrices("binance-smart-chain", await bnbTokens);
+  // getPrices("binance-smart-chain", await bnbTokens);
 };
 
-test();
+// test();
 
 // ethTokenTotalSupply(provider, circSupplyData, "0x6e1A19F235bE7ED8E3369eF73b196C07257494DE", 18);
 
