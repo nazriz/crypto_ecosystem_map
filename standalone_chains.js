@@ -2010,14 +2010,19 @@ const solanaTokenValue = async () => {
     );
 
     let solscanTokenData = returnedData["data"]["data"];
-    let solTokenMcap = {};
+    let solTickerMcap = {};
 
     for (let i = 0; i < solscanTokenData.length; i++) {
       let tempToken = solscanTokenData[i]["tokenSymbol"];
-      solTokenMcap[tempToken] = solscanTokenData[i]["marketCapFD"];
+      let marketCapFD = solscanTokenData[i]["marketCapFD"];
+      let marketCap = solscanTokenData[i]["coingeckoInfo"]["marketData"]["marketCap"];
+      if (marketCapFD < marketCap) {
+        solTickerMcap[tempToken] = marketCapFD;
+      } else {
+        solTickerMcap[tempToken] = marketCap;
+      }
     }
-
-    return solTokenMcap;
+    return solTickerMcap;
   };
 
   let [solscanData1, solscanData2, solscanData3, solscanData4, solscanData5, solscanData6, solscanData7, solscanData8] =
@@ -2043,13 +2048,17 @@ const solanaTokenValue = async () => {
     ...solscanData8,
   };
 
+  let tempAuditString = "";
+  let tempAuditArray = [];
   console.log(solanaTickerMcap);
   let solanaTokenValueGrandTotal = 0;
   for (const [key, value] of Object.entries(solanaTickerMcap)) {
     solanaTokenValueGrandTotal += solanaTickerMcap[key];
+    tempAuditArray.push(solanaTickerMcap[key]);
+    tempAuditString += solanaTickerMcap[key] + ",";
   }
 
-  // console.log(solanaTokenValueGrandTotal);
+  console.log(solanaTokenValueGrandTotal);
 
   return solanaTokenValueGrandTotal;
 };
