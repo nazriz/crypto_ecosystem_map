@@ -1,8 +1,8 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
+const { tokenTotalSupply } = require("../CalcTools");
 const MORALIS_AVALANCHE = process.env.MORALIS_AVALANCHE;
 const avalancheProvider = new ethers.providers.JsonRpcProvider(MORALIS_AVALANCHE);
-const { tokenTotalSupply } = require("../CalcTools");
 
 // not including wavax
 // Only calculate for Avax c-chain
