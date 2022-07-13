@@ -188,8 +188,7 @@ const polygonTotalTokenValue = async () => {
     await tokenTotalSupply(polygonProvider, "0xCf66EB3D546F0415b368d98A95EAF56DeD7aA752", 18),
   ]));
 
-  console.log(tokens);
   return tokens;
 };
 
-polygonTotalTokenValue();
+module.exports = { polygonTotalTokenValue };

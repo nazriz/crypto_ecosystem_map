@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 const bitcoinMcapTvl = async () => {
   const [bitcoinData, lightningNetworkData, omniAssets] = await Promise.all([
     await axios.get(
@@ -20,3 +22,5 @@ const bitcoinMcapTvl = async () => {
   let lightningNetworkTVL = await lightningNetworkData["data"]["networkcapacityusd"];
   console.log(omniUSDT);
 };
+
+module.exports = { bitcoinMcapTvl };
