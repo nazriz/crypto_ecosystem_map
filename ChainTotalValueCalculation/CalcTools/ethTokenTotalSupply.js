@@ -1,6 +1,7 @@
 const { ethers } = require("ethers");
 const erc20ABI = require("../../ABI/erc20_abi.json");
 const axios = require("axios");
+const fs = require("fs");
 
 require("dotenv").config();
 
@@ -51,12 +52,5 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
   array = [tokenTicker, tokenSupply, contractAddress];
   return array;
 };
-
-// const test = async () => {
-//   let result = await ethTokenTotalSupply(provider, circSupplyData, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6);
-//   console.log(result);
-// };
-
-// test();
 
 module.exports = { ethTokenTotalSupply };

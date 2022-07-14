@@ -71,7 +71,8 @@ const getPrices = async (networkId, array) => {
     grandTotal += jvalue2;
   }
 
-  return grandTotal;
+  //Returns final total, rounded to 0 places
+  return grandTotal.toFixed(0);
 };
 
 module.exports = { getPrices };

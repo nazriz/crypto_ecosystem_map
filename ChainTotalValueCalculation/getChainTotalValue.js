@@ -37,42 +37,44 @@ for (const [key, value] of Object.entries(chainTotalValue)) {
 }
 
 const calculateChainValue = async () => {
-  // let [ethereumTokens, optimismTokens, arbitrumTokens, polygonTokens, avalancheTokens, bnbTokens] = await Promise.all([
-  //   ethereumTokenTotalValue(),
-  //   optimismTokenTotalValue(),
-  //   arbitrumTokenTotalValue(),
-  //   polygonTotalTokenValue(),
-  //   avalancheTokenTotalValue(),
-  //   bnbTotalTokenValue(),
-  // ]);
+  let [ethereumTokens, optimismTokens, arbitrumTokens, polygonTokens, avalancheTokens, bnbTokens] = await Promise.all([
+    ethereumTokenTotalValue(),
+    optimismTokenTotalValue(),
+    arbitrumTokenTotalValue(),
+    polygonTotalTokenValue(),
+    avalancheTokenTotalValue(),
+    bnbTotalTokenValue(),
+  ]);
 
-  // let [
-  //   ethereumTotalValue,
-  //   optimismTotalValue,
-  //   arbitrumTotalValue,
-  //   polygonTotalValue,
-  //   avalancheTotalValue,
-  //   bnbTotalValue,
-  //   solanaTotalValue,
-  // ] = await Promise.all([
-  //   getPrices("ethereum", ethereumTokens),
-  //   getPrices("optimistic-ethereum", optimismTokens),
-  //   getPrices("arbitrum-one", arbitrumTokens),
-  //   getPrices("polygon-pos", polygonTokens),
-  //   getPrices("avalanche", avalancheTokens),
-  //   getPrices("binance-smart-chain", bnbTokens),
-  //   solanaTokenValue(),
-  // ]);
+  let [
+    ethereumEcosystemValue,
+    optimismEcosystemValue,
+    arbitrumEcosystemValue,
+    polygonEcosystemValue,
+    avalancheEcosystemValue,
+    bnbEcosystemValue,
+    solanaEcosystemValue,
+  ] = await Promise.all([
+    getPrices("ethereum", ethereumTokens),
+    getPrices("optimistic-ethereum", optimismTokens),
+    getPrices("arbitrum-one", arbitrumTokens),
+    getPrices("polygon-pos", polygonTokens),
+    getPrices("avalanche", avalancheTokens),
+    getPrices("binance-smart-chain", bnbTokens),
+    solanaTokenValue(),
+  ]);
 
   let ethMcap,
     opMcap,
     avaxMcap,
-    maticMcap = 0;
+    maticMcap,
+    solMcap,
+    bnbMcap = 0;
 
   //Add coingecko ID to this array, for it to be added to the request payload
   // Must additionally add logic to the for loop below for the mcap
   // to be included in final calculation
-  let coingeckoMcapIds = ["avalanche-2", "matic-network"];
+  let coingeckoMcapIds = ["avalanche-2", "matic-network", "optimism", "solana", "binancecoin"];
 
   coingeckoMcapPayload = "";
 
@@ -86,6 +88,8 @@ const calculateChainValue = async () => {
 
   let data = await geckoData["data"];
 
+  console.log(data);
+
   for (item in data) {
     let chain = data[item];
     if (chain["symbol"] === "eth") {
@@ -94,48 +98,34 @@ const calculateChainValue = async () => {
       avaxMcap = chain["market_cap"];
     } else if (chain["symbol"] === "matic") {
       maticMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "op") {
+      opMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "sol") {
+      solMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "bnb") {
+      bnbMcap = chain["market_cap"];
     }
   }
 
-  // ethereumTotal["ethereum"] = ethereumTotalValue;
+  ethereumTotal["ethereum"] = { chainToken: ethMcap, ecosystemValue: ethereumEcosystemValue };
 
-  // layer2Totals["optimism"] = optimismTotalValue;
-  // layer2Totals["arbitrum"] = arbitrumTotalValue;
+  layer2Totals["optimism"] = { chainToken: opMcap, ecosystemValue: optimismEcosystemValue };
+  layer2Totals["arbitrum"] = { chainToken: "none", ecosystemValue: arbitrumEcosystemValue };
 
-  // sidechainTotals["polygon"] = polygonTotalValue;
+  sidechainTotals["polygon"] = { chainToken: maticMcap, ecosystemValue: polygonEcosystemValue };
 
-  // altL1Totals["avalanche"] = avalancheTotalValue;
-  // altL1Totals["BNB"] = bnbTotalValue;
-  // altL1Totals["solana"] = solanaTotalValue;
+  altL1Totals["avalanche"] = { chainToken: avaxMcap, ecosystemValue: avalancheEcosystemValue };
+  altL1Totals["BNB"] = { chainToken: bnbMcap, ecosystemValue: bnbEcosystemValue };
+  altL1Totals["solana"] = { chainToken: solMcap, ecosystemValue: solanaEcosystemValue };
 
-  // chainTotalValue["ethereum"] = ethereumTotal;
-  // chainTotalValue["layer2"] = layer2Totals;
-  // chainTotalValue["sidechain"] = sidechainTotals;
-  // chainTotalValue["alt_l1"] = altL1Totals;
+  chainTotalValue["ethereum"] = ethereumTotal;
+  chainTotalValue["layer2"] = layer2Totals;
+  chainTotalValue["sidechain"] = sidechainTotals;
+  chainTotalValue["alt_l1"] = altL1Totals;
+
   let dataToWrite = JSON.stringify(chainTotalValue);
   console.log(dataToWrite);
   fs.writeFileSync("../chainTotalValue.json", dataToWrite);
 };
 
 calculateChainValue();
-
-const test = async () => {
-  let geckoData = await axios.get(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum%2C%20avalanche-2%2C%20matic-network&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-  );
-
-  let data = await geckoData["data"];
-
-  console.log(data);
-
-  for (item in data) {
-    let chain = data[item];
-    if (chain["symbol"] == "eth") {
-      console.log("Found it!");
-    } else {
-      console.log("Not Eth!");
-    }
-  }
-};
-
-// test();
