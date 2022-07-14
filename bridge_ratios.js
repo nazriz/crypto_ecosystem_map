@@ -14,7 +14,7 @@ const calcRatios = (ecosystemData) => {
     let chains = ecosystemData["Ethereum"][type];
     for (let [bridge2, value2] of Object.entries(chains)) {
       let ratio = (value2 / totalValueBridgedFromEthereum) * 100;
-      ratiosObject[bridge2] = ratio;
+      ratiosObject[bridge2] = { ratio: ratio, dollars: value2 };
     }
   }
 
@@ -28,7 +28,7 @@ const calcRatios = (ecosystemData) => {
     for (let [chain2, value2] of Object.entries(tempChain)) {
       for (let [ratio, value3] of Object.entries(ratiosObject)) {
         if (chain2 === ratio) {
-          tempSubChain[chain2] = value3.toFixed(4);
+          tempSubChain[chain2] = value3;
         }
       }
       ecosystemRatios[chain1] = tempSubChain;
@@ -88,4 +88,4 @@ let ecosystem = {
   },
 };
 
-// calcRatios(ecosystem);
+calcRatios(ecosystem);

@@ -362,9 +362,7 @@ const polygonBridgeBalance = async () => {
 const avalancheBridgeBalance = async () => {
   const avalancheBridgeAddress = "0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0";
 
-  const [avalancheBridge] = await Promise.all([
-    getBridgeBalance("0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0"),
-  ]);
+  const [avalancheBridge] = await Promise.all([getBridgeBalance("0xE78388b4CE79068e89Bf8aA7f218eF6b9AB0e9d0")]);
 
   return avalancheBridge;
 };
@@ -400,25 +398,19 @@ const nearBridgeBalance = async () => {
   // Octopus Network (OCT)
   // YouMinter (UMINT)
 
-  const [nearRainbowBridge] = await Promise.all([
-    getBridgeBalance("0x23Ddd3e3692d1861Ed57EDE224608875809e127f"),
-  ]);
+  const [nearRainbowBridge] = await Promise.all([getBridgeBalance("0x23Ddd3e3692d1861Ed57EDE224608875809e127f")]);
 
   return nearRainbowBridge;
 };
 
 const fantomBridgeBalance = async () => {
-  const [fantomAnyswapBridge] = await Promise.all([
-    getBridgeBalance("0xC564EE9f21Ed8A2d8E7e76c085740d5e4c5FaFbE"),
-  ]);
+  const [fantomAnyswapBridge] = await Promise.all([getBridgeBalance("0xC564EE9f21Ed8A2d8E7e76c085740d5e4c5FaFbE")]);
 
   return fantomAnyswapBridge;
 };
 
 const moonriverBridgeBalance = async () => {
-  const [moonRiverBridge] = await Promise.all([
-    getBridgeBalance("0x10c6b61DbF44a083Aec3780aCF769C77BE747E23"),
-  ]);
+  const [moonRiverBridge] = await Promise.all([getBridgeBalance("0x10c6b61DbF44a083Aec3780aCF769C77BE747E23")]);
 
   return moonRiverBridge;
 };
@@ -426,64 +418,48 @@ const moonriverBridgeBalance = async () => {
 // I believe the bridge is still halted/might change altogether
 // But including it as is, so that I don't forget about it in the future
 const roninBridgeBalance = async () => {
-  const [roninBridge] = await Promise.all([
-    getBridgeBalance("0x1A2a1c938CE3eC39b6D47113c7955bAa9DD454F2"),
-  ]);
+  const [roninBridge] = await Promise.all([getBridgeBalance("0x1A2a1c938CE3eC39b6D47113c7955bAa9DD454F2")]);
 
   return roninBridge;
 };
 
 const zksyncBridgeBalance = async () => {
-  const [zkSyncBridge] = await Promise.all([
-    getBridgeBalance("0xaBEA9132b05A70803a4E85094fD0e1800777fBEF"),
-  ]);
+  const [zkSyncBridge] = await Promise.all([getBridgeBalance("0xaBEA9132b05A70803a4E85094fD0e1800777fBEF")]);
 
   return zkSyncBridge;
 };
 
 const dYdXBridgeBalance = async () => {
-  const [dYdXBridge] = await Promise.all([
-    getBridgeBalance("0xD54f502e184B6B739d7D27a6410a67dc462D69c8"),
-  ]);
+  const [dYdXBridge] = await Promise.all([getBridgeBalance("0xD54f502e184B6B739d7D27a6410a67dc462D69c8")]);
 
   return dYdXBridge;
 };
 
 const loopringBridgeBalance = async () => {
-  const [loopringBridge] = await Promise.all([
-    getBridgeBalance("0x674bdf20A0F284D710BC40872100128e2d66Bd3f"),
-  ]);
+  const [loopringBridge] = await Promise.all([getBridgeBalance("0x674bdf20A0F284D710BC40872100128e2d66Bd3f")]);
   return loopringBridge;
 };
 
 const immutableXBridgeBalance = async () => {
-  const [immutableXBridge] = await Promise.all([
-    getBridgeBalance("0x5FDCCA53617f4d2b9134B29090C87D01058e27e9"),
-  ]);
+  const [immutableXBridge] = await Promise.all([getBridgeBalance("0x5FDCCA53617f4d2b9134B29090C87D01058e27e9")]);
 
   return immutableXBridge;
 };
 
 const deversiFiBridgeBalance = async () => {
-  const [deversiFiBridge] = await Promise.all([
-    getBridgeBalance("0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b"),
-  ]);
+  const [deversiFiBridge] = await Promise.all([getBridgeBalance("0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b")]);
 
   return deversiFiBridge;
 };
 
 const sorareBridgeBalance = async () => {
-  const [sorareBridge] = await Promise.all([
-    getBridgeBalance("0xF5C9F957705bea56a7e806943f98F7777B995826"),
-  ]);
+  const [sorareBridge] = await Promise.all([getBridgeBalance("0xF5C9F957705bea56a7e806943f98F7777B995826")]);
 
   return sorareBridge;
 };
 
 const aztecBridgeBalance = async () => {
-  const [aztecBridge] = await Promise.all([
-    getBridgeBalance("0x737901bea3eeb88459df9ef1BE8fF3Ae1B42A2ba"),
-  ]);
+  const [aztecBridge] = await Promise.all([getBridgeBalance("0x737901bea3eeb88459df9ef1BE8fF3Ae1B42A2ba")]);
 
   return aztecBridge;
 };
@@ -526,33 +502,25 @@ const starknetBridgeBalance = async () => {
 };
 
 const polygonHermezBridgeBalance = async () => {
-  const [polygonHermezBridge] = await Promise.all([
-    getBridgeBalance("0xA68D85dF56E733A06443306A095646317B5Fa633"),
-  ]);
+  const [polygonHermezBridge] = await Promise.all([getBridgeBalance("0xA68D85dF56E733A06443306A095646317B5Fa633")]);
 
   return polygonHermezBridge;
 };
 
 const metisAndromedaBridgeBalance = async () => {
-  const [metisAndromedaBridge] = await Promise.all([
-    getBridgeBalance("0x3980c9ed79d2c191A89E02Fa3529C60eD6e9c04b"),
-  ]);
+  const [metisAndromedaBridge] = await Promise.all([getBridgeBalance("0x3980c9ed79d2c191A89E02Fa3529C60eD6e9c04b")]);
 
   return metisAndromedaBridge;
 };
 
 const bobaNetworkBridgeBalance = async () => {
-  const [bobaNetworkBridge] = await Promise.all([
-    getBridgeBalance("0xdc1664458d2f0B6090bEa60A8793A4E66c2F1c00"),
-  ]);
+  const [bobaNetworkBridge] = await Promise.all([getBridgeBalance("0xdc1664458d2f0B6090bEa60A8793A4E66c2F1c00")]);
 
   return bobaNetworkBridge;
 };
 
 const zkSpaceBridgeBalance = async () => {
-  const [zkSpaceBridge] = await Promise.all([
-    getBridgeBalance("0x5CDAF83E077DBaC2692b5864CA18b61d67453Be8"),
-  ]);
+  const [zkSpaceBridge] = await Promise.all([getBridgeBalance("0x5CDAF83E077DBaC2692b5864CA18b61d67453Be8")]);
 
   return zkSpaceBridge;
 };
