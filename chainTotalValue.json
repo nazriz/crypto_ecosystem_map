@@ -1,1 +1,24 @@
-{"layer2":{"optimism":{"chainToken":100137957,"ecosystemValue":"509137564"},"arbitrum":1824774090.1076446},"sidechain":{},"alt_l1":{}}
+{
+  "layer2": {
+    "optimism": { "chainToken": 100444680, "ecosystemValue": "508462363" },
+    "arbitrum": { "chainToken": "none", "ecosystemValue": "1811869856" }
+  },
+  "sidechain": { "polygon": { "chainToken": 5199257021, "ecosystemValue": "4659972920" } },
+  "alt_l1": {
+    "avalanche": { "chainToken": 5333993726, "ecosystemValue": "4676512461" },
+    "BNB": { "chainToken": 38005121998, "ecosystemValue": "32624916629566248" },
+    "solana": { "chainToken": 12000786514, "ecosystemValue": 25070117570.407005 },
+    "bitcoin": { "chainToken": 387937113723, "ecosystemValue": 974080166.907057 },
+    "dogecoin": { "chainToken": 8163904475, "ecosystemValue": "none" },
+    "tron": { "chainToken": 6133225020, "ecosystemValue": "noCalc" },
+    "xrp": { "chainToken": 15566519624, "ecosystemValue": "none" },
+    "zcash": { "chainToken": 689122522, "ecosystemValue": "none" },
+    "cardano": { "chainToken": 14728214672, "ecosystemValue": "noCalc" },
+    "tezos": { "chainToken": 1348021384, "ecosystemValue": "noCalc" },
+    "polkadot": { "chainToken": 7341891496, "ecosystemValue": "noCalc" },
+    "algorand": { "chainToken": 2161174998, "ecosystemValue": "noCalc" },
+    "harmony": { "chainToken": 253645256, "ecosystemValue": "noCalc" },
+    "celo": { "chainToken": 384431898, "ecosystemValue": "noCalc" }
+  },
+  "ethereum": { "ethereum": { "chainToken": 133493206777, "ecosystemValue": "231873170305" } }
+}

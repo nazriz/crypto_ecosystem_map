@@ -1,4 +1,4 @@
-const { bitcoinMcapTvl } = require("./bitcoin");
+const { bitcoinTotalValue } = require("./bitcoin");
 const { polygonTotalTokenValue } = require("./polygon");
 const { ethereumTokenTotalValue } = require("./ethereum");
 const { avalancheTokenTotalValue } = require("./avalanche");
@@ -8,7 +8,7 @@ const { bnbTotalTokenValue } = require("./bnb");
 const { solanaTokenValue } = require("./solana");
 
 module.exports = {
-  bitcoinMcapTvl,
+  bitcoinTotalValue,
   polygonTotalTokenValue,
   ethereumTokenTotalValue,
   avalancheTokenTotalValue,

@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const bitcoinMcapTvl = async () => {
+const bitcoinTotalValue = async () => {
   const [bitcoinData, lightningNetworkData, omniAssets] = await Promise.all([
     await axios.get(
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false`
@@ -20,7 +20,9 @@ const bitcoinMcapTvl = async () => {
 
   let bitcoinMcap = await bitcoinData["data"][0]["market_cap"];
   let lightningNetworkTVL = await lightningNetworkData["data"]["networkcapacityusd"];
-  console.log(omniUSDT);
+  let grandTotal = omniUSDT + lightningNetworkTVL;
+
+  return grandTotal;
 };
 
-module.exports = { bitcoinMcapTvl };
+module.exports = { bitcoinTotalValue };
