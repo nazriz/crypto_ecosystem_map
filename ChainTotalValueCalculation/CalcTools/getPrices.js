@@ -71,7 +71,7 @@ const getPrices = async (networkId, array) => {
     grandTotal += jvalue2;
   }
 
-  console.log(grandTotal);
+  return grandTotal;
 };
 
 module.exports = { getPrices };

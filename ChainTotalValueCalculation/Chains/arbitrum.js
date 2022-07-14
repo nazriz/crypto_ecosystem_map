@@ -1,8 +1,6 @@
 const { ethers } = require("ethers");
-require("dotenv").config();
 const { tokenTotalSupply } = require("../CalcTools");
-const MORALIS_ARBITRUM = process.env.MORALIS_ARBITRUM;
-const arbitrumProvider = new ethers.providers.JsonRpcProvider(MORALIS_ARBITRUM);
+const arbitrumProvider = new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/arbitrum");
 
 const arbitrumTokenTotalValue = async () => {
   const tokens = ([

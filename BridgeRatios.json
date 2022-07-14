@@ -1,1 +1,30 @@
-{"Ethereum":{"layer2":{"arbitrum":"18.5306","optimism":"6.4134","zkSync":"0.5862","dYdX":"6.1024","loopring":"1.8111","immutableX":"0.6281","deversiFi":"0.2740","sorare":"0.1894","aztec":"0.0495","OMG":"0.0301","starknet":"0.0062","polygonHermez":"0.0030","metisAndromeda":"0.9176","bobaNetwork":"0.4346","ZKSpace":"0.3581"},"sidechain":{"polygon":"33.8696","ronin":"0.0056","gnosisChain":"2.0023"},"alt_l1":{"avalanche":"12.8785","solana":"4.0118","near":"4.0560","fantom":"6.0861","moonriver":"0.7559"}},"totalValueBridgedFromEthereum":10059299058.120052}
+{
+  "Ethereum": {
+    "layer2": {
+      "arbitrum": "18.5306",
+      "optimism": "6.4134",
+      "zkSync": "0.5862",
+      "dYdX": "6.1024",
+      "loopring": "1.8111",
+      "immutableX": "0.6281",
+      "deversiFi": "0.2740",
+      "sorare": "0.1894",
+      "aztec": "0.0495",
+      "OMG": "0.0301",
+      "starknet": "0.0062",
+      "polygonHermez": "0.0030",
+      "metisAndromeda": "0.9176",
+      "bobaNetwork": "0.4346",
+      "ZKSpace": "0.3581"
+    },
+    "sidechain": { "polygon": "33.8696", "ronin": "0.0056", "gnosisChain": "2.0023" },
+    "alt_l1": {
+      "avalanche": "12.8785",
+      "solana": "4.0118",
+      "near": "4.0560",
+      "fantom": "6.0861",
+      "moonriver": "0.7559"
+    }
+  },
+  "totalValueBridgedFromEthereum": 10059299058.120052
+}

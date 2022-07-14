@@ -15,34 +15,83 @@ const {
 } = require("./Chains");
 
 const { tokenTotalSupply, ethTokenTotalSupply, getPrices } = require("./CalcTools");
+const { channel } = require("diagnostics_channel");
 
 let fileData = fs.readFileSync("../chainTotalValue.json");
 let chainTotalValue = JSON.parse(fileData);
+let ethereumTotal = {};
+let layer2Totals = {};
+let sidechainTotals = {};
+let altL1Totals = {};
+
+for (const [key, value] of Object.entries(chainTotalValue)) {
+  if (key === "ethereum") {
+    ethereumTotal = chainTotalValue[key];
+  } else if (key === "layer2") {
+    layer2Totals = chainTotalValue[key];
+  } else if (key === "sidechain") {
+    sidechainTotals = chainTotalValue[key];
+  } else if (key === "alt_l1") {
+    altL1Totals = chainTotalValue[key];
+  }
+}
 
 const calculateChainValue = async () => {
-  let [optimismTokens] = await Promise.all([optimismTokenTotalValue()]);
+  let [ethereumTokens, optimismTokens, arbitrumTokens, polygonTokens, avalancheTokens, bnbTokens] = await Promise.all([
+    ethereumTokenTotalValue(),
+    optimismTokenTotalValue(),
+    arbitrumTokenTotalValue(),
+    polygonTotalTokenValue(),
+    avalancheTokenTotalValue(),
+    bnbTotalTokenValue(),
+  ]);
 
-  let [optimismPrices] = await Promise.all([getPrices("optimistic-ethereum", await optimismTokens)]);
+  let [
+    ethereumTotalValue,
+    optimismTotalValue,
+    arbitrumTotalValue,
+    polygonTotalValue,
+    avalancheTotalValue,
+    bnbTotalValue,
+    solanaTotalValue,
+  ] = await Promise.all([
+    getPrices("ethereum", ethereumTokens),
+    getPrices("optimistic-ethereum", optimismTokens),
+    getPrices("arbitrum-one", arbitrumTokens),
+    getPrices("polygon-pos", polygonTokens),
+    getPrices("avalanche", avalancheTokens),
+    getPrices("binance-smart-chain", bnbTokens),
+    solanaTokenValue(),
+  ]);
 
-  console.log(optimismPrices);
+  let [ethMcap] = await Promise.all([]);
+
+  ethereumTotal["ethereum"] = ethereumTotalValue;
+
+  layer2Totals["optimism"] = optimismTotalValue;
+  layer2Totals["arbitrum"] = arbitrumTotalValue;
+
+  sidechainTotals["polygon"] = polygonTotalValue;
+
+  altL1Totals["avalanche"] = avalancheTotalValue;
+  altL1Totals["BNB"] = bnbTotalValue;
+  altL1Totals["solana"] = solanaTotalValue;
+
+  chainTotalValue["ethereum"] = ethereumTotal;
+  chainTotalValue["layer2"] = layer2Totals;
+  chainTotalValue["sidechain"] = sidechainTotals;
+  chainTotalValue["alt_l1"] = altL1Totals;
+  let dataToWrite = JSON.stringify(chainTotalValue);
+  console.log(dataToWrite);
+  fs.writeFileSync("../chainTotalValue.json", dataToWrite);
 };
 
-calculateChainValue();
+// calculateChainValue();
 
 const test = async () => {
-  // let bnbTokens = bnbTotalTokenValue();
-  //   let testEthTokens = TESTethTokensTotalySupply();
-  //   let optimismTokens = optimismTokenTotalValue();
-  //   let arbitrumTokens = arbitrumTokenTotalValue();
-  // let ethereumTokens = ethereumTokenTotalValue();
-  // ethereumTokenTotalValue();
-  //   let polygonTokens = await polygonTotalTokenValue();
-  //   let avaxTokens = await avalancheTokenTotalValue();
-  //   getPrices("polygon-pos", polygonTokens);
-  //   getPrices("avalanche", avaxTokens);
-  //   getPrices("arbitrum-one", await arbitrumTokens);
-  //   getPrices("optimistic-ethereum", await optimismTokens);
-  // getPrices("ethereum", await ethereumTokens);
-  //   getPrices("ethereum", await testEthTokens);
-  // getPrices("binance-smart-chain", await bnbTokens);
+  let geckoData = axios.get(
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=ethereum%2C%20avalanche-2%2C%20matic-network&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+  );
+
+  console.log(geckoData);
 };

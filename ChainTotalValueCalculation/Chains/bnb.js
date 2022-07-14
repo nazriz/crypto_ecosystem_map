@@ -1,8 +1,6 @@
 const { ethers } = require("ethers");
-require("dotenv").config();
 const { tokenTotalSupply } = require("../CalcTools");
-const MORALIS_BNB = process.env.MORALIS_BNB;
-const bnbProvider = new ethers.providers.JsonRpcProvider(MORALIS_BNB);
+const bnbProvider = new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/bsc");
 
 const bnbTotalTokenValue = async () => {
   const tokens = ([
