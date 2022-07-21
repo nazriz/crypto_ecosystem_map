@@ -3,7 +3,7 @@ require("dotenv").config();
 const fs = require("fs");
 const API_KEY = process.env.API_KEY;
 const PRIV_KEY = process.env.PRIV_KEY;
-const { calcRatios } = require("./bridge_ratios");
+const { calcRatios } = require("./calculateRatios");
 
 // const provider = new ethers.providers.AlchemyProvider(
 //   (network = "homestead"),
@@ -655,7 +655,7 @@ const data = async () => {
   ecosystem["Ethereum"] = bridgeTotals;
 
   //Write data to file
-  fs.writeFile("data.json", JSON.stringify(ecosystem), (err) => {
+  fs.writeFile("bridgedFromEth.json", JSON.stringify(ecosystem), (err) => {
     if (err) {
       console.error(err);
     }
