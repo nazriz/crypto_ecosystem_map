@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const calcRatios = (inputData, name) => {
-  let ratioString = name + "Ratio";
+  let ratioString = name + "Ratio (%)";
   let dollarString = name + "USD";
   let totalValue = 0;
   for (let type in inputData) {
