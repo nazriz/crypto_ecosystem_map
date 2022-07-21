@@ -394,7 +394,7 @@ const bnbTotalTokenValue = async () => {
     await tokenTotalSupply(bnbProvider, "0xA58950F05FeA2277d2608748412bf9F802eA4901", 18),
   ]));
 
-  return tokens;
+  return parseFloat(tokens);
 };
 
 module.exports = { bnbTotalTokenValue };

@@ -1,24 +1,28 @@
 const fs = require("fs");
 
 const calcRatios = (ecosystemData) => {
-  let totalValueBridgedFromEthereum = 0;
-  for (let type in ecosystemData["Ethereum"]) {
-    let chains = ecosystemData["Ethereum"][type];
+  let totalValue = 0;
+  for (let type in ecosystemData) {
+    let chains = ecosystemData[type];
     for (let [bridge, value] of Object.entries(chains)) {
-      totalValueBridgedFromEthereum += value;
+      if (isNaN(value)) {
+        continue;
+      } else {
+        totalValue += value;
+      }
     }
   }
 
   let ratiosObject = {};
-  for (let type in ecosystemData["Ethereum"]) {
-    let chains = ecosystemData["Ethereum"][type];
+  for (let type in ecosystemData) {
+    let chains = ecosystemData[type];
     for (let [bridge2, value2] of Object.entries(chains)) {
-      let ratio = (value2 / totalValueBridgedFromEthereum) * 100;
+      let ratio = (value2 / totalValue) * 100;
       ratiosObject[bridge2] = { ratio: ratio, dollars: value2 };
     }
   }
 
-  let ecosystemRatios = ecosystemData["Ethereum"];
+  let ecosystemRatios = ecosystemData;
   let tempSubChain = {};
   let counter = 0;
   for (let [chain1, value1] of Object.entries(ecosystemRatios)) {
@@ -37,10 +41,10 @@ const calcRatios = (ecosystemData) => {
 
   let ecosystemRatiosFinal = {};
 
-  ecosystemRatiosFinal["Ethereum"] = ecosystemRatios;
-  ecosystemRatiosFinal["totalValueBridgedFromEthereum"] = totalValueBridgedFromEthereum;
+  // ecosystemRatiosFinal["Ethereum"] = ecosystemRatios;
+  ecosystemRatios["totalValue"] = totalValue;
 
-  console.log(ecosystemRatiosFinal);
+  console.log(ecosystemRatios);
 
   fs.writeFile("BridgeRatios.json", JSON.stringify(ecosystemRatiosFinal), (err) => {
     if (err) {
@@ -88,4 +92,31 @@ let ecosystem = {
   },
 };
 
-calcRatios(ecosystem);
+let tokenMcapTest = {
+  layer2: {
+    optimism: 100444680,
+    arbitrum: "none",
+  },
+
+  sidechain: {
+    polygon: 5199257021,
+  },
+  alt_l1: {
+    avalanche: 5333993726,
+    BNB: 38005121998,
+    solana: 12000786514,
+    bitcoin: 387937113723,
+    dogecoin: 8163904475,
+    tron: 6133225020,
+    xrp: 15566519624,
+    zcash: 689122522,
+    cardano: 14728214672,
+    tezos: 1348021384,
+    polkadot: 7341891496,
+    algorand: 2161174998,
+    harmony: 253645256,
+    celo: 384431898,
+  },
+};
+
+calcRatios(tokenMcapTest);
