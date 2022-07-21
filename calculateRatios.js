@@ -1,9 +1,9 @@
 const fs = require("fs");
 
-const calcRatios = (ecosystemData) => {
+const calcRatios = (inputData) => {
   let totalValue = 0;
-  for (let type in ecosystemData) {
-    let chains = ecosystemData[type];
+  for (let type in inputData) {
+    let chains = inputData[type];
     for (let [bridge, value] of Object.entries(chains)) {
       if (isNaN(value)) {
         continue;
@@ -14,20 +14,20 @@ const calcRatios = (ecosystemData) => {
   }
 
   let ratiosObject = {};
-  for (let type in ecosystemData) {
-    let chains = ecosystemData[type];
+  for (let type in inputData) {
+    let chains = inputData[type];
     for (let [bridge2, value2] of Object.entries(chains)) {
       let ratio = (value2 / totalValue) * 100;
       ratiosObject[bridge2] = { ratio: ratio, dollars: value2 };
     }
   }
 
-  let ecosystemRatios = ecosystemData;
+  let outputRatios = inputData;
   let tempSubChain = {};
   let counter = 0;
-  for (let [chain1, value1] of Object.entries(ecosystemRatios)) {
+  for (let [chain1, value1] of Object.entries(outputRatios)) {
     counter++;
-    let tempChain = ecosystemRatios[chain1];
+    let tempChain = outputRatios[chain1];
     tempSubChain = {};
     for (let [chain2, value2] of Object.entries(tempChain)) {
       for (let [ratio, value3] of Object.entries(ratiosObject)) {
@@ -35,22 +35,20 @@ const calcRatios = (ecosystemData) => {
           tempSubChain[chain2] = value3;
         }
       }
-      ecosystemRatios[chain1] = tempSubChain;
+      outputRatios[chain1] = tempSubChain;
     }
   }
 
-  let ecosystemRatiosFinal = {};
-
   // ecosystemRatiosFinal["Ethereum"] = ecosystemRatios;
-  ecosystemRatios["totalValue"] = totalValue;
+  outputRatios["totalValue"] = totalValue;
 
-  console.log(ecosystemRatios);
+  return outputRatios;
 
-  fs.writeFile("BridgeRatios.json", JSON.stringify(ecosystemRatiosFinal), (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
+  // fs.writeFile("BridgeRatios.json", JSON.stringify(ecosystemRatiosFinal), (err) => {
+  //   if (err) {
+  //     console.error(err);
+  //   }
+  // });
 };
 
 module.exports = {
@@ -119,4 +117,4 @@ let tokenMcapTest = {
   },
 };
 
-calcRatios(tokenMcapTest);
+// calcRatios(tokenMcapTest);

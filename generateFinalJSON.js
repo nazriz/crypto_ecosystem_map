@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { calcRatios } = require("./calculateRatios");
 
 const splitChainTotalData = () => {
   let fileData = fs.readFileSync("chainTotalValue.json");
@@ -19,8 +20,15 @@ const splitChainTotalData = () => {
     mcapObj[type] = tempMcapObj;
     ecosystemValueObj[type] = tempEcosystemObj;
   }
-  console.log(mcapObj);
-  console.log(ecosystemValueObj);
+  targetMcapObj = mcapObj;
+  targetEcosystemValueObj = ecosystemValueObj;
+
+  return [targetMcapObj, targetEcosystemValueObj];
 };
 
-splitChainTotalData();
+let splitData = splitChainTotalData();
+
+calcRatios(splitData[0]);
+calcRatios(splitData[1]);
+
+console.log(temp);

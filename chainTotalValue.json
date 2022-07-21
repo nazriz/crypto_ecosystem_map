@@ -1,12 +1,12 @@
 {
   "layer2": {
-    "optimism": { "chainToken": 100444680, "ecosystemValue": "508462363" },
-    "arbitrum": { "chainToken": "none", "ecosystemValue": "1811869856" }
+    "optimism": { "chainToken": 100444680, "ecosystemValue": 508462363 },
+    "arbitrum": { "chainToken": "none", "ecosystemValue": 1811869856 }
   },
-  "sidechain": { "polygon": { "chainToken": 5199257021, "ecosystemValue": "4659972920" } },
+  "sidechain": { "polygon": { "chainToken": 5199257021, "ecosystemValue": 4659972920 } },
   "alt_l1": {
-    "avalanche": { "chainToken": 5333993726, "ecosystemValue": "4676512461" },
-    "BNB": { "chainToken": 38005121998, "ecosystemValue": "32624916629566248" },
+    "avalanche": { "chainToken": 5333993726, "ecosystemValue": 4676512461 },
+    "BNB": { "chainToken": 38005121998, "ecosystemValue": 32624916629.566248 },
     "solana": { "chainToken": 12000786514, "ecosystemValue": 25070117570.407005 },
     "bitcoin": { "chainToken": 387937113723, "ecosystemValue": 974080166.907057 },
     "dogecoin": { "chainToken": 8163904475, "ecosystemValue": "none" },
@@ -20,5 +20,5 @@
     "harmony": { "chainToken": 253645256, "ecosystemValue": "noCalc" },
     "celo": { "chainToken": 384431898, "ecosystemValue": "noCalc" }
   },
-  "ethereum": { "ethereum": { "chainToken": 133493206777, "ecosystemValue": "231873170305" } }
+  "ethereum": { "ethereum": { "chainToken": 133493206777, "ecosystemValue": 231873170305 } }
 }
