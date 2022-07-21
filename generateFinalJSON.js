@@ -28,7 +28,41 @@ const splitChainTotalData = () => {
 
 let splitData = splitChainTotalData();
 
-calcRatios(splitData[0]);
-calcRatios(splitData[1]);
+// Import the bridge data
+let fileData = fs.readFileSync("bridgedFromEth.json");
+let bridgeData = JSON.parse(fileData);
 
-console.log(temp);
+let bridgedFromEth = calcRatios(bridgeData["Ethereum"], "bridgedFromEth");
+let chainTokenMcap = calcRatios(splitData[0], "chainTokenMcap");
+let ecosystemValue = calcRatios(splitData[1], "ecosystemValue");
+
+// console.log(bridgedFromEth);
+
+// Get the unique chain names accross all data sets
+const getUniqueChainNames = () => {
+  let combinedChainNameArray = [];
+  for (type in bridgedFromEth) {
+    for (type2 in chainTokenMcap) {
+      for (type3 in ecosystemValue) {
+        if (type === type2 && type === type3) {
+          let tempBridgedFromEth = bridgedFromEth[type];
+          let tempChainTokenMcap = chainTokenMcap[type];
+          let tempEcosystemValue = ecosystemValue[type];
+          for (chain in tempBridgedFromEth) {
+            for (chain2 in tempChainTokenMcap) {
+              for (chain3 in tempEcosystemValue) {
+                combinedChainNameArray.push(chain);
+                combinedChainNameArray.push(chain2);
+                combinedChainNameArray.push(chain3);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  let uniqueChainNames = [...new Set(combinedChainNameArray)];
+  return uniqueChainNames;
+};
+
+let uniqueChainNames = getUniqueChainNames();
