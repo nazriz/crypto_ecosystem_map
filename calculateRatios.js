@@ -1,6 +1,8 @@
 const fs = require("fs");
 
-const calcRatios = (inputData) => {
+const calcRatios = (inputData, name) => {
+  let ratioString = name + "Ratio";
+  let dollarString = name + "USD";
   let totalValue = 0;
   for (let type in inputData) {
     let chains = inputData[type];
@@ -18,7 +20,7 @@ const calcRatios = (inputData) => {
     let chains = inputData[type];
     for (let [bridge2, value2] of Object.entries(chains)) {
       let ratio = (value2 / totalValue) * 100;
-      ratiosObject[bridge2] = { ratio: ratio, dollars: value2 };
+      ratiosObject[bridge2] = { [dollarString]: value2, [ratioString]: ratio };
     }
   }
 
