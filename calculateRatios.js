@@ -42,7 +42,8 @@ const calcRatios = (inputData, name) => {
   }
 
   // ecosystemRatiosFinal["Ethereum"] = ecosystemRatios;
-  outputRatios["totalValue"] = totalValue;
+  let totalString = "total" + name;
+  outputRatios[[totalString]] = totalValue;
 
   return outputRatios;
 
