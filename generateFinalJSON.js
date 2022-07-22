@@ -70,6 +70,7 @@ let layer2 = {};
 let sidechain = {};
 let altL1 = {};
 let chainType = {};
+let ethereum = {};
 
 layer2["arbitrum"] = {};
 layer2["optimism"] = {};
@@ -110,6 +111,9 @@ altL1["polkadot"] = {};
 altL1["harmony"] = {};
 altL1["celo"] = {};
 
+ethereum["ethereum"] = {};
+
+chainType["ethereum"] = ethereum;
 chainType["layer2"] = layer2;
 chainType["sidechain"] = sidechain;
 chainType["alt_l1"] = altL1;
@@ -138,6 +142,8 @@ const checkMissingChainsFromList = (inputList, objToCheck) => {
 };
 
 // checkMissingChainsFromList(uniqueChainNames, chainType);
+
+// Prepare final file
 
 // Token Mcap
 for (type in chainType) {
@@ -168,7 +174,7 @@ for (type in chainType) {
       }
     }
     for (chain in chainType[type]) {
-      if (Object.keys(chainType[type][chain]).length === 1) {
+      if (Object.keys(chainType[type][chain]).length === 2) {
         let emptyItem = { ecosystemValueUSD: "none", "ecosystemValueRatio (%)": NaN };
         Object.assign(chainType[type][chain], emptyItem);
       }
@@ -195,80 +201,18 @@ for (type in chainType) {
   }
 }
 
+let totalsObj = {};
+
+totalsObj["chainTokenMcap"] = chainTokenMcap["totalchainTokenMcap"];
+totalsObj["ecosystemValue"] = ecosystemValue["totalecosystemValue"];
+totalsObj["bridgedFromEth"] = bridgedFromEth["totalbridgedFromEth"];
+
+chainType["totals"] = totalsObj;
+
 console.log(chainType);
 
-// console.log(chainTokenMcap);
-// for (item in uniqueChainNames) {
-//   finalChainArray.push(tempChainArray);
-//   tempChainArray = [];
-//   let chainName = uniqueChainNames[item];
-//   for (type in bridgedFromEth) {
-//     let tempBridgedFromEth = bridgedFromEth[type];
-//     for (chain in tempBridgedFromEth) {
-//       if (chain === chainName) {
-//         tempChainArray.push(tempBridgedFromEth[chain]);
-//       }
-//     }
-//   }
-
-//   for (type2 in chainTokenMcap) {
-//     let tempChainTokenMcap = chainTokenMcap[type2];
-//     for (chain2 in tempChainTokenMcap) {
-//       if (chain2 === chainName) {
-//         // tempChainArray.push(tempChainTokenMcap[chain]);
-//         console.log(chain2, chainName);
-//       }
-//     }
-//   }
-// }
-
-// console.log(finalChainArray);
-
-// let cleanArray = finalChainArray.filter((e) => e.length);
-// console.log(cleanArray);
-
-// let finalChainArray = [];
-// let tempChainArray = [];
-// let tempChainObj = {};
-// let tempTypeObj = {};
-// for (type in bridgedFromEth) {
-//   for (type2 in chainTokenMcap) {
-//     for (type3 in ecosystemValue) {
-//       if (type === type2 && type === type3) {
-//         let tempBridgedFromEth = bridgedFromEth[type];
-//         let tempChainTokenMcap = chainTokenMcap[type];
-//         let tempEcosystemValue = ecosystemValue[type];
-//         for (chain in tempBridgedFromEth) {
-//           let chainObjName = chain;
-//           for (chain2 in tempChainTokenMcap) {
-//             for (chain3 in tempEcosystemValue) {
-//               tempChainArray = [];
-
-//               for (chainName in uniqueChainNames) {
-//                 if (chain === uniqueChainNames[chainName]) {
-//                   tempChainArray.push(tempBridgedFromEth[chain]);
-//                   tempChainArray.push(tempChainTokenMcap[chain2]);
-//                   tempChainArray.push(tempEcosystemValue[chain3]);
-
-//                   // }
-//                   // if (chain2 === uniqueChainNames[chainName]) {
-//                   //   tempChainArray.push(tempChainTokenMcap[chain2]);
-//                   // }
-//                   // if (chain3 === uniqueChainNames[chainName]) {
-//                   //   tempChainArray.push(tempEcosystemValue[chain3]);
-//                   // }
-//                 }
-//               }
-//               console.log(tempChainArray);
-//               console.log("next");
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-
-// let testObj = { ...chainTokenMcap, ...bridgedFromEth, ...ecosystemValue };
-
-// console.log(chainTokenMcap, bridgedFromEth, ecosystemValue);
+fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
+  if (err) {
+    console.error(err);
+  }
+});

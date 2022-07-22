@@ -1,23 +1,5 @@
 {
-  "ethereum": {
-    "ethereum": {
-      "chainTokenMcapUSD": 133493206777,
-      "chainTokenMcapRatio (%)": 20.896185420611552,
-      "ecosystemValueUSD": 231873170305,
-      "ecosystemValueRatio (%)": 76.72860990049865,
-      "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
-    }
-  },
   "layer2": {
-    "arbitrum": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
-      "ecosystemValueUSD": 1811869856,
-      "ecosystemValueRatio (%)": 0.5995616275424637,
-      "bridgedFromEthUSD": 1864052407.653842,
-      "bridgedFromEthRatio (%)": 18.530639131850286
-    },
     "optimism": {
       "chainTokenMcapUSD": 100444680,
       "chainTokenMcapRatio (%)": 0.015722977284531165,
@@ -26,107 +8,116 @@
       "bridgedFromEthUSD": 645141534.3352842,
       "bridgedFromEthRatio (%)": 6.413384576875803
     },
+
+    "arbitrum": {
+      "chainTokenMcapUSD": "none",
+      "chainTokenMcapRatio (%)": "NaN",
+      "ecosystemValueUSD": 1811869856,
+      "ecosystemValueRatio (%)": 0.5995616275424637,
+      "bridgedFromEthUSD": 1864052407.653842,
+      "bridgedFromEthRatio (%)": 18.530639131850286
+    },
     "zkSync": {
       "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 58963786.987745486,
       "bridgedFromEthRatio (%)": 0.5861619845186811
     },
     "dYdX": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 613853748.321059,
       "bridgedFromEthRatio (%)": 6.102351115861745
     },
     "loopring": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 182184630.53941837,
       "bridgedFromEthRatio (%)": 1.8111066137590928
     },
     "immutableX": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 63182674.0478162,
       "bridgedFromEthRatio (%)": 0.6281021538654225
     },
     "deversiFi": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 27564728.183055475,
       "bridgedFromEthRatio (%)": 0.27402235507457867
     },
     "sorare": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 19054808.90506723,
       "bridgedFromEthRatio (%)": 0.18942481772311798
     },
     "aztec": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 4977920.619863593,
       "bridgedFromEthRatio (%)": 0.04948576030101544
     },
     "OMG": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 3029158.1760165445,
       "bridgedFromEthRatio (%)": 0.030113014420933754
     },
     "starknet": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 627475.9270024644,
       "bridgedFromEthRatio (%)": 0.006237769882146553
     },
     "polygonHermez": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 300481.3440552662,
       "bridgedFromEthRatio (%)": 0.0029871002176112067
     },
     "metisAndromeda": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 92302599.66923016,
       "bridgedFromEthRatio (%)": 0.9175848052228033
     },
     "bobaNetwork": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 43718462.20022337,
       "bridgedFromEthRatio (%)": 0.4346074408130159
     },
     "ZKSpace": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 36024729.78606436,
       "bridgedFromEthRatio (%)": 0.35812365829788634
     }
@@ -141,18 +132,18 @@
       "bridgedFromEthRatio (%)": 33.8695789883048
     },
     "ronin": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 558829.1624750758,
       "bridgedFromEthRatio (%)": 0.005555348928849854
     },
     "gnosisChain": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "none",
       "bridgedFromEthUSD": 201421888.20992935,
       "bridgedFromEthRatio (%)": 2.002345163874394
     }
@@ -166,6 +157,14 @@
       "bridgedFromEthUSD": 1295484469.1436658,
       "bridgedFromEthRatio (%)": 12.878476538560873
     },
+    "BNB": {
+      "chainTokenMcapUSD": 38005121998,
+      "chainTokenMcapRatio (%)": 5.949082319445785,
+      "ecosystemValueUSD": 32624916629.56625,
+      "ecosystemValueRatio (%)": 10.795835058508711,
+      "bridgedFromEthUSD": "noCalc",
+      "bridgedFromEthRatio (%)": "none"
+    },
     "solana": {
       "chainTokenMcapUSD": 12000786514,
       "chainTokenMcapRatio (%)": 1.8785275014677725,
@@ -174,130 +173,128 @@
       "bridgedFromEthUSD": 403554262.7538583,
       "bridgedFromEthRatio (%)": 4.011753308279486
     },
-    "near": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
-      "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
-      "bridgedFromEthUSD": 408001990.40260816,
-      "bridgedFromEthRatio (%)": 4.055968393476297
-    },
-    "fantom": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
-      "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
-      "bridgedFromEthUSD": 612217896.9714507,
-      "bridgedFromEthRatio (%)": 6.086089034973635
-    },
-    "moonriver": {
-      "chainTokenMcapUSD": "none",
-      "chainTokenMcapRatio (%)": null,
-      "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
-      "bridgedFromEthUSD": 76038334.62054755,
-      "bridgedFromEthRatio (%)": 0.755900924917507
-    },
     "bitcoin": {
       "chainTokenMcapUSD": 387937113723,
       "chainTokenMcapRatio (%)": 60.725231310342295,
       "ecosystemValueUSD": 974080166.907057,
       "ecosystemValueRatio (%)": 0.32233059581715884,
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
-    },
-    "BNB": {
-      "chainTokenMcapUSD": 38005121998,
-      "chainTokenMcapRatio (%)": 5.949082319445785,
-      "ecosystemValueUSD": 32624916629.56625,
-      "ecosystemValueRatio (%)": 10.795835058508711,
-      "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
     },
     "dogecoin": {
       "chainTokenMcapUSD": 8163904475,
       "chainTokenMcapRatio (%)": 1.2779261640686925,
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "NaN",
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
+    },
+    "tron": {
+      "chainTokenMcapUSD": 6133225020,
+      "chainTokenMcapRatio (%)": 0.96005639791354,
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "NaN",
+      "bridgedFromEthUSD": "noCalc",
+      "bridgedFromEthRatio (%)": "none"
     },
     "xrp": {
       "chainTokenMcapUSD": 15566519624,
       "chainTokenMcapRatio (%)": 2.4366848940865817,
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "NaN",
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
     },
     "zcash": {
       "chainTokenMcapUSD": 689122522,
       "chainTokenMcapRatio (%)": 0.10787089729057656,
       "ecosystemValueUSD": "none",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueRatio (%)": "NaN",
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
-    },
-    "algorand": {
-      "chainTokenMcapUSD": 2161174998,
-      "chainTokenMcapRatio (%)": 0.3382967161770109,
-      "ecosystemValueUSD": "noCalc",
-      "ecosystemValueRatio (%)": null,
-      "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
-    },
-    "tezos": {
-      "chainTokenMcapUSD": 1348021384,
-      "chainTokenMcapRatio (%)": 0.21101077329027546,
-      "ecosystemValueUSD": "noCalc",
-      "ecosystemValueRatio (%)": null,
-      "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
-    },
-    "tron": {
-      "chainTokenMcapUSD": 6133225020,
-      "chainTokenMcapRatio (%)": 0.96005639791354,
-      "ecosystemValueUSD": "noCalc",
-      "ecosystemValueRatio (%)": null,
-      "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
     },
     "cardano": {
       "chainTokenMcapUSD": 14728214672,
       "chainTokenMcapRatio (%)": 2.3054619192331005,
-      "ecosystemValueUSD": "noCalc",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "NaN",
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
+    },
+    "tezos": {
+      "chainTokenMcapUSD": 1348021384,
+      "chainTokenMcapRatio (%)": 0.21101077329027546,
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "NaN",
+      "bridgedFromEthUSD": "noCalc",
+      "bridgedFromEthRatio (%)": "none"
     },
     "polkadot": {
       "chainTokenMcapUSD": 7341891496,
       "chainTokenMcapRatio (%)": 1.1492534320095453,
-      "ecosystemValueUSD": "noCalc",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "NaN",
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
+    },
+    "algorand": {
+      "chainTokenMcapUSD": 2161174998,
+      "chainTokenMcapRatio (%)": 0.3382967161770109,
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "NaN",
+      "bridgedFromEthUSD": "noCalc",
+      "bridgedFromEthRatio (%)": "none"
     },
     "harmony": {
       "chainTokenMcapUSD": 253645256,
       "chainTokenMcapRatio (%)": 0.03970403010310842,
-      "ecosystemValueUSD": "noCalc",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "NaN",
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
     },
     "celo": {
       "chainTokenMcapUSD": 384431898,
       "chainTokenMcapRatio (%)": 0.060176546928151914,
-      "ecosystemValueUSD": "noCalc",
-      "ecosystemValueRatio (%)": null,
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "NaN",
       "bridgedFromEthUSD": "noCalc",
-      "bridgedFromEthRatio (%)": null
+      "bridgedFromEthRatio (%)": "none"
+    },
+    "near": {
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "none",
+      "bridgedFromEthUSD": 408001990.40260816,
+      "bridgedFromEthRatio (%)": 4.055968393476297
+    },
+    "fantom": {
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "none",
+      "bridgedFromEthUSD": 612217896.9714507,
+      "bridgedFromEthRatio (%)": 6.086089034973635
+    },
+    "moonriver": {
+      "chainTokenMcapUSD": "noCalc",
+      "chainTokenMcapRatio (%)": "NaN",
+      "ecosystemValueUSD": "none",
+      "ecosystemValueRatio (%)": "none",
+      "bridgedFromEthUSD": 76038334.62054755,
+      "bridgedFromEthRatio (%)": 0.755900924917507
     }
   },
+  "ethereum": {
+    "chainTokenMcapUSD": 133493206777,
+    "chainTokenMcapRatio (%)": 20.896185420611552,
+    "ecosystemValueUSD": 231873170305,
+    "ecosystemValueRatio (%)": 76.72860990049865
+  },
   "totals": {
-    "chainTokenMcap": 638840075784,
-    "ecosystemValue": 302199102271.8803,
-    "bridgedFromEth": 10059299058.120052
+    "totalchainTokenMcap": 638840075784,
+    "totalbridgedFromEth": 10059299058.120052,
+    "totalecosystemValue": 302199102271.8803
   }
 }
