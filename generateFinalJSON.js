@@ -66,32 +66,85 @@ const getUniqueChainNames = () => {
 };
 
 let uniqueChainNames = getUniqueChainNames();
-let finalChainArray = [];
-let tempChainArray = [];
+let layer2 = {};
+let sidechain = {};
+let altL1 = {};
+let chainType = {};
 
-for (item in uniqueChainNames) {
-  finalChainArray.push(tempChainArray);
-  tempChainArray = [];
-  let chainName = uniqueChainNames[item];
-  for (type in bridgedFromEth) {
-    let tempBridgedFromEth = bridgedFromEth[type];
-    for (chain in tempBridgedFromEth) {
-      if (chain === chainName) {
-        tempChainArray.push(tempBridgedFromEth[chain]);
+layer2["arbitrum"] = {};
+layer2["optimism"] = {};
+layer2["zkSync"] = {};
+layer2["dYdX"] = {};
+layer2["loopring"] = {};
+layer2["immutableX"] = {};
+layer2["deversiFi"] = {};
+layer2["sorare"] = {};
+layer2["aztec"] = {};
+layer2["OMG"] = {};
+layer2["starknet"] = {};
+layer2["polygonHermez"] = {};
+layer2["metisAndromeda"] = {};
+layer2["bobaNetwork"] = {};
+layer2["ZKSpace"] = {};
+
+sidechain["polygon"] = {};
+sidechain["ronin"] = {};
+sidechain["gnosisChain"] = {};
+
+altL1["avalanche"] = {};
+altL1["solana"] = {};
+altL1["near"] = {};
+altL1["fantom"] = {};
+altL1["moonriver"] = {};
+
+chainType["layer2"] = layer2;
+chainType["sidechain"] = sidechain;
+chainType["alt_l1"] = altL1;
+
+const checkMissingChainsFromList = (inputList, objToCheck) => {
+  let missingChain = [];
+  for (item in inputList) {
+    let check = 0;
+    for (type in objToCheck) {
+      if (inputList[item] in objToCheck[type]) {
+        check = 1;
       }
+    }
+    if (check != 1) {
+      missingChain.push(inputList[item]);
     }
   }
 
-  for (type2 in chainTokenMcap) {
-    let tempChainTokenMcap = chainTokenMcap[type2];
-    for (chain2 in tempChainTokenMcap) {
-      if (chain2 === chainName) {
-        // tempChainArray.push(tempChainTokenMcap[chain]);
-        console.log(chain2, chainName);
-      }
-    }
-  }
-}
+  console.log("The missing chains are:");
+  console.log(missingChain);
+  console.log("Please update the input list accordingly.");
+};
+
+checkMissingChainsFromList(uniqueChainNames, chainType);
+
+// for (item in uniqueChainNames) {
+//   finalChainArray.push(tempChainArray);
+//   tempChainArray = [];
+//   let chainName = uniqueChainNames[item];
+//   for (type in bridgedFromEth) {
+//     let tempBridgedFromEth = bridgedFromEth[type];
+//     for (chain in tempBridgedFromEth) {
+//       if (chain === chainName) {
+//         tempChainArray.push(tempBridgedFromEth[chain]);
+//       }
+//     }
+//   }
+
+//   for (type2 in chainTokenMcap) {
+//     let tempChainTokenMcap = chainTokenMcap[type2];
+//     for (chain2 in tempChainTokenMcap) {
+//       if (chain2 === chainName) {
+//         // tempChainArray.push(tempChainTokenMcap[chain]);
+//         console.log(chain2, chainName);
+//       }
+//     }
+//   }
+// }
 
 // console.log(finalChainArray);
 
@@ -142,4 +195,4 @@ for (item in uniqueChainNames) {
 
 // let testObj = { ...chainTokenMcap, ...bridgedFromEth, ...ecosystemValue };
 
-console.log(chainTokenMcap, bridgedFromEth, ecosystemValue);
+// console.log(chainTokenMcap, bridgedFromEth, ecosystemValue);
