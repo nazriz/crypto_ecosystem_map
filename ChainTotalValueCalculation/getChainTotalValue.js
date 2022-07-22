@@ -86,6 +86,18 @@ const calculateChainValue = async () => {
     "algorand",
     "harmony",
     "celo",
+    "dydx",
+    "loopring",
+    "immutable-x",
+    "rhinofi",
+    "omisego",
+    "metis-token",
+    "boba-network",
+    "gnosis",
+    "near",
+    "fantom",
+    "moonriver",
+    "kusama",
   ];
 
   coingeckoMcapPayload = "";
@@ -116,7 +128,19 @@ const calculateChainValue = async () => {
     dotMcap,
     celoMcap,
     harmonyMcap,
-    algoMcap = 0;
+    algoMcap,
+    dydxMcap,
+    lrcMcap,
+    imxMcap,
+    dvfMcap,
+    omgMcap,
+    metisMcap,
+    bobaMcap,
+    gnoMcap,
+    nearMcap,
+    ftmMcap,
+    movrMcap,
+    ksmMcap = 0;
 
   for (item in data) {
     let chain = data[item];
@@ -154,6 +178,30 @@ const calculateChainValue = async () => {
       harmonyMcap = chain["market_cap"];
     } else if (chain["symbol"] === "celo") {
       celoMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "dydx") {
+      dydxMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "lrc") {
+      lrcMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "imx") {
+      imxMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "dvf") {
+      dvfMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "omg") {
+      omgMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "metis") {
+      metisMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "boba") {
+      bobaMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "gno") {
+      gnoMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "near") {
+      nearMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "ftm") {
+      ftmMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "movr") {
+      movrMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "ksm") {
+      ksmMcap = chain["market_cap"];
     }
   }
 
@@ -161,8 +209,16 @@ const calculateChainValue = async () => {
 
   layer2Totals["optimism"] = { chainToken: opMcap, ecosystemValue: optimismEcosystemValue };
   layer2Totals["arbitrum"] = { chainToken: "none", ecosystemValue: arbitrumEcosystemValue };
+  layer2Totals["dYdX"] = { chainToken: dydxMcap, ecosystemValue: "none" };
+  layer2Totals["loopring"] = { chainToken: lrcMcap, ecosystemValue: "noCalc" };
+  layer2Totals["immutableX"] = { chainToken: imxMcap, ecosystemValue: "noCalc" };
+  layer2Totals["deversiFi"] = { chainToken: dvfMcap, ecosystemValue: "noCalc" };
+  layer2Totals["OMG"] = { chainToken: omgMcap, ecosystemValue: "noCalc" };
+  layer2Totals["metisAndromeda"] = { chainToken: metisMcap, ecosystemValue: "noCalc" };
+  layer2Totals["bobaNetwork"] = { chainToken: bobaMcap, ecosystemValue: "noCalc" };
 
   sidechainTotals["polygon"] = { chainToken: maticMcap, ecosystemValue: polygonEcosystemValue };
+  sidechainTotals["gnosisChain"] = { chainToken: gnoMcap, ecosystemValue: "noCalc" };
 
   altL1Totals["avalanche"] = { chainToken: avaxMcap, ecosystemValue: avalancheEcosystemValue };
   altL1Totals["BNB"] = { chainToken: bnbMcap, ecosystemValue: bnbEcosystemValue };
@@ -178,6 +234,10 @@ const calculateChainValue = async () => {
   altL1Totals["algorand"] = { chainToken: algoMcap, ecosystemValue: "noCalc" };
   altL1Totals["harmony"] = { chainToken: harmonyMcap, ecosystemValue: "noCalc" };
   altL1Totals["celo"] = { chainToken: celoMcap, ecosystemValue: "noCalc" };
+  altL1Totals["near"] = { chainToken: nearMcap, ecosystemValue: "noCalc" };
+  altL1Totals["fantom"] = { chainToken: ftmMcap, ecosystemValue: "noCalc" };
+  altL1Totals["moonriver"] = { chainToken: movrMcap, ecosystemValue: "noCalc" };
+  altL1Totals["kusama"] = { chainToken: ksmMcap, ecosystemValue: "noCalc" };
 
   chainTotalValue["ethereum"] = ethereumTotal;
   chainTotalValue["layer2"] = layer2Totals;
@@ -189,4 +249,6 @@ const calculateChainValue = async () => {
   fs.writeFileSync("../chainTotalValue.json", dataToWrite);
 };
 
-calculateChainValue();
+// calculateChainValue();
+
+console.log(new Date(Date.now()).toLocaleString());
