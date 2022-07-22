@@ -202,12 +202,14 @@ for (type in chainType) {
 }
 
 let totalsObj = {};
+let currentDate = new Date(Date.now()).toLocaleString();
 
 totalsObj["chainTokenMcap"] = chainTokenMcap["totalchainTokenMcap"];
 totalsObj["ecosystemValue"] = ecosystemValue["totalecosystemValue"];
 totalsObj["bridgedFromEth"] = bridgedFromEth["totalbridgedFromEth"];
 
 chainType["totals"] = totalsObj;
+chainType["last_updated"] = currentDate;
 
 console.log(chainType);
 
