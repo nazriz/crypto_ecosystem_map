@@ -96,11 +96,28 @@ altL1["solana"] = {};
 altL1["near"] = {};
 altL1["fantom"] = {};
 altL1["moonriver"] = {};
+altL1["bitcoin"] = {};
+altL1["BNB"] = {};
+altL1["dogecoin"] = {};
+altL1["dogecoin"] = {};
+altL1["xrp"] = {};
+altL1["zcash"] = {};
+altL1["algorand"] = {};
+altL1["tezos"] = {};
+altL1["tron"] = {};
+altL1["cardano"] = {};
+altL1["polkadot"] = {};
+altL1["harmony"] = {};
+altL1["celo"] = {};
 
 chainType["layer2"] = layer2;
 chainType["sidechain"] = sidechain;
 chainType["alt_l1"] = altL1;
 
+// Function to check which chains are missing from Obj,
+// Based on the unique chains placed into the list from
+// getUniqueChainNames function user must then
+//  manually update object, and can run function again
 const checkMissingChainsFromList = (inputList, objToCheck) => {
   let missingChain = [];
   for (item in inputList) {
@@ -120,8 +137,67 @@ const checkMissingChainsFromList = (inputList, objToCheck) => {
   console.log("Please update the input list accordingly.");
 };
 
-checkMissingChainsFromList(uniqueChainNames, chainType);
+// checkMissingChainsFromList(uniqueChainNames, chainType);
 
+// Token Mcap
+for (type in chainType) {
+  for (chain in chainType[type]) {
+    for (type2 in chainTokenMcap) {
+      for (chain2 in chainTokenMcap[type2]) {
+        if (chain === chain2) {
+          chainType[type][chain] = chainTokenMcap[type2][chain2];
+        }
+      }
+    }
+    for (chain in chainType[type]) {
+      if (Object.keys(chainType[type][chain]).length === 0) {
+        chainType[type][chain] = { chainTokenMcapUSD: "none", "chainTokenMcapRatio (%)": NaN };
+      }
+    }
+  }
+}
+
+// Ecosystem Value
+for (type in chainType) {
+  for (chain in chainType[type]) {
+    for (type2 in ecosystemValue) {
+      for (chain2 in ecosystemValue[type2]) {
+        if (chain === chain2) {
+          Object.assign(chainType[type][chain], ecosystemValue[type2][chain2]);
+        }
+      }
+    }
+    for (chain in chainType[type]) {
+      if (Object.keys(chainType[type][chain]).length === 1) {
+        let emptyItem = { ecosystemValueUSD: "none", "ecosystemValueRatio (%)": NaN };
+        Object.assign(chainType[type][chain], emptyItem);
+      }
+    }
+  }
+}
+
+// Bridged From Eth
+for (type in chainType) {
+  for (chain in chainType[type]) {
+    for (type2 in bridgedFromEth) {
+      for (chain2 in bridgedFromEth[type2]) {
+        if (chain === chain2) {
+          Object.assign(chainType[type][chain], bridgedFromEth[type2][chain2]);
+        }
+      }
+    }
+    for (chain in chainType[type]) {
+      if (Object.keys(chainType[type][chain]).length === 4) {
+        let emptyItem = { bridgedFromEthUSD: "noCalc", "bridgedFromEthRatio (%)": NaN };
+        Object.assign(chainType[type][chain], emptyItem);
+      }
+    }
+  }
+}
+
+console.log(chainType);
+
+// console.log(chainTokenMcap);
 // for (item in uniqueChainNames) {
 //   finalChainArray.push(tempChainArray);
 //   tempChainArray = [];
