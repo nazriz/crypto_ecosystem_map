@@ -71,8 +71,11 @@ const getPrices = async (networkId, array) => {
     grandTotal += jvalue2;
   }
 
-  //Returns final total, rounded to 0 places
-  return grandTotal.toFixed(0);
+  //Returns final total, rounded to 0 places and formatted
+  grandTotal = grandTotal.toFixed(0);
+  grandTotal = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(grandTotal);
+
+  return grandTotal;
 };
 
 module.exports = { getPrices };
