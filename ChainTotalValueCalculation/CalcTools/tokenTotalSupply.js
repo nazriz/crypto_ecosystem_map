@@ -1,5 +1,5 @@
 const { ethers } = require("ethers");
-const erc20ABI = require("../../ABI/erc20_abi.json");
+const erc20ABI = require("./erc20_abi.json");
 
 // Creates contract object from address and returns
 // supply and ticker in object

@@ -5,10 +5,13 @@ const fs = require("fs");
 
 require("dotenv").config();
 
-const provider = new ethers.providers.InfuraProvider("homestead", {
-  projectId: process.env.INFURA_PROJECT_ID,
-  projectSecret: process.env.INFURA_PROJECT_SECRET,
-});
+// const provider = new ethers.providers.InfuraProvider("homestead", {
+//   projectId: process.env.INFURA_PROJECT_ID,
+//   projectSecret: process.env.INFURA_PROJECT_SECRET,
+// });
+
+const provider = new ethers.providers.AlchemyProvider((network = "homestead"), process.env.ALCHEMY_API_KEY);
+
 // Token supply on Ethereum is handled differently from token supply on alt chains
 // Since often the total token supply =/= to circulating supply
 // This modified tokenTotalSupply function uses messari circulating token supply data

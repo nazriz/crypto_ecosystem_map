@@ -1,17 +1,16 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 const API_KEY = process.env.API_KEY;
-const priceFeedABI = require("./ABI/aggregatorV3InterfaceABI.json");
+// const priceFeedABI = require("./ABI/aggregatorV3InterfaceABI.json");
 const erc20ABI = require("./ABI/erc20_abi.json");
 
-// const provider = new ethers.providers.AlchemyProvider(
-//   (network = "homestead"),
-//   process.env.ALCHEMY_API_KEY
-// );
-const provider = new ethers.providers.InfuraProvider("homestead", {
-  projectId: process.env.INFURA_PROJECT_ID,
-  projectSecret: process.env.INFURA_PROJECT_SECRET,
-});
+const provider = new ethers.providers.AlchemyProvider((network = "homestead"), process.env.ALCHEMY_API_KEY);
+
+// const provider = new ethers.providers.InfuraProvider("homestead", {
+//   projectId: process.env.INFURA_PROJECT_ID,
+//   projectSecret: process.env.INFURA_PROJECT_SECRET,
+// });
+
 // Contracts for general tokens
 // Stablecoins
 
@@ -423,11 +422,7 @@ const nodeContract = () => {
 const ethUsdPriceContract = () => {
   const usdEthAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
   const usdEthABI = require("./ABI/usdEthPriceFeed_abi.json");
-  const ethUsdPriceContract = new ethers.Contract(
-    usdEthAddress,
-    usdEthABI,
-    provider
-  );
+  const ethUsdPriceContract = new ethers.Contract(usdEthAddress, usdEthABI, provider);
   return ethUsdPriceContract;
 };
 
@@ -435,11 +430,7 @@ const ethUsdPriceContract = () => {
 const btcUsdPriceContract = () => {
   const usdBtcPriceAddress = "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c";
   const usdBtcABI = require("./ABI/usdBtcPriceFeed_abi.json");
-  const usdBtcPriceContract = new ethers.Contract(
-    usdBtcPriceAddress,
-    usdBtcABI,
-    provider
-  );
+  const usdBtcPriceContract = new ethers.Contract(usdBtcPriceAddress, usdBtcABI, provider);
   return usdBtcPriceContract;
 };
 
@@ -447,11 +438,7 @@ const btcUsdPriceContract = () => {
 const feedRegistry = () => {
   const feedRegistryAddress = "0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf";
   const feedRegistryABI = require("./ABI/feedRegistryInterfaceABI.json");
-  feedRegistryContract = new ethers.Contract(
-    feedRegistryAddress,
-    feedRegistryABI,
-    provider
-  );
+  feedRegistryContract = new ethers.Contract(feedRegistryAddress, feedRegistryABI, provider);
 
   return feedRegistryContract;
 };
@@ -459,11 +446,7 @@ const feedRegistry = () => {
 const orbitBridgeContract = () => {
   let orbitBridgeAddress = "0x1Bf68A9d1EaEe7826b3593C20a0ca93293cb489a";
   const orbitBridgeABI = require("./ABI/orbit_bridge_abi.json");
-  let orbitBridgeContract = new ethers.Contract(
-    orbitBridgeAddress,
-    orbitBridgeABI,
-    provider
-  );
+  let orbitBridgeContract = new ethers.Contract(orbitBridgeAddress, orbitBridgeABI, provider);
   return orbitBridgeContract;
 };
 
