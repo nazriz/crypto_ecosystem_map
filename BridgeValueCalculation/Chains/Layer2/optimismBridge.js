@@ -1,4 +1,4 @@
-const { getBridgeBalance } = require("../../../CalcTools/getBridgeBalance");
+const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
 
 const optimismBridgeBalance = async () => {
   const [optimismDaiBridge, optimismBridge, optimismSnxBridge] = await Promise.all([
@@ -19,7 +19,10 @@ const optimismBridgeBalance = async () => {
       }
     }
   }
+
   return bridgeTotal;
 };
+
+optimismBridgeBalance();
 
 module.exports = { optimismBridgeBalance };
