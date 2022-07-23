@@ -211,10 +211,17 @@ totalsObj["bridgedFromEth"] = bridgedFromEth["totalbridgedFromEth"];
 chainType["totals"] = totalsObj;
 chainType["last_updated"] = currentDate;
 
-console.log(chainType);
+// console.log(chainType);
 
 fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
   if (err) {
     console.error(err);
   }
 });
+
+let num = 123234534223458.034503;
+num = num.toFixed(0);
+
+let numFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(num);
+
+console.log(numFormatted);
