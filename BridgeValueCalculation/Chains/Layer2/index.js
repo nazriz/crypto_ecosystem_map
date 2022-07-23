@@ -12,6 +12,7 @@ const { starknetBridgeBalance } = require("./starknetBridge");
 const { polygonHermezBridgeBalance } = require("./polygonHermezBridge");
 const { metisAndromedaBridgeBalance } = require("./metisAndromedaBridge");
 const { bobaNetworkBridgeBalance } = require("./bobaNetworkBridge");
+const { zkSpaceBridgeBalance } = require("./zkSpaceBridge");
 
 module.exports = {
   optimismBridgeBalance,
@@ -28,4 +29,5 @@ module.exports = {
   polygonHermezBridgeBalance,
   metisAndromedaBridgeBalance,
   bobaNetworkBridgeBalance,
+  zkSpaceBridgeBalance,
 };
