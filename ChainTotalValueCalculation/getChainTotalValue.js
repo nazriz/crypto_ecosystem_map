@@ -249,6 +249,4 @@ const calculateChainValue = async () => {
   fs.writeFileSync("../chainTotalValue.json", dataToWrite);
 };
 
-// calculateChainValue();
-
-console.log(new Date(Date.now()).toLocaleString());
+calculateChainValue();

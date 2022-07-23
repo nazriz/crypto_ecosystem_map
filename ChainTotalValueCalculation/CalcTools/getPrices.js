@@ -72,7 +72,7 @@ const getPrices = async (networkId, array) => {
   }
 
   //Returns final total, rounded to 0 places and formatted
-  grandTotal = grandTotal.toFixed(0);
+  grandTotal = parseFloat(grandTotal).toFixed(0);
   grandTotal = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(grandTotal);
 
   return grandTotal;
