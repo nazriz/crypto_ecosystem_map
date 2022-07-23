@@ -1,5 +1,5 @@
 const { ethers } = require("ethers");
-const erc20ABI = require("../../ABI/erc20_abi.json");
+const erc20ABI = require("./erc20_abi.json");
 const axios = require("axios");
 const fs = require("fs");
 
