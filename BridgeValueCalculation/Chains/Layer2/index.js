@@ -8,6 +8,10 @@ const { sorareBridgeBalance } = require("./sorareBridge");
 const { aztecBridgeBalance } = require("./aztecBridge");
 const { dYdXBridgeBalance } = require("./dYdXBridge");
 const { OMGBridgeBalance } = require("./omgBridge");
+const { starknetBridgeBalance } = require("./starknetBridge");
+const { polygonHermezBridgeBalance } = require("./polygonHermezBridge");
+const { metisAndromedaBridgeBalance } = require("./metisAndromedaBridge");
+const { bobaNetworkBridgeBalance } = require("./bobaNetworkBridge");
 
 module.exports = {
   optimismBridgeBalance,
@@ -19,4 +23,9 @@ module.exports = {
   deversiFiBridgeBalance,
   sorareBridgeBalance,
   aztecBridgeBalance,
+  OMGBridgeBalance,
+  starknetBridgeBalance,
+  polygonHermezBridgeBalance,
+  metisAndromedaBridgeBalance,
+  bobaNetworkBridgeBalance,
 };
