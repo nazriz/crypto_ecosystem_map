@@ -177,7 +177,7 @@ const avalancheTokenTotalValue = async () => {
     await tokenTotalSupply(avalancheProvider, "0x325a98F258a5732c7b06555603F6aF5BC1C17F0a", 9),
   ]));
 
-  return parseFloat(tokens);
+  return tokens;
 };
 
 module.exports = { avalancheTokenTotalValue };

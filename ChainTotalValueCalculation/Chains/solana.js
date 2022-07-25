@@ -45,15 +45,9 @@ const solanaTokenValue = async () => {
     ...solscanData8,
   };
 
-  //   let tempAuditString = "";
-  //   let tempAuditArray = [];
-  //   console.log(solanaTickerMcap);
-
   let solanaTokenValueGrandTotal = 0;
   for (const [key, value] of Object.entries(solanaTickerMcap)) {
     solanaTokenValueGrandTotal += solanaTickerMcap[key];
-    // tempAuditArray.push(solanaTickerMcap[key]);
-    // tempAuditString += solanaTickerMcap[key] + ",";
   }
 
   return solanaTokenValueGrandTotal;

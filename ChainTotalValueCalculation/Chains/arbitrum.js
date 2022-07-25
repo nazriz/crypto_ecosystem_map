@@ -117,7 +117,7 @@ const arbitrumTokenTotalValue = async () => {
     await tokenTotalSupply(arbitrumProvider, "0x1622bf67e6e5747b81866fe0b85178a93c7f86e3", 18),
   ]));
 
-  return parseFloat(tokens);
+  return tokens;
 };
 
 module.exports = { arbitrumTokenTotalValue };

@@ -249,4 +249,14 @@ const calculateChainValue = async () => {
   fs.writeFileSync("../chainTotalValue.json", dataToWrite);
 };
 
-calculateChainValue();
+// calculateChainValue();
+
+const test = async () => {
+  const opTokens = await optimismTokenTotalValue();
+
+  const opTokenPrices = await getPrices("optimistic-ethereum", opTokens);
+
+  console.log(opTokenPrices);
+};
+
+test();

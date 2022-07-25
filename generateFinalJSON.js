@@ -219,9 +219,8 @@ fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
   }
 });
 
-let num = 123234534223458.034503;
-num = num.toFixed(0);
+// let numFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format();
 
-let numFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(num);
+// let grandTotalFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(grandTotal);
 
 console.log(numFormatted);
