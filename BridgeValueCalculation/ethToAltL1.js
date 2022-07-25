@@ -14,7 +14,7 @@ const feeds = async () => {
 };
 
 // // Compiles all bridge data into an object, and returns that object
-const data = async () => {
+const ethToAltL1 = async () => {
   let altL1Totals = {};
 
   let [avalancheResults, solanaResults, nearResults, fantomResults, moonriverResults, feedPrices] = await Promise.all([
@@ -43,4 +43,5 @@ const data = async () => {
   });
 };
 
-data();
+ethToAltL1();
+module.exports = { ethToAltL1 };

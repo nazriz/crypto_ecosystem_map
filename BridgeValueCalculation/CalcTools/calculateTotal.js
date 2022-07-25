@@ -7,8 +7,7 @@ const calculateTotal = (inputBridge, priceFeed) => {
   }
   let total = inputBridge["USD"] + runningTotal;
 
-  total = total.toFixed(0);
-  total = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(total);
+  //   total = total.toFixed(0);
   return total;
 };
 

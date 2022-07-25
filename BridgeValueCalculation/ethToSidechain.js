@@ -9,7 +9,7 @@ const feeds = async () => {
 };
 
 // // Compiles all bridge data into an object, and returns that object
-const data = async () => {
+const ethToSidechain = async () => {
   let sidechainTotals = {};
 
   let [polygonResults, roninResults, gnosisChainResults, feedPrices] = await Promise.all([
@@ -34,4 +34,4 @@ const data = async () => {
   });
 };
 
-data();
+module.exports = { ethToSidechain };

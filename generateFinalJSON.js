@@ -36,8 +36,6 @@ let bridgedFromEth = calcRatios(bridgeData["Ethereum"], "bridgedFromEth");
 let chainTokenMcap = calcRatios(splitData[0], "chainTokenMcap");
 let ecosystemValue = calcRatios(splitData[1], "ecosystemValue");
 
-// console.log(bridgedFromEth);
-
 // Get the unique chain names accross all data sets
 const getUniqueChainNames = () => {
   let combinedChainNameArray = [];
@@ -110,6 +108,7 @@ altL1["cardano"] = {};
 altL1["polkadot"] = {};
 altL1["harmony"] = {};
 altL1["celo"] = {};
+altL1["kusama"] = {};
 
 ethereum["ethereum"] = {};
 
@@ -222,5 +221,3 @@ fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
 // let numFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format();
 
 // let grandTotalFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(grandTotal);
-
-console.log(numFormatted);

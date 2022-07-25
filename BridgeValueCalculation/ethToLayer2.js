@@ -25,7 +25,7 @@ const feeds = async () => {
 };
 
 // // Compiles all bridge data into an object, and returns that object
-const data = async () => {
+const ethToLayer2 = async () => {
   let layer2Totals = {};
 
   let [
@@ -91,4 +91,4 @@ const data = async () => {
   });
 };
 
-data();
+module.exports = { ethToLayer2 };

@@ -1,38 +1,38 @@
 {
   "layer2": {
-    "optimism": { "chainToken": 195752392, "ecosystemValue": "0" },
-    "arbitrum": { "chainToken": "none", "ecosystemValue": "0" },
-    "dYdX": { "chainToken": 253611052, "ecosystemValue": "none" },
-    "loopring": { "chainToken": 512325306, "ecosystemValue": "noCalc" },
-    "immutableX": { "chainToken": 222753048, "ecosystemValue": "noCalc" },
-    "deversiFi": { "chainToken": 13908891, "ecosystemValue": "noCalc" },
-    "OMG": { "chainToken": 295035055, "ecosystemValue": "noCalc" },
-    "metisAndromeda": { "chainToken": 134399534, "ecosystemValue": "noCalc" },
-    "bobaNetwork": { "chainToken": 75399066, "ecosystemValue": "noCalc" }
+    "optimism": { "chainToken": 185729636, "ecosystemValue": 602121939 },
+    "arbitrum": { "chainToken": "none", "ecosystemValue": 1889996763 },
+    "dYdX": { "chainToken": 227704031, "ecosystemValue": "none" },
+    "loopring": { "chainToken": 473641578, "ecosystemValue": "noCalc" },
+    "immutableX": { "chainToken": 206013357, "ecosystemValue": "noCalc" },
+    "deversiFi": { "chainToken": 13966017, "ecosystemValue": "noCalc" },
+    "OMG": { "chainToken": 271958018, "ecosystemValue": "noCalc" },
+    "metisAndromeda": { "chainToken": 129089966, "ecosystemValue": "noCalc" },
+    "bobaNetwork": { "chainToken": 74408596, "ecosystemValue": "noCalc" }
   },
   "sidechain": {
-    "polygon": { "chainToken": 6976231069, "ecosystemValue": "0" },
-    "gnosisChain": { "chainToken": 389628790, "ecosystemValue": "noCalc" }
+    "polygon": { "chainToken": 6831110620, "ecosystemValue": 5232983456 },
+    "gnosisChain": { "chainToken": 380484394, "ecosystemValue": "noCalc" }
   },
   "alt_l1": {
-    "avalanche": { "chainToken": 6852421277, "ecosystemValue": "0" },
-    "BNB": { "chainToken": 43542628430, "ecosystemValue": "0" },
-    "solana": { "chainToken": 14261134449, "ecosystemValue": 27833889602.95776 },
-    "bitcoin": { "chainToken": 436848148249, "ecosystemValue": 986950223.843997 },
-    "dogecoin": { "chainToken": 9063699796, "ecosystemValue": "none" },
-    "tron": { "chainToken": 6247670846, "ecosystemValue": "noCalc" },
-    "xrp": { "chainToken": 17399720521, "ecosystemValue": "none" },
-    "zcash": { "chainToken": 780871909, "ecosystemValue": "none" },
-    "cardano": { "chainToken": 16562318813, "ecosystemValue": "noCalc" },
-    "tezos": { "chainToken": 1486353239, "ecosystemValue": "noCalc" },
-    "polkadot": { "chainToken": 8356027668, "ecosystemValue": "noCalc" },
-    "algorand": { "chainToken": 2359300857, "ecosystemValue": "noCalc" },
-    "harmony": { "chainToken": 297020179, "ecosystemValue": "noCalc" },
-    "celo": { "chainToken": 441461694, "ecosystemValue": "noCalc" },
-    "near": { "chainToken": 3268659649, "ecosystemValue": "noCalc" },
-    "fantom": { "chainToken": 842240103, "ecosystemValue": "noCalc" },
-    "moonriver": { "chainToken": 67515344, "ecosystemValue": "noCalc" },
-    "kusama": { "chainToken": 590197219, "ecosystemValue": "noCalc" }
+    "avalanche": { "chainToken": 6293111995, "ecosystemValue": 4809197028 },
+    "BNB": { "chainToken": 41703712234, "ecosystemValue": 24458506808 },
+    "solana": { "chainToken": 13308585900, "ecosystemValue": 27363026306.030632 },
+    "bitcoin": { "chainToken": 419145876968, "ecosystemValue": 983169161.6783456 },
+    "dogecoin": { "chainToken": 8575498816, "ecosystemValue": "none" },
+    "tron": { "chainToken": 6065589055, "ecosystemValue": "noCalc" },
+    "xrp": { "chainToken": 16795312081, "ecosystemValue": "none" },
+    "zcash": { "chainToken": 720339977, "ecosystemValue": "none" },
+    "cardano": { "chainToken": 16720216132, "ecosystemValue": "noCalc" },
+    "tezos": { "chainToken": 1422483831, "ecosystemValue": "noCalc" },
+    "polkadot": { "chainToken": 8018472819, "ecosystemValue": "noCalc" },
+    "algorand": { "chainToken": 2262459364, "ecosystemValue": "noCalc" },
+    "harmony": { "chainToken": 271402242, "ecosystemValue": "noCalc" },
+    "celo": { "chainToken": 406627346, "ecosystemValue": "noCalc" },
+    "near": { "chainToken": 3038093015, "ecosystemValue": "noCalc" },
+    "fantom": { "chainToken": 822151152, "ecosystemValue": "noCalc" },
+    "moonriver": { "chainToken": 64584797, "ecosystemValue": "noCalc" },
+    "kusama": { "chainToken": 559473731, "ecosystemValue": "noCalc" }
   },
-  "ethereum": { "ethereum": { "chainToken": 188453937823, "ecosystemValue": "244509724343" } }
+  "ethereum": { "ethereum": { "chainToken": 182361499585, "ecosystemValue": 241306811401 } }
 }
