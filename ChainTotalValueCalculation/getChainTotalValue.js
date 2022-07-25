@@ -249,14 +249,14 @@ const calculateChainValue = async () => {
   fs.writeFileSync("../chainTotalValue.json", dataToWrite);
 };
 
-// calculateChainValue();
+calculateChainValue();
 
-const test = async () => {
-  const opTokens = await optimismTokenTotalValue();
+// const test = async () => {
+//   const bnbTokens = await bnbTotalTokenValue();
 
-  const opTokenPrices = await getPrices("optimistic-ethereum", opTokens);
+//   const bnbTokenPrices = await getPrices("binance-smart-chain", bnbTokens);
 
-  console.log(opTokenPrices);
-};
+//   console.log(bnbTokenPrices);
+// };
 
-test();
+// test();

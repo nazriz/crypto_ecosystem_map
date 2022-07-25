@@ -357,7 +357,7 @@ const bnbTotalTokenValue = async () => {
     await tokenTotalSupply(bnbProvider, "0xEe9801669C6138E84bD50dEB500827b776777d28", 18),
     await tokenTotalSupply(bnbProvider, "0x393B312C01048b3ed2720bF1B090084C09e408A1", 18),
     await tokenTotalSupply(bnbProvider, "0x57A5297F2cB2c0AaC9D554660acd6D385Ab50c6B", 8),
-    await tokenTotalSupply(bnbProvider, "0x77018282fD033DAF370337A5367E62d8811Bc885", 8),
+    await tokenTotalSupply(bnbProvider, "0x77018282fD033DAF370337A5367E62d8811Bc885", 18),
     await tokenTotalSupply(bnbProvider, "0x448BEE2d93Be708b54eE6353A7CC35C4933F1156", 18),
     await tokenTotalSupply(bnbProvider, "0xf16e81dce15B08F326220742020379B855B87DF9", 18),
     await tokenTotalSupply(bnbProvider, "0x650b940a1033B8A1b1873f78730FcFC73ec11f1f", 8),
