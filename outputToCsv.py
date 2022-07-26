@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import locale
+locale.setlocale( locale.LC_ALL, '' )
 
 
 f = open('finalData.json')
@@ -23,7 +24,10 @@ for y in outputDict:
                 outputDict[y][z] = '${:,.0f}'.format(outputDict[y][z])
 
 
+
 df = pd.DataFrame.from_dict(outputDict, orient='index')
+df.to_csv("figmaFormattedData.csv", encoding='utf-8', index='false')
 
-df.to_csv("figmaFormattedData.csv", encoding='utf-8', index=False)
 
+
+print(df)
