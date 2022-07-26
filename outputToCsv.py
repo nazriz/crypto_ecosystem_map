@@ -25,5 +25,5 @@ for y in outputDict:
 
 df = pd.DataFrame.from_dict(outputDict, orient='index')
 
+df.to_csv("figmaFormattedData.csv", encoding='utf-8', index=False)
 
-print(df)
