@@ -200,24 +200,43 @@ for (type in chainType) {
   }
 }
 
-let totalsObj = {};
-let currentDate = new Date(Date.now()).toLocaleString();
+let mcapWithEcoValue = {};
+let tempChainObj = {};
+let chainTempTotal = 0.0;
 
-totalsObj["chainTokenMcap"] = chainTokenMcap["totalchainTokenMcap"];
-totalsObj["ecosystemValue"] = ecosystemValue["totalecosystemValue"];
-totalsObj["bridgedFromEth"] = bridgedFromEth["totalbridgedFromEth"];
-
-chainType["totals"] = totalsObj;
-chainType["last_updated"] = currentDate;
-
-// console.log(chainType);
-
-fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
-  if (err) {
-    console.error(err);
+for (type in chainType) {
+  mcapWithEcoValue[type] = {};
+  tempChainObj = {};
+  for (chain in chainType[type]) {
+    chainTempTotal = 0.0;
+    for (item in chainType[type][chain]) {
+      if (!item.includes("bridgedFromEth")) {
+        if (!item.includes("Ratio")) {
+          if (!isNaN(chainType[type][chain][item])) {
+            chainTempTotal += chainType[type][chain][item];
+          }
+        }
+        tempChainObj[chain] = chainTempTotal;
+      }
+    }
+    mcapWithEcoValue[type] = tempChainObj;
   }
-});
+}
 
-// let numFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format();
+console.log(mcapWithEcoValue);
 
-// let grandTotalFormatted = new Intl.NumberFormat({ style: "currency", currency: "USD" }).format(grandTotal);
+// let totalsObj = {};
+// let currentDate = new Date(Date.now()).toLocaleString();
+
+// totalsObj["chainTokenMcap"] = chainTokenMcap["totalchainTokenMcap"];
+// totalsObj["ecosystemValue"] = ecosystemValue["totalecosystemValue"];
+// totalsObj["bridgedFromEth"] = bridgedFromEth["totalbridgedFromEth"];
+
+// chainType["totals"] = totalsObj;
+// chainType["last_updated"] = currentDate;
+
+// fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
+//   if (err) {
+//     console.error(err);
+//   }
+// });
