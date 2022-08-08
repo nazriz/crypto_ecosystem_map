@@ -278,7 +278,7 @@ totalsObj["cryptoEcosystemTotal"] = chainTotalCombinedRatios["totalcombined"];
 chainType["totals"] = totalsObj;
 chainType["last_updated"] = currentDate;
 
-fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
+fs.writeFile("./data/finalData.json", JSON.stringify(chainType), (err) => {
   if (err) {
     console.error(err);
   }
