@@ -2,7 +2,7 @@ const fs = require("fs");
 const { calcRatios } = require("./calculateRatios");
 
 const splitChainTotalData = () => {
-  let fileData = fs.readFileSync("chainTotalValue.json");
+  let fileData = fs.readFileSync("./data/chainTotalValue.json");
   let chainTotalValue = JSON.parse(fileData);
 
   let mcapObj = {};
