@@ -84,13 +84,15 @@ const ethToLayer2 = async () => {
 
   layer2Final["layer2"] = layer2Totals;
 
-  fs.writeFile("bridgedFromEthToLayer2.json", JSON.stringify(layer2Final), (err) => {
+  fs.writeFile("../data/bridgedFromEthToLayer2.json", JSON.stringify(layer2Final), (err) => {
     if (err) {
       console.error(err);
     }
   });
+
+  return layer2Final;
 };
 
-ethToLayer2();
+// ethToLayer2();
 
 module.exports = { ethToLayer2 };

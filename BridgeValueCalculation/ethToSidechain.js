@@ -27,11 +27,13 @@ const ethToSidechain = async () => {
 
   sidechainFinal["sidechain"] = sidechainTotals;
 
-  fs.writeFile("bridgedFromEthToSidechain.json", JSON.stringify(sidechainFinal), (err) => {
+  fs.writeFile("../data/bridgedFromEthToSidechain.json", JSON.stringify(sidechainFinal), (err) => {
     if (err) {
       console.error(err);
     }
   });
+
+  return sidechainFinal;
 };
 
 // ethToSidechain();
