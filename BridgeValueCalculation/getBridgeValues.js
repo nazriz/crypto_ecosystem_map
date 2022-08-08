@@ -20,9 +20,9 @@ const getBridgeValues = async () => {
 
   let combinedBridges = {};
 
-  combinedBridges["layer2"] = layer2Data;
-  combinedBridges["sidechain"] = sidechainData;
-  combinedBridges["altL1"] = altL1Data;
+  combinedBridges["layer2"] = layer2Data["layer2"];
+  combinedBridges["sidechain"] = sidechainData["sidechain"];
+  combinedBridges["altL1"] = altL1Data["altL1"];
 
   fs.writeFile("bridgedFromEth.json", JSON.stringify(combinedBridges), (err) => {
     if (err) {
