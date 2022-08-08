@@ -267,20 +267,19 @@ for (type in chainType) {
   }
 }
 
-console.log(chainType);
+let totalsObj = {};
+let currentDate = new Date(Date.now()).toLocaleString();
 
-// let totalsObj = {};
-// let currentDate = new Date(Date.now()).toLocaleString();
+totalsObj["chainTokenMcap"] = chainTokenMcap["totalchainTokenMcap"];
+totalsObj["ecosystemValue"] = ecosystemValue["totalecosystemValue"];
+totalsObj["bridgedFromEth"] = bridgedFromEth["totalbridgedFromEth"];
+totalsObj["cryptoEcosystemTotal"] = chainTotalCombinedRatios["totalcombined"];
 
-// totalsObj["chainTokenMcap"] = chainTokenMcap["totalchainTokenMcap"];
-// totalsObj["ecosystemValue"] = ecosystemValue["totalecosystemValue"];
-// totalsObj["bridgedFromEth"] = bridgedFromEth["totalbridgedFromEth"];
+chainType["totals"] = totalsObj;
+chainType["last_updated"] = currentDate;
 
-// chainType["totals"] = totalsObj;
-// chainType["last_updated"] = currentDate;
-
-// fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
-//   if (err) {
-//     console.error(err);
-//   }
-// });
+fs.writeFile("finalData.json", JSON.stringify(chainType), (err) => {
+  if (err) {
+    console.error(err);
+  }
+});
