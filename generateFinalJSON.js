@@ -29,10 +29,10 @@ const splitChainTotalData = () => {
 let splitData = splitChainTotalData();
 
 // Import the bridge data
-let fileData = fs.readFileSync("bridgedFromEth.json");
+let fileData = fs.readFileSync("./BridgeValueCalculation/bridgedFromEth.json");
 let bridgeData = JSON.parse(fileData);
 
-let bridgedFromEth = calcRatios(bridgeData["Ethereum"], "bridgedFromEth");
+let bridgedFromEth = calcRatios(bridgeData, "bridgedFromEth");
 let chainTokenMcap = calcRatios(splitData[0], "chainTokenMcap");
 let ecosystemValue = calcRatios(splitData[1], "ecosystemValue");
 

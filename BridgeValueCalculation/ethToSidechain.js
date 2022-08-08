@@ -34,4 +34,6 @@ const ethToSidechain = async () => {
   });
 };
 
+// ethToSidechain();
+
 module.exports = { ethToSidechain };

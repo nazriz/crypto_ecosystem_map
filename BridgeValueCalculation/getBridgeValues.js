@@ -5,9 +5,9 @@ const fs = require("fs");
 
 const getBridgeValues = async () => {
   // Call the calculation functions
-  ethToLayer2();
-  ethToSidechain();
-  ethToAltL1();
+  // ethToAltL1();
+  // ethToLayer2();
+  // ethToSidechain();
 
   let layer2File = fs.readFileSync("bridgedFromEthToLayer2.json");
   let layer2Data = JSON.parse(layer2File);
