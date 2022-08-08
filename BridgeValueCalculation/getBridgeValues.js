@@ -24,7 +24,7 @@ const getBridgeValues = async () => {
   combinedBridges["sidechain"] = sidechainData["sidechain"];
   combinedBridges["altL1"] = altL1Data["altL1"];
 
-  fs.writeFile("bridgedFromEth.json", JSON.stringify(combinedBridges), (err) => {
+  fs.writeFile("../data/bridgedFromEth.json", JSON.stringify(combinedBridges), (err) => {
     if (err) {
       console.error(err);
     }
