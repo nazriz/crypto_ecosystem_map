@@ -246,17 +246,7 @@ const calculateChainValue = async () => {
 
   let dataToWrite = JSON.stringify(chainTotalValue);
   console.log(dataToWrite);
-  fs.writeFileSync("../chainTotalValue.json", dataToWrite);
+  fs.writeFileSync("../data/chainTotalValue.json", dataToWrite);
 };
 
 calculateChainValue();
-
-// const test = async () => {
-//   const bnbTokens = await bnbTotalTokenValue();
-
-//   const bnbTokenPrices = await getPrices("binance-smart-chain", bnbTokens);
-
-//   console.log(bnbTokenPrices);
-// };
-
-// test();
