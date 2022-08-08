@@ -200,6 +200,7 @@ for (type in chainType) {
   }
 }
 
+// Extract USD values, in preparation for "totals" column calculation
 let mcapWithEcoValue = {};
 let tempChainObj = {};
 let chainTempTotal = 0.0;
@@ -225,8 +226,6 @@ for (type in chainType) {
 
         if (chainTempTotal === 0) {
           let chainStr = chain;
-          // console.log(chainStr);
-          // console.log(tempBridgedFromEthObj[[chainStr]]);
         }
         tempChainObj[chain] = chainTempTotal;
       }
@@ -243,16 +242,32 @@ for (type in mcapWithEcoValue) {
 
     if (mcapWithEcoValue[type][chain] < bridgedFromEthAmt) {
       mcapWithEcoValue[type][chain] += bridgedFromEthAmt;
-      // console.log(` ${chain} :${mcapWithEcoValue[type][chain]} is less than ${bridgedFromEthAmt}`);
     }
   }
 }
 
-console.log(mcapWithEcoValue);
+let chainTotalCombinedRatios = calcRatios(mcapWithEcoValue, "combined");
 
-// let mcapWithEcoValueRatios = calcRatios(mcapWithEcoValue, "mcapWithEcoValue");
+// Add combined totals + ratios into the final chainType returned obj
+for (type in chainType) {
+  for (chain in chainType[type]) {
+    for (type2 in chainTotalCombinedRatios) {
+      for (chain2 in chainTotalCombinedRatios[type2]) {
+        if (chain === chain2) {
+          Object.assign(chainType[type][chain], chainTotalCombinedRatios[type2][chain2]);
+        }
+      }
+    }
+    for (chain in chainType[type]) {
+      if (Object.keys(chainType[type][chain]).length === 2) {
+        let emptyItem = { ecosystemValueUSD: "none", "ecosystemValueRatio (%)": NaN };
+        Object.assign(chainType[type][chain], emptyItem);
+      }
+    }
+  }
+}
 
-// console.log(mcapWithEcoValueRatios);
+console.log(chainType);
 
 // let totalsObj = {};
 // let currentDate = new Date(Date.now()).toLocaleString();
