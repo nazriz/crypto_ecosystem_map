@@ -203,6 +203,7 @@ for (type in chainType) {
 let mcapWithEcoValue = {};
 let tempChainObj = {};
 let chainTempTotal = 0.0;
+let tempBridgedFromEthObj = {};
 
 for (type in chainType) {
   mcapWithEcoValue[type] = {};
@@ -210,11 +211,22 @@ for (type in chainType) {
   for (chain in chainType[type]) {
     chainTempTotal = 0.0;
     for (item in chainType[type][chain]) {
+      if (item.includes("bridgedFromEthUSD")) {
+        if (!isNaN(chainType[type][chain][item])) {
+          tempBridgedFromEthObj[chain] = chainType[type][chain][item];
+        }
+      }
       if (!item.includes("bridgedFromEth")) {
         if (!item.includes("Ratio")) {
           if (!isNaN(chainType[type][chain][item])) {
             chainTempTotal += chainType[type][chain][item];
           }
+        }
+
+        if (chainTempTotal === 0) {
+          let chainStr = chain;
+          // console.log(chainStr);
+          // console.log(tempBridgedFromEthObj[[chainStr]]);
         }
         tempChainObj[chain] = chainTempTotal;
       }
@@ -223,7 +235,24 @@ for (type in chainType) {
   }
 }
 
+// Ensure that each chain has a value, i.e. no 0 values and ensuring that
+// chaintoken is combined with necessary bridged from eth value
+for (type in mcapWithEcoValue) {
+  for (chain in mcapWithEcoValue[type]) {
+    let bridgedFromEthAmt = tempBridgedFromEthObj[chain];
+
+    if (mcapWithEcoValue[type][chain] < bridgedFromEthAmt) {
+      mcapWithEcoValue[type][chain] += bridgedFromEthAmt;
+      // console.log(` ${chain} :${mcapWithEcoValue[type][chain]} is less than ${bridgedFromEthAmt}`);
+    }
+  }
+}
+
 console.log(mcapWithEcoValue);
+
+// let mcapWithEcoValueRatios = calcRatios(mcapWithEcoValue, "mcapWithEcoValue");
+
+// console.log(mcapWithEcoValueRatios);
 
 // let totalsObj = {};
 // let currentDate = new Date(Date.now()).toLocaleString();
