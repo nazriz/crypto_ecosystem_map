@@ -29,6 +29,9 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
     tokenContract.symbol(),
   ]);
 
+  console.log(tokenSupply);
+  console.log(tokenTicker);
+
   let tickerAddressObj = {};
   tickerAddressObj[[tokenTicker]] = contractAddress;
 
@@ -37,11 +40,17 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
     try {
       let data = await axios.get(`https://data.messari.io/api/v1/assets/${tickerLower}/metrics`);
       let circSupply = data["data"]["data"]["supply"]["circulating"];
+
+      console.log(`circsupply ${circSupply}`);
       if (circSupply != null) {
-        tokenSupply = circSupply;
-        circSupplyFile[tokenTicker] = tokenSupply;
-        let dataToWrite = JSON.stringify(circSupplyFile);
-        fs.writeFileSync("eth_circulating_token_supply_data.json", dataToWrite);
+        if (tokenSupply > circSupply) {
+          tokenSupply = circSupply;
+          circSupplyFile[tokenTicker] = tokenSupply;
+          let dataToWrite = JSON.stringify(circSupplyFile);
+          fs.writeFileSync("eth_circulating_token_supply_data.json", dataToWrite);
+        } else {
+          tokenSupply = tokenSupply;
+        }
       }
     } catch (error) {
       tokenSupply = tokenSupply;
@@ -55,5 +64,18 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
   array = [tokenTicker, tokenSupply, contractAddress];
   return array;
 };
+
+// const test = async () => {
+//   let fileData = fs.readFileSync("eth_circulating_token_supply_data.json");
+
+//   let circSupplyData = JSON.parse(fileData);
+
+//   // let usdt = await ethTokenTotalSupply(provider, circSupplyData, "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6);
+//   let usdc = await ethTokenTotalSupply(provider, circSupplyData, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6);
+
+//   console.log(usdc);
+// };
+
+// test();
 
 module.exports = { ethTokenTotalSupply };
