@@ -50,13 +50,23 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
           fs.writeFileSync("eth_circulating_token_supply_data.json", dataToWrite);
         } else {
           tokenSupply = tokenSupply;
+          circSupplyFile[tokenTicker] = tokenSupply;
+          let dataToWrite = JSON.stringify(circSupplyFile);
+          fs.writeFileSync("eth_circulating_token_supply_data.json", dataToWrite);
         }
       }
     } catch (error) {
       tokenSupply = tokenSupply;
     }
   } else {
-    tokenSupply = parseFloat(circSupplyFile[tokenTicker]);
+    if (tokenSupply > circSupplyFile[tokenTicker]) {
+      tokenSupply = parseFloat(circSupplyFile[tokenTicker]);
+    } else {
+      tokenSupply = tokenSupply;
+      circSupplyFile[tokenTicker] = tokenSupply;
+      let dataToWrite = JSON.stringify(circSupplyFile);
+      fs.writeFileSync("eth_circulating_token_supply_data.json", dataToWrite);
+    }
   }
 
   let array = [];
@@ -65,17 +75,17 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
   return array;
 };
 
-// const test = async () => {
-//   let fileData = fs.readFileSync("eth_circulating_token_supply_data.json");
+const test = async () => {
+  let fileData = fs.readFileSync("eth_circulating_token_supply_data.json");
 
-//   let circSupplyData = JSON.parse(fileData);
+  let circSupplyData = JSON.parse(fileData);
 
-//   // let usdt = await ethTokenTotalSupply(provider, circSupplyData, "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6);
-//   let usdc = await ethTokenTotalSupply(provider, circSupplyData, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6);
+  // let usdt = await ethTokenTotalSupply(provider, circSupplyData, "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6);
+  let usdc = await ethTokenTotalSupply(provider, circSupplyData, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", 6);
 
-//   console.log(usdc);
-// };
+  console.log(usdc);
+};
 
-// test();
+test();
 
 module.exports = { ethTokenTotalSupply };
