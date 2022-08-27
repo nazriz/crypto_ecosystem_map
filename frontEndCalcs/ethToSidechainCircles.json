@@ -1,0 +1,5 @@
+{
+  "polygon": { "name": "polygon", "width": 267, "height": 267 },
+  "ronin": { "name": "ronin", "width": 10, "height": 10 },
+  "gnosisChain": { "name": "gnosisChain", "width": 20, "height": 20 }
+}
