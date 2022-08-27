@@ -6,3 +6,9 @@ workspace.code-workspace
 .prettierignore
 historical_data.js
 .prettierrc
+ethValue.js
+ethTokenValue.py
+ethTokensPricesOutput.json
+ethTokensOutput.json
+eth_circulating_token_supply_data.json
+ethPriceData.csv

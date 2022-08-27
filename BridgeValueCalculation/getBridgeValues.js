@@ -10,32 +10,6 @@ const getBridgeValues = () => {
     });
   });
 
-  // ethToAltL1(function () {
-  //   ethToLayer2(function () {
-  //     ethToSidechain(function () {});
-  //   });
-  // });
-
-  // Call the calculation functions
-  // ethToAltL1();
-  // ethToLayer2();
-  // ethToSidechain();
-
-  // new Promise((resolve, reject) => {
-  //   ethToAltL1();
-  // })
-  //   .then(ethToLayer2())
-  //   .then(ethToSidechain());
-
-  // const ethToAltL1Data = new Promise((resolve, reject) => {
-  //   let data = ethToAltL1();
-  //   if (data) {
-  //     resolve();
-  //   } else {
-  //     reject();
-  //   }
-  // });
-
   let layer2File = fs.readFileSync("bridgedFromEthToLayer2.json");
   let layer2Data = JSON.parse(layer2File);
 

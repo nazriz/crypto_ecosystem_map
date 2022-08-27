@@ -15,8 +15,11 @@ MIM 0x99D8a9C45b2ecA8864373A26D1459e3Dff1e17F3
 KNC 0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202
 
 */
+
 const ethereumTokenTotalValue = async () => {
-  let fileData = fs.readFileSync("./CalcTools/eth_circulating_token_supply_data.json");
+  // let fileData = fs.readFileSync("../CalcTools/eth_circulating_token_supply_data.json");
+  let fileData = fs.readFileSync("./ChainTotalValueCalculation/CalcTools/eth_circulating_token_supply_data.json");
+
   let circSupplyData = JSON.parse(fileData);
   const tokens = ([
     bnb,
@@ -811,6 +814,7 @@ const ethereumTokenTotalValue = async () => {
     await ethTokenTotalSupply(provider, circSupplyData, "0x28b5E12CcE51f15594B0b91d5b5AdaA70F684a02", 2),
     await ethTokenTotalSupply(provider, circSupplyData, "0x054f76beED60AB6dBEb23502178C52d6C5dEbE40", 18),
   ]));
+
   return tokens;
 };
 

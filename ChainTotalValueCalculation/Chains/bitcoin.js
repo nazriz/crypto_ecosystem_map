@@ -22,7 +22,10 @@ const bitcoinTotalValue = async () => {
   let lightningNetworkTVL = await lightningNetworkData["data"]["networkcapacityusd"];
   let grandTotal = omniUSDT + lightningNetworkTVL;
 
+  console.log(omniUSDT);
   return grandTotal;
 };
+
+bitcoinTotalValue();
 
 module.exports = { bitcoinTotalValue };
