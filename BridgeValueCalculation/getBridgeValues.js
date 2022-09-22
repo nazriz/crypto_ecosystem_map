@@ -10,13 +10,13 @@ const getBridgeValues = () => {
     });
   });
 
-  let layer2File = fs.readFileSync("bridgedFromEthToLayer2.json");
+  let layer2File = fs.readFileSync("../data/bridgedFromEthToLayer2.json");
   let layer2Data = JSON.parse(layer2File);
 
-  let altL1File = fs.readFileSync("bridgedFromEthToAltL1.json");
+  let altL1File = fs.readFileSync("../data/bridgedFromEthToAltL1.json");
   let altL1Data = JSON.parse(altL1File);
 
-  let sidechainFile = fs.readFileSync("bridgedFromEthToSidechain.json");
+  let sidechainFile = fs.readFileSync("../data/bridgedFromEthToSidechain.json");
   let sidechainData = JSON.parse(sidechainFile);
 
   let combinedBridges = {};
