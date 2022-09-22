@@ -3,7 +3,7 @@ const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
 const arbitrumBridgeBalance = async () => {
   const [arbitrumCustomGateway, arbitrumWethGateway, arbitrumERC20Gateway] = await Promise.all([
     getBridgeBalance("0xcEe284F754E854890e311e3280b767F80797180d"),
-    getBridgeBalance("0x011B6E24FfB0B5f5fCc564cf4183C5BBBc96D515"),
+    getBridgeBalance("0x8315177aB297bA92A06054cE80a67Ed4DBd7ed3a"),
     getBridgeBalance("0xa3A7B6F88361F48403514059F1F16C8E78d60EeC"),
   ]);
 
