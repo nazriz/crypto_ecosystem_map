@@ -17,7 +17,7 @@ const {
 const { tokenTotalSupply, ethTokenTotalSupply, getPrices } = require("./CalcTools");
 const { channel } = require("diagnostics_channel");
 
-let fileData = fs.readFileSync("../chainTotalValue.json");
+let fileData = fs.readFileSync("../data/chainTotalValue.json");
 let chainTotalValue = JSON.parse(fileData);
 let ethereumTotal = {};
 let layer2Totals = {};
