@@ -17,7 +17,10 @@ const ethToSidechain = async () => {
     roninBridgeBalance(),
     gnosisChainBridgeBalance(),
     feeds(),
-  ]);
+  ]).catch((error) => console.log(error));
+
+  console.log(polygonResults);
+  console.log(feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
@@ -36,6 +39,6 @@ const ethToSidechain = async () => {
   return sidechainFinal;
 };
 
-// ethToSidechain();
+ethToSidechain();
 
 module.exports = { ethToSidechain };

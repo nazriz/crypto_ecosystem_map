@@ -24,7 +24,7 @@ const ethToAltL1 = async () => {
     fantomBridgeBalance(),
     moonriverBridgeBalance(),
     feeds(),
-  ]);
+  ]).catch((error) => console.log(error));
 
   altL1Totals["avalanche"] = calculateTotal(avalancheResults, feedPrices);
   altL1Totals["solana"] = calculateTotal(solanaResults, feedPrices);
@@ -45,3 +45,5 @@ const ethToAltL1 = async () => {
 };
 
 module.exports = { ethToAltL1 };
+
+ethToAltL1();

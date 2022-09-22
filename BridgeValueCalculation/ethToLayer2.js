@@ -62,7 +62,7 @@ const ethToLayer2 = async () => {
     bobaNetworkBridgeBalance(),
     zkSpaceBridgeBalance(),
     feeds(),
-  ]);
+  ]).catch((error) => console.log(error));
 
   layer2Totals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   layer2Totals["optimism"] = calculateTotal(optimismResults, feedPrices);
