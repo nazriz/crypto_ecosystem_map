@@ -245,7 +245,6 @@ const calculateChainValue = async () => {
   chainTotalValue["alt_l1"] = altL1Totals;
 
   let dataToWrite = JSON.stringify(chainTotalValue);
-  console.log(dataToWrite);
   fs.writeFileSync("../data/chainTotalValue.json", dataToWrite);
 };
 

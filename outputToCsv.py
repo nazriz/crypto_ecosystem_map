@@ -4,7 +4,7 @@ import locale
 locale.setlocale( locale.LC_ALL, '' )
 
 
-f = open('finalData.json')
+f = open('./Data/finalData.json')
 data = json.load(f)
 
 
@@ -20,7 +20,7 @@ f.close()
 for y in outputDict:
     for z in outputDict[y]:
         if 'USD' in z:
-            if not isinstance(outputDict[y][z],str):
+            if not isinstance(outputDict[y][z],str) and outputDict[y][z]:
                 outputDict[y][z] = '${:,.0f}'.format(outputDict[y][z])
 
 

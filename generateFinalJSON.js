@@ -29,7 +29,7 @@ const splitChainTotalData = () => {
 let splitData = splitChainTotalData();
 
 // Import the bridge data
-let fileData = fs.readFileSync("./BridgeValueCalculation/bridgedFromEth.json");
+let fileData = fs.readFileSync("./Data/bridgedFromEth.json");
 let bridgeData = JSON.parse(fileData);
 
 let bridgedFromEth = calcRatios(bridgeData, "bridgedFromEth");

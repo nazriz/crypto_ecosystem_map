@@ -29,9 +29,9 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
     tokenContract.symbol(),
   ]);
 
-  console.log(tokenTicker);
+  // console.log(tokenTicker);
 
-  console.log(`Token Supply: ${tokenSupply}`);
+  // console.log(`Token Supply: ${tokenSupply}`);
 
   let tickerAddressObj = {};
   tickerAddressObj[[tokenTicker]] = contractAddress;
@@ -42,7 +42,7 @@ const ethTokenTotalSupply = async (chainProvider, circSupplyFile, contractAddres
       let data = await axios.get(`https://data.messari.io/api/v1/assets/${tickerLower}/metrics`);
       let circSupply = data["data"]["data"]["supply"]["circulating"];
 
-      console.log(`Circ Supply: ${circSupply}`);
+      // console.log(`Circ Supply: ${circSupply}`);
       if (circSupply != null) {
         if (tokenSupply > circSupply) {
           tokenSupply = circSupply;
