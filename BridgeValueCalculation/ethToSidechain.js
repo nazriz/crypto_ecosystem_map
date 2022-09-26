@@ -1,5 +1,6 @@
 const { priceFeeds, calculateTotal } = require("./CalcTools");
 const fs = require("fs");
+const path = require("path");
 
 const { polygonBridgeBalance, roninBridgeBalance, gnosisChainBridgeBalance } = require("./Chains/sidechain");
 
@@ -19,8 +20,8 @@ const ethToSidechain = async () => {
     feeds(),
   ]).catch((error) => console.log(error));
 
-  console.log(polygonResults);
-  console.log(feedPrices);
+  // console.log(polygonResults);
+  // console.log(feedPrices);
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);
@@ -30,12 +31,17 @@ const ethToSidechain = async () => {
 
   sidechainFinal["sidechain"] = sidechainTotals;
 
-  fs.writeFile("../data/bridgedFromEthToSidechain.json", JSON.stringify(sidechainFinal), (err) => {
-    if (err) {
-      console.error(err);
+  fs.writeFile(
+    path.resolve(__dirname, "../data/bridgedFromEthToSidechain.json"),
+    JSON.stringify(sidechainFinal),
+    (err) => {
+      if (err) {
+        console.error(err);
+      }
     }
-  });
+  );
 
+  console.log(sidechainFinal);
   return sidechainFinal;
 };
 

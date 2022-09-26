@@ -1,7 +1,7 @@
 const calculateTotal = (inputBridge, priceFeed) => {
   let runningTotal = 0.0;
   for (const item in inputBridge) {
-    if (item != "USD" && item in priceFeed) {
+    if (item != "USD" && item in priceFeed && isNaN(item) == false) {
       runningTotal += inputBridge[item] * priceFeed[item];
     }
   }

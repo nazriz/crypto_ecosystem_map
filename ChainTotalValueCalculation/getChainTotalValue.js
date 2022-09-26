@@ -15,28 +15,27 @@ const {
 } = require("./Chains");
 
 const { tokenTotalSupply, ethTokenTotalSupply, getPrices } = require("./CalcTools");
-const { channel } = require("diagnostics_channel");
 
-let fileData = fs.readFileSync("../data/chainTotalValue.json");
-let chainTotalValue = JSON.parse(fileData);
-let ethereumTotal = {};
-let layer2Totals = {};
-let sidechainTotals = {};
-let altL1Totals = {};
+const getChainTotalValue = async () => {
+  let fileData = fs.readFileSync("./data/chainTotalValue.json");
+  let chainTotalValue = JSON.parse(fileData);
+  let ethereumTotal = {};
+  let layer2Totals = {};
+  let sidechainTotals = {};
+  let altL1Totals = {};
 
-for (const [key, value] of Object.entries(chainTotalValue)) {
-  if (key === "ethereum") {
-    ethereumTotal = chainTotalValue[key];
-  } else if (key === "layer2") {
-    layer2Totals = chainTotalValue[key];
-  } else if (key === "sidechain") {
-    sidechainTotals = chainTotalValue[key];
-  } else if (key === "alt_l1") {
-    altL1Totals = chainTotalValue[key];
+  for (const [key, value] of Object.entries(chainTotalValue)) {
+    if (key === "ethereum") {
+      ethereumTotal = chainTotalValue[key];
+    } else if (key === "layer2") {
+      layer2Totals = chainTotalValue[key];
+    } else if (key === "sidechain") {
+      sidechainTotals = chainTotalValue[key];
+    } else if (key === "alt_l1") {
+      altL1Totals = chainTotalValue[key];
+    }
   }
-}
 
-const calculateChainValue = async () => {
   let [ethereumTokens, optimismTokens, arbitrumTokens, polygonTokens, avalancheTokens, bnbTokens] = await Promise.all([
     ethereumTokenTotalValue(),
     optimismTokenTotalValue(),
@@ -245,7 +244,10 @@ const calculateChainValue = async () => {
   chainTotalValue["alt_l1"] = altL1Totals;
 
   let dataToWrite = JSON.stringify(chainTotalValue);
-  fs.writeFileSync("../data/chainTotalValue.json", dataToWrite);
+  fs.writeFileSync("./data/chainTotalValue.json", dataToWrite);
 };
 
-calculateChainValue();
+// Called from updateData.py
+getChainTotalValue();
+
+module.exports = { getChainTotalValue };

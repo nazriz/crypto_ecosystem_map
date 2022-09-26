@@ -23,6 +23,6 @@ const optimismBridgeBalance = async () => {
   return bridgeTotal;
 };
 
-optimismBridgeBalance();
+// optimismBridgeBalance();
 
 module.exports = { optimismBridgeBalance };

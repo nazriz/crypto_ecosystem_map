@@ -196,6 +196,7 @@ const priceFeeds = async () => {
     }
   }
 
+  // console.log(priceFeeds);
   return priceFeeds;
 };
 
