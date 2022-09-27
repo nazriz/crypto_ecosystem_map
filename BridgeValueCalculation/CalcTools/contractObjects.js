@@ -46,12 +46,12 @@ const fraxContract = () => {
   return fraxContract;
 };
 
-const lusdContract = () => {
-  const lusdAddress = "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0";
-  const lusdABI = require("./ABI/lusd_abi.json");
-  const lusdContract = new ethers.Contract(lusdAddress, lusdABI, provider);
-  return lusdContract;
-};
+// const lusdContract = () => {
+//   const lusdAddress = "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0";
+//   const lusdABI = require("./ABI/lusd_abi.json");
+//   const lusdContract = new ethers.Contract(lusdAddress, lusdABI, provider);
+//   return lusdContract;
+// };
 
 //General Tokens (i.e. ERC20's)
 //LINK
@@ -453,7 +453,7 @@ const orbitBridgeContract = () => {
 const usdc = usdcContract();
 const usdt = usdtContract();
 const frax = fraxContract();
-const lusd = lusdContract();
+// const lusd = lusdContract();
 const link = linkContract();
 const wbtc = wbtcContract();
 const uni = uniContract();
@@ -515,7 +515,7 @@ module.exports = {
   usdc,
   usdt,
   frax,
-  lusd,
+  // lusd,
   link,
   wbtc,
   uni,
