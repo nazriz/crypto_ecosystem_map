@@ -1,4 +1,4 @@
-const { getBridgeBalanceInfura } = require("./CalcTools/getBridgeBalanceInfura");
+const { getBridgeBalanceInfura } = require("./getBridgeBalanceInfura");
 
 const polygonHermezBridgeBalance = async () => {
   const [polygonHermezBridge] = await Promise.all([
