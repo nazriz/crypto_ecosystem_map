@@ -2,7 +2,7 @@ const { priceFeeds, calculateTotal } = require("./CalcTools");
 const fs = require("fs");
 const path = require("path");
 
-const { polygonBridgeBalance, roninBridgeBalance, gnosisChainBridgeBalance } = require("./bridges");
+const { polygonBridgeBalance, roninBridgeBalance, gnosisChainBridgeBalance } = require("./Bridges");
 
 const feeds = async () => {
   let feeds = priceFeeds();

@@ -7,7 +7,7 @@ const {
   nearBridgeBalance,
   moonriverBridgeBalance,
   fantomBridgeBalance,
-} = require("./bridges");
+} = require("./Bridges");
 
 const feeds = async () => {
   let feeds = priceFeeds();
