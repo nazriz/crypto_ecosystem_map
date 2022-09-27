@@ -1,10 +1,13 @@
 import json
 import pandas as pd
 import locale
+import os
 locale.setlocale( locale.LC_ALL, '' )
+dirname = os.path.dirname(__file__)
+finalDataPath = os.path.join(dirname,'./data/finalData.json')
+figmaDataPath = os.path.join(dirname,'./data/figmaFormattedData.csv')
 
-
-f = open('./Data/finalData.json')
+f = open(finalDataPath)
 data = json.load(f)
 
 
@@ -26,8 +29,8 @@ for y in outputDict:
 
 
 df = pd.DataFrame.from_dict(outputDict, orient='index')
-df.to_csv("./data/figmaFormattedData.csv", encoding='utf-8', index='false')
+df.to_csv(figmaDataPath, encoding='utf-8', index='false')
 
 
 
-print(df)
+# print(df)
