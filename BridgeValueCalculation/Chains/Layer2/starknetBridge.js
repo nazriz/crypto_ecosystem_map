@@ -3,7 +3,7 @@ const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfu
 
 const starknetBridgeBalance = async () => {
   const [ethStarkgate, daiVault] = await Promise.all([
-    getBridgeBalanceAclhemy("0xae0Ee0A63A2cE6BaeEFFE56e7714FB4EFE48D419"),
+    getBridgeBalanceAlchemy("0xae0Ee0A63A2cE6BaeEFFE56e7714FB4EFE48D419"),
     getBridgeBalanceInfura("0x0437465dfb5B79726e35F08559B0cBea55bb585C"),
   ]);
   let bridgeTotal = {};

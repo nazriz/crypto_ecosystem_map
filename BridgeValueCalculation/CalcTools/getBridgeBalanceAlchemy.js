@@ -6,7 +6,7 @@ require("dotenv").config();
 //   projectSecret: process.env.INFURA_PROJECT_SECRET,
 // });
 
-const provider = new ethers.providers.AlchemyProvider((network = "homestead"), process.env.ALCHEMY_API_KEY_ONE);
+const provider = new ethers.providers.AlchemyProvider((network = "homestead"), process.env.ALCHEMY_API_KEY);
 
 const {
   usdc,
@@ -39,7 +39,7 @@ const {
   hbtc,
   busd,
   husd,
-  nexm,
+  // nexm,
   ldo,
   xcn,
   tusd,
@@ -107,7 +107,7 @@ const getBridgeBalanceAlchemy = async (bridgeAddress) => {
     hbtcBalance,
     fttBalance,
     srmBalance,
-    nexmBalance,
+    // nexmBalance,
     xcnBalance,
     ldoBalance,
     sushiBalance,
@@ -169,7 +169,7 @@ const getBridgeBalanceAlchemy = async (bridgeAddress) => {
     parseFloat(ethers.utils.formatUnits(await hbtc.balanceOf(bridgeAddress), 18)),
     parseFloat(ethers.utils.formatUnits(await ftt.balanceOf(bridgeAddress), 18)),
     // parseFloat(ethers.utils.formatUnits(await srm.balanceOf(bridgeAddress), 18)),
-    parseFloat(ethers.utils.formatUnits(await nexm.balanceOf(bridgeAddress), 18)),
+    // parseFloat(ethers.utils.formatUnits(await nexm.balanceOf(bridgeAddress), 18)),
     parseFloat(ethers.utils.formatUnits(await xcn.balanceOf(bridgeAddress), 18)),
     parseFloat(ethers.utils.formatUnits(await ldo.balanceOf(bridgeAddress), 18)),
     parseFloat(ethers.utils.formatUnits(await sushi.balanceOf(bridgeAddress), 18)),
@@ -223,7 +223,7 @@ const getBridgeBalanceAlchemy = async (bridgeAddress) => {
   bridgeTotals["HBTC"] = hbtcBalance;
   bridgeTotals["FTT"] = fttBalance;
   bridgeTotals["SRM"] = srmBalance;
-  bridgeTotals["NEXM"] = nexmBalance;
+  // bridgeTotals["NEXM"] = nexmBalance;
   bridgeTotals["XCN"] = xcnBalance;
   bridgeTotals["LDO"] = ldoBalance;
   bridgeTotals["SUSHI"] = sushiBalance;

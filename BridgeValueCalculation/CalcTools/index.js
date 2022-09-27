@@ -1,5 +1,6 @@
 const { calculateTotal } = require("./calculateTotal");
-const { getBridgeBalance } = require("./getBridgeBalance");
+const { getBridgeBalanceAlchemy } = require("./getBridgeBalanceAlchemy");
+const { getBridgeBalanceInfura } = require("./getBridgeBalanceInfura");
 const { priceFeeds } = require("./priceFeeds");
 
-module.exports = { calculateTotal, getBridgeBalance, priceFeeds };
+module.exports = { calculateTotal, getBridgeBalanceAlchemy, getBridgeBalanceInfura, priceFeeds };

@@ -2,6 +2,7 @@ const { ethToAltL1 } = require("./ethToAltL1");
 const { ethToLayer2 } = require("./ethToLayer2");
 const { ethToSidechain } = require("./ethToSidechain");
 const fs = require("fs");
+const path = require("path");
 
 const getBridgeValues = () => {
   // await ethToAltL1();
@@ -13,21 +14,21 @@ const getBridgeValues = () => {
     });
   });
 
-  let layer2File = fs.readFileSync("./data/bridgedFromEthToLayer2.json", (err) => {
+  let layer2File = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToLayer2.json"), (err) => {
     if (err) {
       console.error(err);
     }
   });
   let layer2Data = JSON.parse(layer2File);
 
-  let altL1File = fs.readFileSync("./data/bridgedFromEthToAltL1.json", (err) => {
+  let altL1File = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToAltL1.json"), (err) => {
     if (err) {
       console.error(err);
     }
   });
   let altL1Data = JSON.parse(altL1File);
 
-  let sidechainFile = fs.readFileSync("./data/bridgedFromEthToSidechain.json", (err) => {
+  let sidechainFile = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToSidechain.json"), (err) => {
     if (err) {
       console.error(err);
     }
@@ -40,7 +41,7 @@ const getBridgeValues = () => {
   combinedBridges["sidechain"] = sidechainData["sidechain"];
   combinedBridges["altL1"] = altL1Data["altL1"];
 
-  fs.writeFile("./data/bridgedFromEth.json", JSON.stringify(combinedBridges), (err) => {
+  fs.writeFile(path.resolve(__dirname, "../data/bridgedFromEth.json"), JSON.stringify(combinedBridges), (err) => {
     if (err) {
       console.error(err);
     }

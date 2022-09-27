@@ -1,5 +1,6 @@
 const { priceFeeds, calculateTotal } = require("./CalcTools");
 const fs = require("fs");
+const path = require("path");
 
 const {
   optimismBridgeBalance,
@@ -84,7 +85,7 @@ const ethToLayer2 = async () => {
 
   layer2Final["layer2"] = layer2Totals;
 
-  fs.writeFile("./data/bridgedFromEthToLayer2.json", JSON.stringify(layer2Final), (err) => {
+  fs.writeFile(path.resolve(__dirname, "../data/bridgedFromEthToLayer2.json"), JSON.stringify(layer2Final), (err) => {
     if (err) {
       console.error(err);
     }

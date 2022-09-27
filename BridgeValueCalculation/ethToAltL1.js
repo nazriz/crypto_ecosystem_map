@@ -1,5 +1,6 @@
 const { priceFeeds, calculateTotal } = require("./CalcTools");
 const fs = require("fs");
+const path = require("path");
 const {
   avalancheBridgeBalance,
   solanaBridgeBalance,
@@ -36,7 +37,7 @@ const ethToAltL1 = async () => {
 
   altL1Final["altL1"] = altL1Totals;
 
-  fs.writeFile("./data/bridgedFromEthToAltL1.json", JSON.stringify(altL1Final), (err) => {
+  fs.writeFile(path.resolve(__dirname, "../data/bridgedFromEthToAltL1.json"), JSON.stringify(altL1Final), (err) => {
     if (err) {
       console.error(err);
     }
