@@ -7,7 +7,7 @@ const {
   nearBridgeBalance,
   moonriverBridgeBalance,
   fantomBridgeBalance,
-} = require("./Chains/altL1");
+} = require("./bridges");
 
 const feeds = async () => {
   let feeds = priceFeeds();

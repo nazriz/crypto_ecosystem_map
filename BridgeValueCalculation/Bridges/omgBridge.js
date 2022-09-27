@@ -1,4 +1,4 @@
-const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
+const { getBridgeBalanceInfura } = require("./CalcTools/getBridgeBalanceInfura");
 
 const OMGBridgeBalance = async () => {
   const [OMGEthBridge, OMGERC20Bridge] = await Promise.all([

@@ -1,4 +1,4 @@
-const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
+const { getBridgeBalanceInfura } = require("./getBridgeBalanceInfura");
 
 const nearBridgeBalance = async () => {
   // Contract address holds the entire uncirculating supply for some projects,

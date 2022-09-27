@@ -1,5 +1,5 @@
-const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
-const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
+const { getBridgeBalanceAlchemy } = require("./getBridgeBalanceAlchemy");
+const { getBridgeBalanceInfura } = require("./getBridgeBalanceInfura");
 
 const gnosisChainBridgeBalance = async () => {
   const [xDaiBridge, OmniBridge, OmniBridgeStablecoins] = await Promise.all([

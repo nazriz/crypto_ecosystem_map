@@ -18,7 +18,7 @@ const {
   metisAndromedaBridgeBalance,
   bobaNetworkBridgeBalance,
   zkSpaceBridgeBalance,
-} = require("./Chains/layer2");
+} = require("./bridges");
 
 const feeds = async () => {
   let feeds = priceFeeds();

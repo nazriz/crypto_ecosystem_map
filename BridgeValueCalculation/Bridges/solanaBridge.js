@@ -1,5 +1,5 @@
-const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
-const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
+const { getBridgeBalanceInfura } = require("./getBridgeBalanceInfura");
+const { getBridgeBalanceAlchemy } = require("./getBridgeBalanceAlchemy");
 
 const solanaBridgeBalance = async () => {
   const [solanaSolletBridge, solanaWormHoleBridge, solanaWormholeTokenBridge] = await Promise.all([

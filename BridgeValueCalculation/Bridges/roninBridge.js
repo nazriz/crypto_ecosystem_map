@@ -1,4 +1,4 @@
-const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
+const { getBridgeBalanceAlchemy } = require("./getBridgeBalanceAlchemy");
 
 // I believe the bridge is still halted/might change altogether
 // But including it as is, so that I don't forget about it in the future

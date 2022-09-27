@@ -1,4 +1,4 @@
-const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
+const { getBridgeBalanceAlchemy } = require("./CalcTools/getBridgeBalanceAlchemy");
 
 const metisAndromedaBridgeBalance = async () => {
   const [metisAndromedaBridge] = await Promise.all([
