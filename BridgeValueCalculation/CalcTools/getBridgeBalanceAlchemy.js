@@ -78,7 +78,7 @@ const getBridgeBalanceAlchemy = async (bridgeAddress) => {
     usdtBalance,
     daiBalance,
     fraxBalance,
-    lusdBalance,
+    // lusdBalance,
     husdBalance,
     busdBalance,
     tusdBalance,
@@ -140,7 +140,7 @@ const getBridgeBalanceAlchemy = async (bridgeAddress) => {
     parseFloat(ethers.utils.formatUnits(await usdt.balanceOf(bridgeAddress), 6)),
     parseFloat(ethers.utils.formatUnits(await dai.balanceOf(bridgeAddress), 18)),
     parseFloat(ethers.utils.formatUnits(await frax.balanceOf(bridgeAddress), 18)),
-    parseFloat(ethers.utils.formatUnits(await lusd.balanceOf(bridgeAddress), 18)),
+    // parseFloat(ethers.utils.formatUnits(await lusd.balanceOf(bridgeAddress), 18)),
     parseFloat(ethers.utils.formatUnits(await husd.balanceOf(bridgeAddress), 8)),
     parseFloat(ethers.utils.formatUnits(await busd.balanceOf(bridgeAddress), 18)),
     parseFloat(ethers.utils.formatUnits(await tusd.balanceOf(bridgeAddress), 18)),
@@ -256,7 +256,7 @@ const getBridgeBalanceAlchemy = async (bridgeAddress) => {
     usdcBalance +
     tusdBalance +
     fraxBalance +
-    lusdBalance +
+    // lusdBalance +
     husdBalance +
     busdBalance +
     dolaBalance +
