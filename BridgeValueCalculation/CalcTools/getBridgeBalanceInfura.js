@@ -1,12 +1,12 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 
-// const provider = new ethers.providers.InfuraProvider("homestead", {
-//   projectId: process.env.INFURA_PROJECT_ID,
-//   projectSecret: process.env.INFURA_PROJECT_SECRET,
-// });
+const provider = new ethers.providers.InfuraProvider("homestead", {
+  projectId: process.env.INFURA_PROJECT_ID,
+  projectSecret: process.env.INFURA_PROJECT_SECRET,
+});
 
-const provider = new ethers.providers.AlchemyProvider((network = "homestead"), process.env.ALCHEMY_API_KEY);
+// const provider = new ethers.providers.AlchemyProvider((network = "homestead"), process.env.ALCHEMY_API_KEY_ONE);
 
 const {
   usdc,
@@ -71,7 +71,7 @@ const {
   node,
 } = require("./contractObjects");
 
-const getBridgeBalance = async (bridgeAddress) => {
+const getBridgeBalanceInfura = async (bridgeAddress) => {
   let bridgeTotals = {};
   const [
     usdcBalance,
@@ -266,4 +266,4 @@ const getBridgeBalance = async (bridgeAddress) => {
   return bridgeTotals;
 };
 
-module.exports = { getBridgeBalance };
+module.exports = { getBridgeBalanceInfura };
