@@ -1,9 +1,10 @@
-const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
+const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
+const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
 
 const starknetBridgeBalance = async () => {
   const [ethStarkgate, daiVault] = await Promise.all([
-    getBridgeBalance("0xae0Ee0A63A2cE6BaeEFFE56e7714FB4EFE48D419"),
-    getBridgeBalance("0x0437465dfb5B79726e35F08559B0cBea55bb585C"),
+    getBridgeBalanceAclhemy("0xae0Ee0A63A2cE6BaeEFFE56e7714FB4EFE48D419"),
+    getBridgeBalanceInfura("0x0437465dfb5B79726e35F08559B0cBea55bb585C"),
   ]);
   let bridgeTotal = {};
   for (const [key1, value1] of Object.entries(ethStarkgate)) {

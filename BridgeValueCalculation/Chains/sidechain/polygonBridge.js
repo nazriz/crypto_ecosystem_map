@@ -1,10 +1,11 @@
-const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
+const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
+const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
 
 const polygonBridgeBalance = async () => {
   const [polygonEthBridge, polygonPlasmaBridge, polygonERC20Bridge] = await Promise.all([
-    getBridgeBalance("0x8484Ef722627bf18ca5Ae6BcF031c23E6e922B30"),
-    getBridgeBalance("0x401F6c983eA34274ec46f84D70b31C151321188b"),
-    getBridgeBalance("0x40ec5B33f54e0E8A33A975908C5BA1c14e5BbbDf"),
+    getBridgeBalanceInfura("0x8484Ef722627bf18ca5Ae6BcF031c23E6e922B30"),
+    getBridgeBalanceAlchemy("0x401F6c983eA34274ec46f84D70b31C151321188b"),
+    getBridgeBalanceAlchemy("0x40ec5B33f54e0E8A33A975908C5BA1c14e5BbbDf"),
   ]);
 
   let bridgeTotal = {};

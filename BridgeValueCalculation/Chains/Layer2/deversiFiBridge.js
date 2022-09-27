@@ -1,7 +1,7 @@
-const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
+const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
 
 const deversiFiBridgeBalance = async () => {
-  const [deversiFiBridge] = await Promise.all([getBridgeBalance("0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b")]);
+  const [deversiFiBridge] = await Promise.all([getBridgeBalanceAlchemy("0x5d22045DAcEAB03B158031eCB7D9d06Fad24609b")]);
 
   return deversiFiBridge;
 };

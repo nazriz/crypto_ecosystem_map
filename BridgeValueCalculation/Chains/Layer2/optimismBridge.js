@@ -1,10 +1,11 @@
-const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
+const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
+const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
 
 const optimismBridgeBalance = async () => {
   const [optimismDaiBridge, optimismBridge, optimismSnxBridge] = await Promise.all([
-    getBridgeBalance("0x467194771dae2967aef3ecbedd3bf9a310c76c65"),
-    getBridgeBalance("0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1"),
-    getBridgeBalance("0x5Fd79D46EBA7F351fe49BFF9E87cdeA6c821eF9f"),
+    getBridgeBalanceAlchemy("0x467194771dae2967aef3ecbedd3bf9a310c76c65"),
+    getBridgeBalanceInfura("0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1"),
+    getBridgeBalanceInfura("0x5Fd79D46EBA7F351fe49BFF9E87cdeA6c821eF9f"),
   ]);
 
   let bridgeTotal = {};

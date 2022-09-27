@@ -1,7 +1,7 @@
-const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
+const { getBridgeBalanceAlchemy } = require("../../CalcTools/getBridgeBalanceAlchemy");
 
 const zkSyncBridgeBalance = async () => {
-  const [zkSyncBridge] = await Promise.all([getBridgeBalance("0xaBEA9132b05A70803a4E85094fD0e1800777fBEF")]);
+  const [zkSyncBridge] = await Promise.all([getBridgeBalanceAlchemy("0xaBEA9132b05A70803a4E85094fD0e1800777fBEF")]);
 
   return zkSyncBridge;
 };

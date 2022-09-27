@@ -1,9 +1,9 @@
-const { getBridgeBalance } = require("../../CalcTools/getBridgeBalance");
+const { getBridgeBalanceInfura } = require("../../CalcTools/getBridgeBalanceInfura");
 
 const OMGBridgeBalance = async () => {
   const [OMGEthBridge, OMGERC20Bridge] = await Promise.all([
-    getBridgeBalance("0x3Eed23eA148D356a72CA695DBCe2fceb40a32ce0"),
-    getBridgeBalance("0x070cB1270A4B2bA53c81CeF89d0FD584Ed4F430B"),
+    getBridgeBalanceInfura("0x3Eed23eA148D356a72CA695DBCe2fceb40a32ce0"),
+    getBridgeBalanceInfura("0x070cB1270A4B2bA53c81CeF89d0FD584Ed4F430B"),
   ]);
 
   let bridgeTotal = {};
