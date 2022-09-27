@@ -2,11 +2,14 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 const fs = require("fs");
 const { ethTokenTotalSupply } = require("../CalcTools");
+const path = require("path");
 
-const provider = new ethers.providers.InfuraProvider("homestead", {
-  projectId: process.env.INFURA_PROJECT_ID,
-  projectSecret: process.env.INFURA_PROJECT_SECRET,
-});
+// const provider = new ethers.providers.InfuraProvider("homestead", {
+//   projectId: process.env.INFURA_PROJECT_ID,
+//   projectSecret: process.env.INFURA_PROJECT_SECRET,
+// });
+
+const provider = new ethers.providers.InfuraProvider("homestead", process.env.INFURA_API_KEY);
 
 /*Excludes: 
 HEX, MKR, SAI
@@ -19,7 +22,8 @@ KNC 0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202
 const ethereumTokenTotalValue = async () => {
   // let fileData = fs.readFileSync("../CalcTools/eth_circulating_token_supply_data.json");
   // let fileData = fs.readFileSync("./ChainTotalValueCalculation/CalcTools/eth_circulating_token_supply_data.json");
-  let fileData = fs.readFileSync("./eth_circulating_token_supply_data.json");
+
+  let fileData = fs.readFileSync(path.resolve(__dirname, "../eth_circulating_token_supply_data.json"));
 
   let circSupplyData = JSON.parse(fileData);
   const tokens = ([

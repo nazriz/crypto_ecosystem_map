@@ -2,6 +2,7 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 const axios = require("axios");
 const fs = require("fs");
+const path = require("path");
 
 const {
   bitcoinTotalValue,
@@ -17,7 +18,7 @@ const {
 const { tokenTotalSupply, ethTokenTotalSupply, getPrices } = require("./CalcTools");
 
 const getChainTotalValue = async () => {
-  let fileData = fs.readFileSync("./data/chainTotalValue.json");
+  let fileData = fs.readFileSync(path.resolve(__dirname, "../data/chainTotalValue.json"));
   let chainTotalValue = JSON.parse(fileData);
   let ethereumTotal = {};
   let layer2Totals = {};
@@ -244,7 +245,8 @@ const getChainTotalValue = async () => {
   chainTotalValue["alt_l1"] = altL1Totals;
 
   let dataToWrite = JSON.stringify(chainTotalValue);
-  fs.writeFileSync("./data/chainTotalValue.json", dataToWrite);
+
+  fs.writeFileSync(path.resolve(__dirname, "../data/chainTotalValue.json"), dataToWrite);
 };
 
 // Called from updateData.py
