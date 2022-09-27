@@ -1,9 +1,10 @@
 const fs = require("fs");
 const { calcRatios } = require("./calculateRatios");
+const path = require("path");
 
 const generateFinalJson = () => {
   const splitChainTotalData = () => {
-    let fileData = fs.readFileSync("./data/chainTotalValue.json");
+    let fileData = fs.readFileSync(path.resolve(__dirname, "./data/chainTotalValue.json"));
     let chainTotalValue = JSON.parse(fileData);
 
     let mcapObj = {};
@@ -30,7 +31,7 @@ const generateFinalJson = () => {
   let splitData = splitChainTotalData();
 
   // Import the bridge data
-  let fileData = fs.readFileSync("./data/bridgedFromEth.json");
+  let fileData = fs.readFileSync(path.resolve(__dirname, "./data/bridgedFromEth.json"));
   let bridgeData = JSON.parse(fileData);
 
   let bridgedFromEth = calcRatios(bridgeData, "bridgedFromEth");
@@ -279,7 +280,7 @@ const generateFinalJson = () => {
   chainType["totals"] = totalsObj;
   chainType["last_updated"] = currentDate;
 
-  fs.writeFile("./data/finalData.json", JSON.stringify(chainType), (err) => {
+  fs.writeFile(path.resolve(__dirname, "./data/finalData.json"), JSON.stringify(chainType), (err) => {
     if (err) {
       console.error(err);
     }
