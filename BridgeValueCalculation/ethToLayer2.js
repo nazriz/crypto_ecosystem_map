@@ -94,6 +94,6 @@ const ethToLayer2 = async () => {
   return layer2Final;
 };
 
-// ethToLayer2();
+ethToLayer2();
 
 module.exports = { ethToLayer2 };
