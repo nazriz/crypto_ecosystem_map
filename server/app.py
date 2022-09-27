@@ -20,7 +20,7 @@ def hello():
 @app.route('/getFigmaCSV') # this is a job for GET, not POST
 def figma_csv():
     return send_file(
-        '/Users/nazimrizvic/crypto_ecosystem_map/crypto_ecosystem_map/data/figmaFormattedData.csv',
+        '/home/naz/crypto_ecosystem_map/data/figmaFormattedData.csv',
         mimetype='text/csv',
         download_name='FigmaFormattedData.csv',
         as_attachment=True
@@ -29,7 +29,7 @@ def figma_csv():
 @app.route('/getFinalJSON')
 def final_json():
     return send_file(
-        "/Users/nazimrizvic/crypto_ecosystem_map/crypto_ecosystem_map/data/finalData.json",
+        "/home/naz/crypto_ecosystem_map/data/finalData.json",
         mimetype="application/json",
         download_name="FinalData.json",
         as_attachment=True
@@ -37,5 +37,7 @@ def final_json():
 
 @app.route('/updateData')
 def update_data():
-    subprocess.run(["python3","/Users/nazimrizvic/crypto_ecosystem_map/crypto_ecosystem_map/updateData.py"])
+    subprocess.run(["python3","/home/naz/crypto_ecosystem_map/updateData.py"])
     return hello()
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
