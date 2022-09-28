@@ -52,7 +52,6 @@ const ethToAltL1 = async () => {
   let altL1Final = {};
 
   altL1Final["altL1"] = altL1Totals;
-  console.log(altL1Final);
 
   fs.writeFile(path.resolve(__dirname, "../data/bridgedFromEthToAltL1.json"), JSON.stringify(altL1Final), (err) => {
     if (err) {

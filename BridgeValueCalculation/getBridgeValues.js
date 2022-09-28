@@ -8,12 +8,16 @@ const getBridgeValues = async () => {
   // await ethToAltL1();
   // await ethToSidechain();
   // await ethToLayer2();
+
   await ethToSidechain().then(async function () {
     await ethToLayer2().then(async function () {
       await ethToAltL1();
     });
   });
 
+  console.log("chain complete");
+
+  console.log("opening layer 2 file");
   let layer2File = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToLayer2.json"), (err) => {
     if (err) {
       console.error(err);
@@ -21,6 +25,7 @@ const getBridgeValues = async () => {
   });
   let layer2Data = JSON.parse(layer2File);
 
+  console.log("opening altl1file");
   let altL1File = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToAltL1.json"), (err) => {
     if (err) {
       console.error(err);
@@ -28,6 +33,7 @@ const getBridgeValues = async () => {
   });
   let altL1Data = JSON.parse(altL1File);
 
+  console.log("opening sidechain file");
   let sidechainFile = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToSidechain.json"), (err) => {
     if (err) {
       console.error(err);
@@ -46,6 +52,7 @@ const getBridgeValues = async () => {
       console.error(err);
     }
   });
+  console.log("complete!");
 };
 
 // called from updateData.py
