@@ -53,6 +53,4 @@ const ethToSidechain = async () => {
   return sidechainFinal;
 };
 
-ethToSidechain();
-
 module.exports = { ethToSidechain };

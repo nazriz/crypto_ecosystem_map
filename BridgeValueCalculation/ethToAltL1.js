@@ -63,5 +63,3 @@ const ethToAltL1 = async () => {
 };
 
 module.exports = { ethToAltL1 };
-
-ethToAltL1();
