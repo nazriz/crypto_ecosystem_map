@@ -4,15 +4,15 @@ const { ethToSidechain } = require("./ethToSidechain");
 const fs = require("fs");
 const path = require("path");
 
-const getBridgeValues = () => {
-  // await ethToAltL1();
-  // await ethToSidechain();
-  // await ethToLayer2();
-  ethToSidechain().then(function () {
-    ethToLayer2().then(function () {
-      ethToAltL1();
-    });
-  });
+const getBridgeValues = async () => {
+  await ethToAltL1();
+  await ethToSidechain();
+  await ethToLayer2();
+  // ethToSidechain().then(function () {
+  //   ethToLayer2().then(function () {
+  //     ethToAltL1();
+  //   });
+  // });
 
   let layer2File = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToLayer2.json"), (err) => {
     if (err) {
