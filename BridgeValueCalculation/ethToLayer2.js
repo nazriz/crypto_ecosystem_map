@@ -19,6 +19,7 @@ const {
   bobaNetworkBridgeBalance,
   zkSpaceBridgeBalance,
 } = require("./Bridges");
+const { omg } = require("./bridges/contractObjects");
 
 const feeds = async () => {
   let feeds = priceFeeds();
@@ -29,8 +30,44 @@ const feeds = async () => {
 const ethToLayer2 = async () => {
   let layer2Totals = {};
 
-  let [
-    arbitrumResults,
+  // let [
+  //   arbitrumResults,
+  //   optimismResults,
+  //   zkSyncResults,
+  //   dYdXResults,
+  //   loopringResults,
+  //   immutableXResults,
+  //   deversiFiResults,
+  //   sorareResults,
+  //   aztecResults,
+  //   OMGResults,
+  //   starknetResults,
+  //   polygonHermezResults,
+  //   metisAndromedaResults,
+  //   bobaNetworkResults,
+  //   ZKSpaceResults,
+  //   feedPrices,
+  // ] = await Promise.all([
+  //   arbitrumBridgeBalance(),
+  //   optimismBridgeBalance(),
+  //   zkSyncBridgeBalance(),
+  //   dYdXBridgeBalance(),
+  //   loopringBridgeBalance(),
+  //   immutableXBridgeBalance(),
+  //   deversiFiBridgeBalance(),
+  //   sorareBridgeBalance(),
+  //   aztecBridgeBalance(),
+  //   OMGBridgeBalance(),
+  //   starknetBridgeBalance(),
+  //   polygonHermezBridgeBalance(),
+  //   metisAndromedaBridgeBalance(),
+  //   bobaNetworkBridgeBalance(),
+  //   zkSpaceBridgeBalance(),
+  //   feeds(),
+  // ]).catch((error) => console.log(error));
+
+  // sequential execution to not kill gcp e2.micro
+  let arbitrumResults,
     optimismResults,
     zkSyncResults,
     dYdXResults,
@@ -45,25 +82,40 @@ const ethToLayer2 = async () => {
     metisAndromedaResults,
     bobaNetworkResults,
     ZKSpaceResults,
-    feedPrices,
-  ] = await Promise.all([
-    arbitrumBridgeBalance(),
-    optimismBridgeBalance(),
-    zkSyncBridgeBalance(),
-    dYdXBridgeBalance(),
-    loopringBridgeBalance(),
-    immutableXBridgeBalance(),
-    deversiFiBridgeBalance(),
-    sorareBridgeBalance(),
-    aztecBridgeBalance(),
-    OMGBridgeBalance(),
-    starknetBridgeBalance(),
-    polygonHermezBridgeBalance(),
-    metisAndromedaBridgeBalance(),
-    bobaNetworkBridgeBalance(),
-    zkSpaceBridgeBalance(),
-    feeds(),
-  ]).catch((error) => console.log(error));
+    feedPrices;
+
+  console.log("Arbitrum");
+  arbitrumResults = await arbitrumBridgeBalance();
+  console.log("Optimism");
+  optimismResults = await optimismBridgeBalance();
+  console.log("zksync");
+  zkSyncResults = await zkSpaceBridgeBalance();
+  console.log("dydyx");
+  dYdXResults = await dYdXBridgeBalance();
+  console.log("loopring");
+  loopringResults = await loopringBridgeBalance();
+  console.log("immutablex");
+  immutableXResults = await immutableXBridgeBalance();
+  console.log("deversifi");
+  deversiFiResults = await deversiFiBridgeBalance();
+  console.log("sorare");
+  sorareResults = await sorareBridgeBalance();
+  console.log("aztec");
+  aztecResults = await aztecBridgeBalance();
+  console.log("omg");
+  OMGResults = await OMGBridgeBalance();
+  console.log("starknet");
+  starknetResults = await starknetBridgeBalance();
+  console.log("polygon hermez");
+  polygonHermezResults = await polygonHermezBridgeBalance();
+  console.log("metis");
+  metisAndromedaResults = await metisAndromedaBridgeBalance();
+  console.log("boba");
+  bobaNetworkResults = await bobaNetworkBridgeBalance();
+  console.log("ZKspace");
+  ZKSpaceResults = await zkSpaceBridgeBalance();
+  console.log("feeds");
+  feedPrices = await feeds();
 
   layer2Totals["arbitrum"] = calculateTotal(arbitrumResults, feedPrices);
   layer2Totals["optimism"] = calculateTotal(optimismResults, feedPrices);

@@ -13,15 +13,23 @@ const feeds = async () => {
 const ethToSidechain = async () => {
   let sidechainTotals = {};
 
-  let [polygonResults, roninResults, gnosisChainResults, feedPrices] = await Promise.all([
-    polygonBridgeBalance(),
-    roninBridgeBalance(),
-    gnosisChainBridgeBalance(),
-    feeds(),
-  ]).catch((error) => console.log(error));
+  // let [polygonResults, roninResults, gnosisChainResults, feedPrices] = await Promise.all([
+  //   polygonBridgeBalance(),
+  //   roninBridgeBalance(),
+  //   gnosisChainBridgeBalance(),
+  //   feeds(),
+  // ]).catch((error) => console.log(error));
 
-  // console.log(polygonResults);
-  // console.log(feedPrices);
+  let polygonResults, roninResults, gnosisChainResults, feedPrices;
+
+  console.log("polygon");
+  polygonResults = await polygonBridgeBalance();
+  console.log("polygon");
+  roninResults = await roninBridgeBalance();
+  console.log("gnosis");
+  gnosisChainResults = await gnosisChainBridgeBalance();
+  console.log("feeds");
+  feedPrices = feeds();
 
   sidechainTotals["polygon"] = calculateTotal(polygonResults, feedPrices);
   sidechainTotals["ronin"] = calculateTotal(roninResults, feedPrices);

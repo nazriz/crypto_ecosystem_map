@@ -1,6 +1,5 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
-
 // const provider = new ethers.providers.InfuraProvider("homestead", {
 //   projectId: process.env.INFURA_PROJECT_ID,
 //   projectSecret: process.env.INFURA_PROJECT_SECRET,
