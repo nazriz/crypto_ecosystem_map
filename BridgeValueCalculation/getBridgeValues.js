@@ -4,13 +4,13 @@ const { ethToSidechain } = require("./ethToSidechain");
 const fs = require("fs");
 const path = require("path");
 
-const getBridgeValues = () => {
+const getBridgeValues = async () => {
   // await ethToAltL1();
   // await ethToSidechain();
   // await ethToLayer2();
-  ethToSidechain().then(function () {
-    ethToLayer2().then(function () {
-      ethToAltL1();
+  await ethToSidechain().then(async function () {
+    await ethToLayer2().then(async function () {
+      await ethToAltL1();
     });
   });
 
