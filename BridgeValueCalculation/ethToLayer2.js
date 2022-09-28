@@ -19,7 +19,6 @@ const {
   bobaNetworkBridgeBalance,
   zkSpaceBridgeBalance,
 } = require("./Bridges");
-const { omg } = require("./bridges/contractObjects");
 
 const feeds = async () => {
   let feeds = priceFeeds();
