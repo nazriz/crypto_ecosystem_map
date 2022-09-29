@@ -9,13 +9,18 @@ const getBridgeValues = async () => {
   // await ethToSidechain();
   // await ethToLayer2();
 
-  await ethToSidechain().then(async function () {
+  const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+
+  await ethToAltL1().then(async function () {
     await ethToLayer2().then(async function () {
-      await ethToAltL1();
+      await ethToSidechain();
     });
   });
 
   console.log("chain complete");
+
+  console.log("Waiting 5 seconds...");
+  timer(5000);
 
   console.log("opening layer 2 file");
   let layer2File = fs.readFileSync(path.resolve(__dirname, "../data/bridgedFromEthToLayer2.json"), (err) => {

@@ -24,7 +24,7 @@ const ethToSidechain = async () => {
 
   console.log("polygon");
   polygonResults = await polygonBridgeBalance();
-  console.log("polygon");
+  console.log("ronin");
   roninResults = await roninBridgeBalance();
   console.log("gnosis");
   gnosisChainResults = await gnosisChainBridgeBalance();
