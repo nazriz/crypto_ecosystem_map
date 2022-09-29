@@ -5,17 +5,17 @@ const fs = require("fs");
 const path = require("path");
 
 const getBridgeValues = async () => {
-  // await ethToAltL1();
-  // await ethToSidechain();
-  // await ethToLayer2();
+  await ethToAltL1();
+  await ethToSidechain();
+  await ethToLayer2();
 
   const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
-  await ethToAltL1().then(async function () {
-    await ethToLayer2().then(async function () {
-      await ethToSidechain();
-    });
-  });
+  // await ethToAltL1().then(async function () {
+  //   await ethToLayer2().then(async function () {
+  //     await ethToSidechain();
+  //   });
+  // });
 
   console.log("chain complete");
 
