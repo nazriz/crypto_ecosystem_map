@@ -48,6 +48,9 @@ const ethToAltL1 = async () => {
   altL1Totals["near"] = calculateTotal(nearResults, feedPrices);
   altL1Totals["fantom"] = calculateTotal(fantomResults, feedPrices);
   altL1Totals["moonriver"] = calculateTotal(moonriverResults, feedPrices);
+  altL1Totals["cosmos"] = 62664606;
+  altL1Totals["BNB"] = 202000000;
+  altL1Totals["tezos"] = 2160000;
 
   let altL1Final = {};
 

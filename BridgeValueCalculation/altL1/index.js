@@ -1,6 +1,6 @@
 const { avalancheBridgeBalance } = require("./avalancheBridge");
 
-const { solanaBridgeBalance } = require("./solanaBridge");
+const { solanaBridgeBalance } = require("../Bridges/solanaBridge");
 
 const { nearBridgeBalance } = require("./nearBridge");
 

@@ -1,5 +1,5 @@
 const { optimismBridgeBalance } = require("./optimismBridge");
-const { arbitrumBridgeBalance } = require("./arbitrumBridge");
+const { arbitrumBridgeBalance } = require("../Bridges/arbitrumBridge");
 const { zkSyncBridgeBalance } = require("./zkSyncBridge");
 const { loopringBridgeBalance } = require("./loopringBridge");
 const { immutableXBridgeBalance } = require("./immutableXBridge");

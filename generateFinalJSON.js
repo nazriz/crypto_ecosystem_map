@@ -111,6 +111,7 @@ const generateFinalJson = () => {
   altL1["harmony"] = {};
   altL1["celo"] = {};
   altL1["kusama"] = {};
+  altL1["cosmos"] = {};
 
   ethereum["ethereum"] = {};
 

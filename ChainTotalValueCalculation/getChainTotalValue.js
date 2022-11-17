@@ -13,6 +13,7 @@ const {
   optimismTokenTotalValue,
   bnbTotalTokenValue,
   solanaTokenValue,
+  cosmosIBCTotalValue,
 } = require("./Chains");
 
 const { tokenTotalSupply, ethTokenTotalSupply, getPrices } = require("./CalcTools");
@@ -55,6 +56,7 @@ const getChainTotalValue = async () => {
     avalancheEcosystemValue,
     bnbEcosystemValue,
     solanaEcosystemValue,
+    cosmosIBCTotalValue,
   ] = await Promise.all([
     bitcoinTotalValue(),
     getPrices("ethereum", ethereumTokens),
@@ -64,6 +66,7 @@ const getChainTotalValue = async () => {
     getPrices("avalanche", avalancheTokens),
     getPrices("binance-smart-chain", bnbTokens),
     solanaTokenValue(),
+    cosmosIBCTotalValue(),
   ]);
 
   //Add coingecko ID to this array, for it to be added to the request payload
@@ -98,6 +101,7 @@ const getChainTotalValue = async () => {
     "fantom",
     "moonriver",
     "kusama",
+    "cosmos",
   ];
 
   coingeckoMcapPayload = "";
@@ -140,7 +144,8 @@ const getChainTotalValue = async () => {
     nearMcap,
     ftmMcap,
     movrMcap,
-    ksmMcap = 0;
+    ksmMcap = 0,
+    cosmosMcap;
 
   for (item in data) {
     let chain = data[item];
@@ -202,6 +207,8 @@ const getChainTotalValue = async () => {
       movrMcap = chain["market_cap"];
     } else if (chain["symbol"] === "ksm") {
       ksmMcap = chain["market_cap"];
+    } else if (chain["symbol"] === "cosmos") {
+      cosmosMcap = chain["market_cap"];
     }
   }
 
@@ -238,6 +245,7 @@ const getChainTotalValue = async () => {
   altL1Totals["fantom"] = { chainToken: ftmMcap, ecosystemValue: "noCalc" };
   altL1Totals["moonriver"] = { chainToken: movrMcap, ecosystemValue: "noCalc" };
   altL1Totals["kusama"] = { chainToken: ksmMcap, ecosystemValue: "noCalc" };
+  altL1Totals["cosmos"] = { chainToken: cosmosMcap, ecosystemValue: cosmosIBCTotalValue };
 
   chainTotalValue["ethereum"] = ethereumTotal;
   chainTotalValue["layer2"] = layer2Totals;

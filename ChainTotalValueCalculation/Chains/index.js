@@ -6,6 +6,7 @@ const { arbitrumTokenTotalValue } = require("./arbitrum");
 const { optimismTokenTotalValue } = require("./optimism");
 const { bnbTotalTokenValue } = require("./bnb");
 const { solanaTokenValue } = require("./solana");
+const { cosmosIBCTotalValue } = require("./cosmos");
 
 module.exports = {
   bitcoinTotalValue,
@@ -16,4 +17,5 @@ module.exports = {
   optimismTokenTotalValue,
   bnbTotalTokenValue,
   solanaTokenValue,
+  cosmosIBCTotalValue,
 };
